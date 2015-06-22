@@ -1,0 +1,7 @@
+= form_for @user do |f|
+  %label{for: 'user_email'} Email 
+  = f.text_field :email
+  %label{for: 'user_password'} Password 
+  = f.text_field :password
+  = f.submit 'Sign Up'
+
