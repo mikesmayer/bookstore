@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 gem 'rails', '4.2.2'
 gem 'sqlite3'
 gem 'sass-rails', '~> 5.0'
@@ -11,6 +10,9 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'haml'
+gem 'devise'
+gem 'cancan'
+gem 'html2haml'
 
 group :development, :test do
   gem 'rspec-rails'

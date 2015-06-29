@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
 
-  get 'register', to: 'users#new', as: 'register'
-  resources :users
+  devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_up => 'register'}
+
+  get "admin/dashboard" => "pages#dashboard"
+
+  resources :books
+  
   root 'pages#home'
 
   # The priority is based upon order of creation: first created -> highest priority.

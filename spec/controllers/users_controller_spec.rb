@@ -7,7 +7,6 @@ RSpec.describe UsersController, type: :controller do
     let(:user) { mock_model("User").as_new_record}
 
     before do
-      #mock_model("User")
       allow(User).to receive(:new).and_return(user)
       get :new
     end
