@@ -1,6 +1,6 @@
 require 'features/features_spec_helper'
 
-feature "Addministrator can add book" do
+feature "Administrator can add book" do
 
   let(:user_admin){FactoryGirl.create(:user,:as_admin)}
 

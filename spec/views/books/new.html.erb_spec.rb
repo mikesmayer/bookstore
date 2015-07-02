@@ -1,14 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe "books/new", type: :view do
-  before(:each) do
-    assign(:book, Book.new())
-  end
 
-  it "renders new book form" do
+  let (:book){mock_model("Book").as_new_record}
+
+  before do
+    allow(book).to receive_messages( title: nil,
+                                     description: nil, 
+                                     price: nil, 
+                                     quantity: nil )
+    assign(:book, book)
     render
-
-    assert_select "form[action=?][method=?]", books_path, "post" do
-    end
   end
+
+  it "has new_book form" do 
+    expect(rendered).to have_selector('form#new_book')
+  end
+
+  it "has book_title field" do
+    expect(rendered).to have_selector('#book_title')
+  end
+
+  it "has book_description field" do
+    expect(rendered).to have_selector('#book_description')
+  end
+
+  it "has book_price field" do
+    expect(rendered).to have_selector('#book_price')
+  end
+
+  it "has book_quantity field" do
+    expect(rendered).to have_selector('#book_quantity')
+  end
+
+  it "has register button" do
+    expect(rendered).to have_selector('input[type="submit"]')
+  end
+
 end
+
+
+

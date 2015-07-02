@@ -1,5 +1,7 @@
 class BooksController < ApplicationController
-  before_action :set_book, only: [:show, :edit, :update, :destroy]
+  before_filter :check_permissions, only: [:new, :edit, :update, :destroy, :create]
+  before_action :set_book,          only: [:show, :edit, :update, :destroy]
+
 
   # GET /books
   # GET /books.json
@@ -28,7 +30,7 @@ class BooksController < ApplicationController
 
     respond_to do |format|
       if @book.save
-        format.html { redirect_to @book, notice: 'Book was successfully created.' }
+        format.html { redirect_to @book, status: 302, notice: 'Book was successfully created.' }
         format.json { render :show, status: :created, location: @book }
       else
         format.html { render :new }
@@ -45,6 +47,7 @@ class BooksController < ApplicationController
         format.html { redirect_to @book, notice: 'Book was successfully updated.' }
         format.json { render :show, status: :ok, location: @book }
       else
+        flash.now[:error] = 'Could not save book.'
         format.html { render :edit }
         format.json { render json: @book.errors, status: :unprocessable_entity }
       end
@@ -69,6 +72,14 @@ class BooksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
-      params[:book]
+     params.require(:book).permit(:title, :description, :price, :quantity)
+    end
+
+    def check_permissions
+      current_user ||= User.new
+      #admin =  authorize! :new, :edit, :create, :update, :destroy, current_user
+       unless current_user.role? "admin"
+         render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
+       end
     end
 end

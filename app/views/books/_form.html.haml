@@ -1,0 +1,23 @@
+= form_for(@book) do |f|
+  - if @book.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@book.errors.count, "error")
+        prohibited this book from being saved:
+      %ul
+        - @book.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label       :title
+    = f.text_field  :title
+  .field
+    = f.label       :description
+    = f.text_field  :description
+  .field
+    = f.label       :price
+    = f.text_field  :price, :value => number_with_precision(@book.price, :precision => 2)
+  .field
+    = f.label       :quantity
+    = f.text_field  :quantity, :value => number_with_precision(@book.quantity, :precision => 0)
+  .actions
+    = f.submit 'Save'

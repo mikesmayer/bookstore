@@ -1,40 +1,60 @@
 require 'features/features_spec_helper'
 
-feature "Books management" do
+feature "Administrator books CRUD actions" do
 
   let(:new_book){FactoryGirl.build(:book)}
-  let(:existins_book){FactoryGirl.build(:book)}
+  let(:existing_book){FactoryGirl.create(:book)}
   let(:user_admin){FactoryGirl.create(:user,:as_admin)}
 
   before do
-
     visit new_user_session_path
-
     within '#new_user' do
       fill_in 'Email',     with: user_admin.email
       fill_in 'Password',  with: user_admin.password
       click_button("Log in")
     end
-    
-    visit new_book_path
-
   end
 
   scenario "Administrator successfully creates new book" do
-
+    visit new_book_path
     within '#new_book' do
       fill_in 'Title',        with: new_book.title
       fill_in 'Description',  with: new_book.description
       fill_in 'Price',        with: new_book.price
       fill_in 'Quantity',     with: new_book.quantity
-      click_button("Add book")
+      click_button("Save")
+      visit books_path
     end
 
-    expect(page).to have_content "#{book.title}"
-    expect(page).to have_content "#{book.description}"
-    expect(page).to have_content "#{book.price}"
-    expect(page).to have_content "#{book.quantity}"
-
+    expect(page).to have_content "#{new_book.title}"
+    expect(page).to have_content "#{new_book.description}"
+    expect(page).to have_content "#{new_book.price}"
+    expect(page).to have_content "#{new_book.quantity}"
   end
+
+  scenario 'Administrator successfully edits book' do
+    visit edit_book_path(existing_book)
+    within "#edit_book_#{existing_book.id}" do
+      fill_in 'Quantity', with: 100
+      click_button("Save")
+      visit books_path(existing_book)
+    end
+
+    expect(page).to have_content "100"
+  end
+
+  scenario 'Administrator successfully deletes book' do
+    existing_book
+    visit books_path
+    find("a[href='/books/#{existing_book.id}'][data-method='delete']").click
+
+    expect(page).to have_content("Book was successfully destroyed.")
+  end
+
+
+
+
+
+
 
 end

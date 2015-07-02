@@ -27,6 +27,7 @@ require 'rspec/rails'
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+  config.include Devise::TestHelpers, :type => :view
 
   config.use_transactional_fixtures = false
  

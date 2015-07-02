@@ -3,10 +3,11 @@ Rails.application.routes.draw do
   devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_up => 'register'}
 
   get "admin/dashboard" => "pages#dashboard"
+  get "admin/books"     => "books#index"
 
   resources :books
   
-  root 'pages#home'
+  root 'books#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

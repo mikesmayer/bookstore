@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :book do
-    title "MyString"
-description "MyString"
-price "9.99"
-quantity 1
+    title       {Faker::Lorem.sentence}
+    description {Faker::Lorem.paragraph}
+    price       {(rand * rand(100)).round(2)}
+    quantity    {rand(100)}
   end
 
 end
