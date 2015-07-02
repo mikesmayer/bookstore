@@ -1,0 +1,9 @@
+/Users/artem/.rvm/rubies/ruby-2.2.1/bin/ruby -r ./siteconf20150702-20912-1itsl04.rb extconf.rb
+creating Makefile
+
+make "DESTDIR=" clean
+
+make "DESTDIR="
+make: Nothing to be done for `all'.
+
+make "DESTDIR=" install

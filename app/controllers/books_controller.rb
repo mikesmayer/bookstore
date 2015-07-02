@@ -76,9 +76,9 @@ class BooksController < ApplicationController
     end
 
     def check_permissions
-      current_user ||= User.new
+      user = current_user || User.new
       #admin =  authorize! :new, :edit, :create, :update, :destroy, current_user
-       unless current_user.role? "admin"
+       unless user.role? "admin"
          render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
        end
     end

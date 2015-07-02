@@ -177,13 +177,13 @@ RSpec.describe BooksController, type: :controller do
         get :new
       end
 
-      it "redirects to root_path" do
-        expect(response).to redirect_to(root_path)
+      it "renders error 404 " do
+        expect(response).to render_template(file: "#{Rails.root}/public/404.html")
       end
         
-      it "sends error flash" do
-        expect(flash[:error]).to eq 'You are not authorized to access this page.'
-      end
+      # it "sends error flash" do
+      #   expect(flash[:error]).to eq 'You are not authorized to access this page.'
+      # end
     end
 
     describe "POST #create" do
@@ -191,12 +191,8 @@ RSpec.describe BooksController, type: :controller do
         post :create, {:book => valid_attributes}
       end
 
-      it "redirects to root_path" do
-        expect(response).to redirect_to(root_path)
-      end
-        
-      it "sends error flash" do
-        expect(flash[:error]).to eq 'You are not authorized to access this page.'
+      it "renders error 404 " do
+        expect(response).to render_template(file: "#{Rails.root}/public/404.html")
       end
     end
 
@@ -205,12 +201,8 @@ RSpec.describe BooksController, type: :controller do
         get :edit, {:id => book.to_param, book: book}
       end
 
-      it "redirects to root_path" do
-        expect(response).to redirect_to(root_path)
-      end
-        
-      it "sends error flash" do
-        expect(flash[:error]).to eq 'You are not authorized to access this page.'
+      it "renders error 404 " do
+        expect(response).to render_template(file: "#{Rails.root}/public/404.html")
       end
     end
 
@@ -219,12 +211,8 @@ RSpec.describe BooksController, type: :controller do
         put :update, {:id => book.to_param, book: book}
       end
 
-      it "redirects to root_path" do
-        expect(response).to redirect_to(root_path)
-      end
-        
-      it "sends error flash" do
-        expect(flash[:error]).to eq 'You are not authorized to access this page.'
+      it "renders error 404 " do
+        expect(response).to render_template(file: "#{Rails.root}/public/404.html")
       end
     end
 
@@ -234,12 +222,8 @@ RSpec.describe BooksController, type: :controller do
         delete :destroy, {:id => book.to_param, book: book}
       end
 
-      it "redirects to root_path" do
-        expect(response).to redirect_to(root_path)
-      end
-        
-      it "sends error flash" do
-        expect(flash[:error]).to eq 'You are not authorized to access this page.'
+      it "renders error 404 " do
+        expect(response).to render_template(file: "#{Rails.root}/public/404.html")
       end
     end
   end 
