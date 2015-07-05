@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   before_filter :check_permissions, only: [:new, :edit, :update, :destroy, :create]
+  #before_filter :check_route,       only: [:index, :show]
   before_action :set_book,          only: [:show, :edit, :update, :destroy]
 
 
@@ -65,19 +66,24 @@ class BooksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_book
       @book = Book.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
      params.require(:book).permit(:title, :description, :price, :quantity)
     end
 
+    # def check_route
+    #   if request.env['PATH_INFO'].match('/admin/books') && !current_user
+    #     render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
+    #   end
+    # end
+
     def check_permissions
-      user = current_user || User.new
-      #admin =  authorize! :new, :edit, :create, :update, :destroy, current_user
+       user = current_user || User.new
+
+       #authorize! :new, :edit, :create, :update, :destroy, current_user
        unless user.role? "admin"
          render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
        end

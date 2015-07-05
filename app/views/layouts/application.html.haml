@@ -6,14 +6,21 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
-  %body 
-    - if current_user
-      = link_to 'Sign out', destroy_user_session_path, method: :delete
-    - else
-      = link_to 'Sign In', new_user_session_path
-    - if flash[:notice].present?
-      #notice= flash[:notice]
-    - if flash[:error].present?
-      #notice= flash[:error]
+  %body
+    .page-wrap
+      %nav.valign-wrapper
+        .logo.valign BookStore
+           
+      - if current_user
+        = link_to 'Sign out', destroy_user_session_path, method: :delete
+      - else
+        = link_to 'Sign In', new_user_session_path
+      - if flash[:notice].present?
+        #notice= flash[:notice]
+      - if flash[:error].present?
+        #notice= flash[:error]
+      = yield
+    .page-footer
+      Footer
 
-    = yield
+  

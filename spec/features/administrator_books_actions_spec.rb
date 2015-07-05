@@ -50,11 +50,4 @@ feature "Administrator books CRUD actions" do
 
     expect(page).to have_content("Book was successfully destroyed.")
   end
-
-
-
-
-
-
-
 end

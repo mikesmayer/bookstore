@@ -8,15 +8,15 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
 
-  def after_sign_in_path_for(resourse)
+  # def after_sign_in_path_for(resourse)
 
-    if  current_user.role? "admin"
-      admin_dashboard_path
-    else
-      root_path
-    end
+  #   if  current_user.role? "admin"
+  #     admin_books_path
+  #   else
+  #     root_path
+  #   end
 
-  end
+  # end
 
   
 

@@ -1,0 +1,8 @@
+%tr
+  %td= author.first_name
+  %td= author.last_name
+  %td= author.biography
+  %td= link_to 'Show', author
+  - if can? :manage, :author
+    %td= link_to 'Edit', edit_author_path(author)
+    %td= link_to 'Destroy', author, method: :delete, data: { confirm: 'Are you sure?' }

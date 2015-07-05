@@ -3,9 +3,17 @@ Rails.application.routes.draw do
   devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_up => 'register'}
 
   get "admin/dashboard" => "pages#dashboard"
-  get "admin/books"     => "books#index"
 
-  resources :books
+  # get "books" => "books#index"
+  # get "books/:id" => "books#show"
+  
+    resources :books
+    resources :authors
+
+
+  
+
+  resources :authors
   
   root 'books#index'
 

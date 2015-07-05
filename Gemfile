@@ -13,6 +13,8 @@ gem 'haml'
 gem 'devise'
 gem 'cancan'
 gem 'html2haml'
+gem 'filterrific'
+gem 'materialize-sass'
 
 group :development, :test do
   gem 'rspec-rails'

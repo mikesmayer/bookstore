@@ -7,5 +7,5 @@
   %tbody
     = render @books
 %br/
-- if can? :manage, @book
+- if can? :manage, :book
   = link_to 'New Book', new_book_path

@@ -1,14 +1,6 @@
 require 'rails_helper'
+require 'views/books/new_book_helper'
 
 RSpec.describe "books/edit", type: :view do
-  before(:each) do
-    @book = assign(:book, Book.create!())
-  end
-
-  it "renders the edit book form" do
-    render
-
-    assert_select "form[action=?][method=?]", book_path(@book), "post" do
-    end
-  end
+  it_behaves_like "a new_book_form"
 end
