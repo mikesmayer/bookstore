@@ -16,6 +16,7 @@ gem 'html2haml'
 gem 'filterrific'
 gem 'materialize-sass'
 
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'

@@ -1,0 +1,9 @@
+%tr
+  %td= book.title
+  %td= book.description
+  %td= book.price
+  %td= book.quantity
+  %td= link_to 'Show', book
+  - if can? :manage, :book
+    %td= link_to 'Edit', edit_book_path(book)
+    %td= link_to 'Destroy', book, method: :delete,  data: { confirm: 'Are you sure?' }

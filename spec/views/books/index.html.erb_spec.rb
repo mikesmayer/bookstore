@@ -69,7 +69,6 @@ RSpec.describe "books/index", type: :view do
     end
 
     it_behaves_like "all user"
-    it_behaves_like "customers"
   
     it "has link to new_book_path" do
       expect(rendered).to have_link('New Book')

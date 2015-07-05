@@ -1,4 +1,22 @@
 %p#notice= notice
-= link_to 'Edit', edit_book_path(@book)
-|
+%table
+  %thead
+    %tr
+      %th Title
+      %th Description
+      %th Price
+      %th Quantity
+  %tbody
+    %tr
+      %td
+        = @book.title
+      %td
+        = @book.description
+      %td
+        = @book.price
+      %td
+        = @book.quantity
+- if can? :manage, :book
+  = link_to 'Edit', edit_book_path(@book)
+  |
 = link_to 'Back', books_path

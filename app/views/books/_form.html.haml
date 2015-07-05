@@ -19,5 +19,8 @@
   .field
     = f.label       :quantity
     = f.text_field  :quantity, :value => number_with_precision(@book.quantity, :precision => 0)
+  .field
+    = f.label       :author
+    = f.text_field  :author
   .actions
     = f.submit 'Save'

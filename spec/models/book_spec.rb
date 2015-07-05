@@ -10,10 +10,9 @@ RSpec.describe Book, type: :model do
   it { should validate_presence_of(:quantity) }
   it { should validate_numericality_of(:price).is_greater_than(0) }
   it { should validate_numericality_of(:quantity).is_greater_than(0) }
+  it { should belong_to(:author)}
   
-  it "belongs to author" do
-    expect(book).to respond_to(:author)
-  end
+  
 
   it "belongs to category" do
     expect(book).to respond_to(:category)
