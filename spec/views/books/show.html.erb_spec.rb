@@ -6,6 +6,14 @@ shared_examples "all user show_book" do
     expect(rendered).to have_content(book.title)
   end
 
+  it "has book_author_full_name content" do
+    expect(rendered).to have_content(book.author.full_name)
+  end
+
+  it "has book_category content" do
+    expect(rendered).to have_content(book.category.category_name)
+  end
+
   it "has book_description content" do
     expect(rendered).to have_content(book.description)
   end
@@ -24,8 +32,7 @@ shared_examples "all user show_book" do
 end
 
 RSpec.describe "books/show", type: :view do
-  let (:book_params){ FactoryGirl.attributes_for(:book)}
-  let (:book){stub_model(Book, book_params)}
+  let (:book){FactoryGirl.create(:book)}
 
   before do
     @ability = Object.new

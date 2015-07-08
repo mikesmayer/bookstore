@@ -9,13 +9,22 @@ class ApplicationController < ActionController::Base
   end
 
   def check_permissions
-       user = current_user || User.new
+    user = current_user || User.new
 
-       #authorize! :new, :edit, :create, :update, :destroy, current_user
-       unless user.role? "admin"
-         render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
-       end
+   #authorize! :new, :edit, :create, :update, :destroy, current_user
+    unless user.role? "admin"
+      render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
     end
+  end
+
+  def author_book_filterrific
+    @author = Author.new
+    @filterrific = initialize_filterrific(
+      Author,
+      params[:filterrific]
+    ) or return
+    
+  end
 
   # def after_sign_in_path_for(resourse)
 

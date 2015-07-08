@@ -1,19 +1,23 @@
 
 RSpec.shared_examples "a new_book_form" do
 
-  let (:book){mock_model("Book").as_new_record}
+  
+  #let(:filterrific){mock_model("TestFilterrific")}
+  # let(:valid_attributes){FactoryGirl.attributes_for(:book)}
+  # let(:book){mock_model(Book, valid_attributes)}
 
   before do
-    allow(book).to receive_messages( title: nil,
-                                     description: nil, 
-                                     price: nil, 
-                                     quantity: nil )
+
+    # allow(book).to receive_messages( title: nil,
+    #                                  description: nil,
+    #                                  price: nil, 
+    #                                  quantity: nil
+    #                                  #first_name:   nil,
+    #                                   )
+    # allow(filterrific).to receive(:search_query)
+    # assign(:filterrific, filterrific)
     assign(:book, book)
     render
-  end
-
-  it "has new_book form" do 
-    expect(rendered).to have_selector('form#new_book')
   end
 
   it "has book_title field" do
@@ -32,7 +36,15 @@ RSpec.shared_examples "a new_book_form" do
     expect(rendered).to have_selector('#book_quantity')
   end
 
-  it "has register button" do
+  it "has select author field" do
+    expect(rendered).to have_selector('select#book_author_id')
+  end
+
+  it "has select category field" do
+    expect(rendered).to have_selector('select#book_category_id')
+  end
+
+  it "has save button" do
     expect(rendered).to have_selector('input[type="submit"]')
   end
 

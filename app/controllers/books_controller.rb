@@ -18,6 +18,13 @@ class BooksController < ApplicationController
   # GET /books/new
   def new
     @book = Book.new
+    
+    # author_book_filterrific
+    # @authors = Author.filterrific_find(@filterrific).first(10)
+     respond_to do |format|
+       format.html
+       format.js
+     end
   end
 
   # GET /books/1/edit
@@ -43,6 +50,7 @@ class BooksController < ApplicationController
   # PATCH/PUT /books/1
   # PATCH/PUT /books/1.json
   def update
+
     respond_to do |format|
       if @book.update(book_params)
         format.html { redirect_to @book, notice: 'Book was successfully updated.' }
@@ -71,13 +79,9 @@ class BooksController < ApplicationController
     end
 
     def book_params
-     params.require(:book).permit(:title, :description, :price, :quantity)
+     params.require(:book).permit(:title, :description, :price, :quantity, 
+                                  :filterrific, :author_id, :category_id)
     end
-
-    # def check_route
-    #   if request.env['PATH_INFO'].match('/admin/books') && !current_user
-    #     render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
-    #   end
-    # end
-
 end
+
+

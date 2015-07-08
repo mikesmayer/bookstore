@@ -19,8 +19,23 @@
   .field
     = f.label       :quantity
     = f.text_field  :quantity, :value => number_with_precision(@book.quantity, :precision => 0)
-  .field
-    = f.label       :author
-    = f.text_field  :author
-  .actions
-    = f.submit 'Save'
+  
+  = f.label      :author_id
+  = f.select     :author_id, 
+             options_from_collection_for_select(Author.all, :id, :full_name),
+             {},
+             {class: 'input-field'}
+
+  = f.label      :category_id
+  = f.select     :category_id, 
+             options_from_collection_for_select(Category.all, :id, :category_name),
+             {},
+             {class: 'input-field'}
+
+  = f.submit 'Save'
+
+      
+
+
+
+

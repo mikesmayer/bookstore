@@ -3,10 +3,12 @@ class AuthorsController < ApplicationController
   before_action :set_author, only: [:show, :edit, :update, :destroy]
 
 
+
   # GET /authors
   # GET /authors.json
   def index
     @authors = Author.all
+  
   end
 
   # GET /authors/1
@@ -70,7 +72,7 @@ class AuthorsController < ApplicationController
     end
 
     def author_params
-      params.require(:author).permit(:first_name, :last_name, :biography)
+      params.require(:author).permit(:first_name, :last_name, :biography, :filterrific)
     end
 
 end

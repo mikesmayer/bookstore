@@ -17,7 +17,7 @@ feature "Administrator books CRUD actions" do
     end
   end
 
-  scenario "Administrator successfully creates new book" do
+  scenario 'Administrator successfully connect books to categories and authors' do
     author
     category
     visit new_book_path
@@ -32,29 +32,12 @@ feature "Administrator books CRUD actions" do
       click_button("Save")
     end
 
-    expect(page).to have_content "#{new_book.title}"
-    expect(page).to have_content "#{new_book.description}"
-    expect(page).to have_content "#{new_book.price}"
-    expect(page).to have_content "#{new_book.quantity}"
+    
+    expect(page).to have_content "#{author.full_name}"
+    expect(page).to have_content "#{category.category_name}"
   end
 
-  scenario 'Administrator successfully edits book' do
-    visit edit_book_path(existing_book)
-    within "#edit_book_#{existing_book.id}" do
-      fill_in 'Quantity', with: 100
-      click_button("Save")
-      visit books_path(existing_book)
-    end
 
-    expect(page).to have_content "100"
-  end
 
-  scenario 'Administrator successfully deletes book' do
-    existing_book
-    visit books_path
-    find("a[href='/books/#{existing_book.id}'][data-method='delete']").click
-
-    expect(page).to have_content("Book was successfully destroyed.")
-  end
 
 end

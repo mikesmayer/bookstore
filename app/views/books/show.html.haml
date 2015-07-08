@@ -6,6 +6,8 @@
       %th Description
       %th Price
       %th Quantity
+      %th Full Name
+      %th Category
   %tbody
     %tr
       %td
@@ -16,6 +18,11 @@
         = @book.price
       %td
         = @book.quantity
+      %td
+        = @book.author.full_name
+      %td
+        = @book.category.category_name
+        
 - if can? :manage, :book
   = link_to 'Edit', edit_book_path(@book)
   |
