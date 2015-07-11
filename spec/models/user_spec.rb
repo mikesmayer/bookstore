@@ -10,4 +10,10 @@ RSpec.describe User, type: :model do
   it{ expect(user).to validate_confirmation_of(:password)}
   it{ expect(user).to validate_length_of(:password)}
 
+  it "creates user profile" do
+    expect{user.save}.to change(Profile, :count).by(1)
+    p Profile.all
+  end
+
+
 end

@@ -10,7 +10,11 @@ class BooksController < ApplicationController
       book_in_cart["quantity"] +=1
     else
        book = Book.find(params[:id])
-       book_hash =  {"id" => book.id, "title"=> book.title, "price"=> book.price, "quantity": 1}
+       book_hash =  { "id" => book.id, 
+                      "title"=> book.title,
+                      "price"=> book.price,
+                      "quantity" => 1}
+                      
        session["cart"]["books"] << book_hash
     end
 
@@ -19,8 +23,16 @@ class BooksController < ApplicationController
     end
   end
 
+  def cart
+    
+  end
+
   def delete_from_cart
-    session["cart"]["books"].delete(session["cart"]["books"].find{|book| book["id"] == "#{params[:id]}".to_i})
+    if book_in_cart["quantity"] == 1
+      session["cart"]["books"].delete(session["cart"]["books"].find{|book| book["id"] == "#{params[:id]}".to_i})
+    else
+      book_in_cart["quantity"] -= 1
+    end
 
     respond_to do |format|
        #format.html

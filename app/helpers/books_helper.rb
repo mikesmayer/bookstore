@@ -1,19 +1,23 @@
 module BooksHelper
-
-  def cart
-    
-  end
-
   def cart_books
     session["cart"]["books"]
   end
 
   def cart_total_price
-    price = cart_books.inject(0){|price, book| price + book["price"].to_f}
+    price = cart_books.inject(0){|price, book| price + book["price"].to_f*book["quantity"].to_i}
     price
   end
 
+  def cart_books_quantity
+    quantity = cart_books.inject(0){|quantity, book| quantity + book["quantity"].to_i}
+    quantity
+  end
+
+  def cart_preview
+    render partial: "books/cart_preview"
+  end
+
   def cart_books_list
-    render partial: "cart", locals: {cart_books: cart_books}
+    render partial: "books/cart_books_list"
   end
 end

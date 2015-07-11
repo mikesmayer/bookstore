@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150707170959) do
+ActiveRecord::Schema.define(version: 20150711150709) do
+
+  create_table "addresses", force: :cascade do |t|
+    t.string   "user_address"
+    t.string   "zipcode"
+    t.string   "city"
+    t.string   "phone"
+    t.integer  "country_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "addresses", ["country_id"], name: "index_addresses_on_country_id"
 
   create_table "authors", force: :cascade do |t|
     t.string   "first_name"
@@ -40,6 +52,82 @@ ActiveRecord::Schema.define(version: 20150707170959) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
+
+  create_table "countries", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "credit_cards", force: :cascade do |t|
+    t.string   "number"
+    t.string   "cvv"
+    t.integer  "expiration_month"
+    t.integer  "expiration_year"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "user_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "credit_cards", ["user_id"], name: "index_credit_cards_on_user_id"
+
+  create_table "order_books", force: :cascade do |t|
+    t.decimal  "price"
+    t.integer  "quantity"
+    t.integer  "book_id"
+    t.integer  "order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "order_books", ["book_id"], name: "index_order_books_on_book_id"
+  add_index "order_books", ["order_id"], name: "index_order_books_on_order_id"
+
+  create_table "orders", force: :cascade do |t|
+    t.decimal  "total_price"
+    t.datetime "completed_date"
+    t.integer  "billing_address_id"
+    t.integer  "shipping_address_id"
+    t.string   "status"
+    t.integer  "customer_id"
+    t.integer  "credit_card_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "orders", ["billing_address_id"], name: "index_orders_on_billing_address_id"
+  add_index "orders", ["credit_card_id"], name: "index_orders_on_credit_card_id"
+  add_index "orders", ["customer_id"], name: "index_orders_on_customer_id"
+  add_index "orders", ["shipping_address_id"], name: "index_orders_on_shipping_address_id"
+
+  create_table "profiles", force: :cascade do |t|
+    t.string   "email"
+    t.string   "password"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "credit_card_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "user_id"
+    t.integer  "billing_address_id"
+    t.integer  "shipping_address_id"
+  end
+
+  add_index "profiles", ["credit_card_id"], name: "index_profiles_on_credit_card_id"
+
+  create_table "ratings", force: :cascade do |t|
+    t.text     "review"
+    t.integer  "rating"
+    t.integer  "book_id"
+    t.integer  "customer_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "ratings", ["book_id"], name: "index_ratings_on_book_id"
+  add_index "ratings", ["customer_id"], name: "index_ratings_on_customer_id"
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"

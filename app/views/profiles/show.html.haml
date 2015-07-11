@@ -1,0 +1,20 @@
+%p#notice= notice
+.container
+  .row
+    %h3.center Profile Information
+  .row
+    %h5 Account Info
+    %ul 
+      %li
+        Email:
+        = @profile.email
+    %h5 Shipping Address
+    %ul
+      %li
+        Address:
+        =@profile.address.user_address
+      %li
+        Zipcode:
+        =@profil.address.zipcode
+= link_to 'Edit', edit_profile_path(@profile)
+|

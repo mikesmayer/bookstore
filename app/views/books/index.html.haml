@@ -1,6 +1,9 @@
-#user_cart
-  =cart_books_list
 %p#notice= notice
+.cart
+  #cart_preview
+    = render "books/cart_preview"
+  = link_to "Create Order", new_order_path(@order)
+  = link_to "Go to Cart",   cart_books_path
 .col.l6
   .search-author-field
     = form_for_filterrific @filterrific, url: books_path do |f|

@@ -1,0 +1,19 @@
+-# -unless cart_books.nil?
+%table
+  %thead
+    %tr
+      %th= "Book title"
+      %th= "Book price"
+      %th= "Book quantity"
+  %tbody
+    - cart_books.each do |book|
+      %tr
+        %td= book["title"]
+        %td= book["price"]
+        %td= book["quantity"]
+        - unless book["id"].nil?
+          %td= link_to "Show" , book_path(Book.find(book["id"]))
+          %td= link_to "Delete",delete_from_cart_book_path(Book.find(book["id"])),
+                                method: :delete, remote:true
+= cart_total_price
+= link_to "Create Order", new_order_path(@order)
