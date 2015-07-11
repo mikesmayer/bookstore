@@ -1,11 +1,33 @@
+#user_cart
+  =cart_books_list
 %p#notice= notice
+.col.l6
+  .search-author-field
+    = form_for_filterrific @filterrific, url: books_path do |f|
+      .field
+        = f.label "Search", for: "filterrific_search_query"
+        = f.text_field :search_query, 
+                     :class        => 'filterrific-periodically-observed chardin_box form-control', 
+                     :type         => 'search', 
+                     :autocomplete => 'off'
+      .field
+        = f.label "Category", for: "filterrific_with_category_id"
+        = f.select :with_category_id,
+                   @filterrific.select_options[:with_category_id],
+                   { :include_blank => '- Any -' },
+                   { :class => 'form-control' }
+    
 %h1 Listing Books
-%table
-  %thead
-    %tr
-      %th{:colspan => "3"}
-  %tbody
-    = render @books
+#filterrific_results
+  %table
+    %thead
+      %tr
+        %th Title
+        %th Description
+        %th Price
+        %th Quantity
+    %tbody
+      = render @books
 %br/
 - if can? :manage, :book
   = link_to 'New Book', new_book_path

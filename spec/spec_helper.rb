@@ -31,7 +31,6 @@ RSpec.configure do |config|
     @devise_mapping ||= Devise.mappings[:user]
   end
 
-
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
 
-  before_filter :check_permissions, :only => [:dashboard]
+ # before_filter :check_permissions, :only => [:dashboard]
 
   def home
 
@@ -10,6 +10,10 @@ class PagesController < ApplicationController
 
     
     
+  end
+
+  def add_item
+    render text: "item is added"
   end
 
   def check_permissions

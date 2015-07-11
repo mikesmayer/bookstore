@@ -15,7 +15,6 @@ RSpec.describe Book, type: :model do
   
 
   it "has_many ratings" do
-    p book.category
     expect(book).to respond_to(:ratings)
   end
 

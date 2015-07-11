@@ -1,13 +1,22 @@
 Rails.application.routes.draw do
 
-  devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_up => 'register'}
+  devise_for :users, :path => '', 
+             :path_names => {:sign_in => 'login', :sign_up => 'register'}, 
+             :controllers => {:sessions => "devise/custom_sessions" }
+
+  
 
   get "admin/dashboard" => "pages#dashboard"
 
   # get "books" => "books#index"
   # get "books/:id" => "books#show"
   
-  resources :books
+  resources :books do
+  member do
+    post 'add_to_cart' => "books#add_to_cart"
+    delete 'delete_from_cart' => "books#delete_from_cart" 
+  end
+end
   resources :authors
   resources :categories
 

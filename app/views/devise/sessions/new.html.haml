@@ -4,6 +4,9 @@
     .col.l4.m6.s12.offset-l4.offset-m3.login-form
       %h4.center-align Log in to BookStore
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        - flash.each do |name, msg|
+          = content_tag :div, msg, id: "flash_#{name}" 
+
         .field
           = f.label :email
           %br/

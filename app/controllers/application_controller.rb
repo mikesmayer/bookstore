@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = exception.message
@@ -17,11 +18,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def author_book_filterrific
-    @author = Author.new
+  def book_filterrific
     @filterrific = initialize_filterrific(
-      Author,
-      params[:filterrific]
+      Book,
+      params[:filterrific],
+      :select_options => {
+        with_category_id: Category.options_for_select
+      }
     ) or return
     
   end

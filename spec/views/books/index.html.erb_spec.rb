@@ -27,17 +27,18 @@ RSpec.shared_examples "customers" do
 end
 
 RSpec.describe "books/index", type: :view do
-  let (:book_params){{ id:    10,
-                       title: "Title",
-                       description: nil, 
-                       price: nil, 
-                       quantity: nil }}
+  let (:book_params){FactoryGirl.attributes_for :book}
   let (:book){stub_model(Book, book_params)}
+  let (:author){FactoryGirl.build :author}
+  let (:category){FactoryGirl.build :category}
   
   before do
     @ability = Object.new
     @ability.extend(CanCan::Ability)
     allow(controller).to receive(:current_ability).and_return(@ability)
+    allow(view).to receive(:form_for_filterrific)
+    allow(book).to receive(:author).and_return(author)
+    allow(book).to receive(:category).and_return(category)
   end
 
   context "visitor" do

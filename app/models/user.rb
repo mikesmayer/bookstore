@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :roles
 
+
   def role?(role)
     self.roles.find{|i| i.name == role.to_s} != nil
   end
