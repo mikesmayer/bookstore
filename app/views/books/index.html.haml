@@ -1,36 +1,39 @@
 %p#notice= notice
-.cart
-  #cart_preview
-    = render "books/cart_preview"
-  = link_to "Create Order", new_order_path(@order)
-  = link_to "Go to Cart",   cart_books_path
-.col.l6
+.row
   .search-author-field
     = form_for_filterrific @filterrific, url: books_path do |f|
-      .field
-        = f.label "Search", for: "filterrific_search_query"
-        = f.text_field :search_query, 
-                     :class        => 'filterrific-periodically-observed chardin_box form-control', 
-                     :type         => 'search', 
-                     :autocomplete => 'off'
-      .field
-        = f.label "Category", for: "filterrific_with_category_id"
-        = f.select :with_category_id,
-                   @filterrific.select_options[:with_category_id],
-                   { :include_blank => '- Any -' },
-                   { :class => 'form-control' }
-    
-%h1 Listing Books
-#filterrific_results
-  %table
-    %thead
-      %tr
-        %th Title
-        %th Description
-        %th Price
-        %th Quantity
-    %tbody
-      = render @books
-%br/
-- if can? :manage, :book
-  = link_to 'New Book', new_book_path
+      .col.l6
+        .field
+          = f.label "Search", for: "filterrific_search_query"
+          = f.text_field :search_query, 
+                       :class        => 'filterrific-periodically-observed chardin_box form-control', 
+                       :type         => 'search', 
+                       :autocomplete => 'off'
+      .col.l6
+        .field
+          = f.label "Category", for: "filterrific_with_category_id"
+          = f.select :with_category_id,
+                     @filterrific.select_options[:with_category_id],
+                     { :include_blank => '- Any -' },
+                     { :class => 'form-control' }
+.row
+  .col.l10
+    %h5.center Listing Books
+    #filterrific_results
+      %table
+        %thead
+          %tr
+            %th Title
+            %th Description
+            %th Price
+            %th Quantity
+        %tbody
+          = render @books
+    %br/
+    - if can? :manage, :book
+      = link_to 'New Book', new_book_path
+  .col.l2
+    = render "layouts/right_side_panel"
+  
+      
+

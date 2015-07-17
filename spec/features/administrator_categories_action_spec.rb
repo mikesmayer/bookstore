@@ -16,12 +16,12 @@ feature 'Administrator categories CRUD actions' do
 
   scenario "Administrator successfully creates new category" do
     visit new_category_path
-
     within '#new_category' do
       fill_in 'Category name',    with: new_category.category_name
       click_button("Save")
       visit categories_path
     end
+
     expect(page).to have_content "#{new_category.category_name}"
   end
 
@@ -40,7 +40,6 @@ feature 'Administrator categories CRUD actions' do
     existing_category
     visit categories_path
     find("a[href='/categories/#{existing_category.id}'][data-method='delete']").click
-
     expect(page).to have_content("Category was successfully destroyed.")
   end
 end

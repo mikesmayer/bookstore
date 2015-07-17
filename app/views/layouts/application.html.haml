@@ -10,13 +10,16 @@
     %script{:src => "//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"}
   %body
     .page-wrap
-      %nav.valign-wrapper
-        .logo.valign BookStore
-           
-      - if current_user
-        = link_to 'Sign out', destroy_user_session_path, method: :delete
-      - else
-        = link_to 'Sign In', new_user_session_path
+      %nav
+        .nav-wrapper
+          .brand-logo BookBucket
+          %ul.right
+            %li
+              - if current_user
+                = link_to 'Sign out', destroy_user_session_path, 
+                                      method: :delete
+              - else
+                = link_to 'Sign In', new_user_session_path
       - if flash[:notice].present?
         #notice= flash[:notice]
       - if flash[:error].present?
@@ -25,7 +28,7 @@
     .page-footer
       Footer
     %script{type: "text/javascript"}
-      $('select#book_category_id').select2();
+      -# $('select#book_category_id').select2();
       $('select#book_author_id').select2();
  
 

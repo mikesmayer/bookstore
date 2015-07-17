@@ -58,7 +58,7 @@ RSpec.describe BooksController, type: :controller do
       context "with valid params" do
         it "redirects to books_path" do
           allow(book).to receive(:save).and_return(true)
-          post :create, {:book => valid_attributes}
+          post :create, book: valid_attributes
           expect(response).to redirect_to(book)
         end
       end

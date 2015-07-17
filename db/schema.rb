@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150711150709) do
+ActiveRecord::Schema.define(version: 20150716103748) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "user_address"
@@ -19,8 +19,10 @@ ActiveRecord::Schema.define(version: 20150711150709) do
     t.string   "city"
     t.string   "phone"
     t.integer  "country_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "billing_address_id"
+    t.integer  "shipping_address_id"
   end
 
   add_index "addresses", ["country_id"], name: "index_addresses_on_country_id"
@@ -47,6 +49,14 @@ ActiveRecord::Schema.define(version: 20150711150709) do
   add_index "books", ["author_id"], name: "index_books_on_author_id"
   add_index "books", ["category_id"], name: "index_books_on_category_id"
 
+  create_table "books_users", id: false, force: :cascade do |t|
+    t.integer "book_id"
+    t.integer "user_id"
+  end
+
+  add_index "books_users", ["book_id"], name: "index_books_users_on_book_id"
+  add_index "books_users", ["user_id"], name: "index_books_users_on_user_id"
+
   create_table "categories", force: :cascade do |t|
     t.string   "category_name"
     t.datetime "created_at",    null: false
@@ -66,12 +76,12 @@ ActiveRecord::Schema.define(version: 20150711150709) do
     t.integer  "expiration_year"
     t.string   "first_name"
     t.string   "last_name"
-    t.integer  "user_id"
+    t.integer  "profile_id"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
 
-  add_index "credit_cards", ["user_id"], name: "index_credit_cards_on_user_id"
+  add_index "credit_cards", ["profile_id"], name: "index_credit_cards_on_profile_id"
 
   create_table "order_books", force: :cascade do |t|
     t.decimal  "price"
@@ -91,15 +101,14 @@ ActiveRecord::Schema.define(version: 20150711150709) do
     t.integer  "billing_address_id"
     t.integer  "shipping_address_id"
     t.string   "status"
-    t.integer  "customer_id"
     t.integer  "credit_card_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.integer  "user_id"
   end
 
   add_index "orders", ["billing_address_id"], name: "index_orders_on_billing_address_id"
   add_index "orders", ["credit_card_id"], name: "index_orders_on_credit_card_id"
-  add_index "orders", ["customer_id"], name: "index_orders_on_customer_id"
   add_index "orders", ["shipping_address_id"], name: "index_orders_on_shipping_address_id"
 
   create_table "profiles", force: :cascade do |t|
@@ -128,6 +137,19 @@ ActiveRecord::Schema.define(version: 20150711150709) do
 
   add_index "ratings", ["book_id"], name: "index_ratings_on_book_id"
   add_index "ratings", ["customer_id"], name: "index_ratings_on_customer_id"
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer  "rating"
+    t.text     "text"
+    t.integer  "user_id"
+    t.integer  "book_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "approved",   default: false
+  end
+
+  add_index "reviews", ["book_id"], name: "index_reviews_on_book_id"
+  add_index "reviews", ["user_id"], name: "index_reviews_on_user_id"
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"

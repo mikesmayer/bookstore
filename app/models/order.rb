@@ -4,26 +4,72 @@ class Order < ActiveRecord::Base
   belongs_to :billing_address,  class_name: "Address", foreign_key: "billing_address_id"
   belongs_to :shipping_address, class_name: "Address", foreign_key: "shipping_address_id"
   has_many   :order_books
-  has_many   :books, through: :order_items
+  has_many   :books, through: :order_books
+  accepts_nested_attributes_for :shipping_address, :billing_address, :credit_card 
+  validates_associated :shipping_address, :billing_address, :credit_card
 
-  validates :total_price, :status, presence: true
-  validates :completed_date, presence: true, if: :status_completed?
-  validates :status, inclusion: {in: %w(in\ progress completed shipped)}
+  attr_writer :current_step, :ordered_books
 
-  before_validation do
-    self.status ||= "in progress"
-    self.total_price ||= 0
-  end 
-
-  def status_completed?
-    true if self.status == "completed"
+#OrderBook relations
+  before_save do
+    self.order_books << OrderBook.create(book_order_params)
+    self.total_price = self.order_books.inject(0){|t_p, b| t_p + b.quantity*b.price}
+    self.completed_date = DateTime.now
+    self.status = "processed"
   end
 
-  def add_book(params = {})
-    params[:order_id] = self.id
-    OrderItem.create(params)
-    unless self.order_items(true).empty?
-      self.total_price = self.order_items(true).inject(0){|t_price, position| t_price + position.quantity*position.price} 
+  def book_order_params
+    book_order_params_collection = []
+    @ordered_books.each do |book|
+      book_order_params = {}
+      if book_exist?(book["id"].to_i, book["quantity"].to_i)
+        book_order_params[:order_id]    = self.id
+        book_order_params[:book_id]     = book["id"].to_i
+        book_order_params[:quantity]    = book["quantity"].to_i
+        book_order_params[:price]       = book["price"].to_f
+        book_order_params_collection << book_order_params
+      end
     end
+
+    book_order_params_collection
+  end
+
+  def book_exist?(id, quantity)
+    if book = Book.find(id)
+      if book.quantity >= quantity
+        book.quantity -= quantity
+        book.save
+        return true
+      else
+        return false
+      end
+      false
+    end
+  end
+
+#Creating order by steps
+  def current_step
+    @current_step || steps.first
+  end
+
+  def steps
+    %w[shipping billing paying confirmation]
+  end
+
+  def next_step
+    self.current_step = steps[steps.index(current_step) + 1]
+  end
+
+  def previous_step
+    self.current_step = steps[steps.index(current_step) - 1]
+  end
+  
+
+  def first_step?
+    current_step == steps.first
+  end
+
+  def last_step?
+    current_step == steps.last
   end
 end

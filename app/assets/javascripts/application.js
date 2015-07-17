@@ -27,5 +27,9 @@
 
 $(document).ready(function() {
     $('select').material_select();
+    // $('select.rating').material_select('destroy');
+    // $('select#book_category_id').select2();
+    // $('select#book_author_id').select2();
+
 });
 

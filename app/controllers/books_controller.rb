@@ -1,55 +1,19 @@
 class BooksController < ApplicationController
   before_action :add_cart
   before_action :check_permissions, only: [:new, :edit, :update, :destroy, :create]
-  before_action :set_book,          only: [:show, :edit, :update, :destroy]
-  
-
-
-  def add_to_cart
-    if book_in_cart
-      book_in_cart["quantity"] +=1
-    else
-       book = Book.find(params[:id])
-       book_hash =  { "id" => book.id, 
-                      "title"=> book.title,
-                      "price"=> book.price,
-                      "quantity" => 1}
-                      
-       session["cart"]["books"] << book_hash
-    end
-
-    respond_to do |format|
-      format.js
-    end
-  end
-
-  def cart
-    
-  end
-
-  def delete_from_cart
-    if book_in_cart["quantity"] == 1
-      session["cart"]["books"].delete(session["cart"]["books"].find{|book| book["id"] == "#{params[:id]}".to_i})
-    else
-      book_in_cart["quantity"] -= 1
-    end
-
-    respond_to do |format|
-       #format.html
-       format.js
-     end
-  end
+  before_action :set_book,          only: [:add_to_wish_list, :delete_from_wish_list, :show, :edit, :update, :destroy]
 
   # GET /books
   # GET /books.json
   def index
+    session[:order_step] = nil
+    session[:order_params] = nil
     book_filterrific
     if @filterrific.nil?
       @books = Book.all
     else
       @books = Book.filterrific_find(@filterrific).first(10)
     end
-    #@books = Book.all
   end
 
   # GET /books/1
@@ -61,10 +25,10 @@ class BooksController < ApplicationController
   def new
     @book = Book.new
 
-     respond_to do |format|
-       format.html
-       format.js
-     end
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /books/1/edit
@@ -106,10 +70,63 @@ class BooksController < ApplicationController
   # DELETE /books/1.json
   def destroy
     @book.destroy
+
     respond_to do |format|
       format.html { redirect_to books_url, notice: 'Book was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def add_to_cart
+    if book_in_cart
+      book_in_cart["quantity"] +=1
+    else
+      session["cart"]["books"] << book_to_hash
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def add_to_wish_list
+    if current_user
+      current_user.books << @book unless current_user.books.include?(@book)
+    end
+
+    respond_to do |format|
+      format.html { }
+      format.js
+    end
+  end
+
+  def delete_from_wish_list
+    if current_user
+      current_user.books.destroy(@book) if current_user.books.include?(@book)
+    end
+
+    respond_to do |format|
+      format.html { }
+      format.js
+    end
+  end
+
+
+  def cart
+    
+  end
+
+  def delete_from_cart
+    if book_in_cart["quantity"] == 1
+      session["cart"]["books"].delete(session["cart"]["books"].find{|book| book["id"] == "#{params[:id]}".to_i})
+    else
+      book_in_cart["quantity"] -= 1
+    end
+
+    respond_to do |format|
+       #format.html
+       format.js
+     end
   end
 
   private
@@ -132,8 +149,24 @@ class BooksController < ApplicationController
       @book = Book.find(params[:id])
     end
 
+    def book_to_hash
+      book = Book.find(params[:id])
+      book_hash =  { "id" => book.id,
+                     "author"=>book.author.full_name,
+                     "title"=> book.title,
+                     "price"=> book.price,
+                     "quantity" => 1
+                     }
+      book_hash
+    end
+
+    def total_price
+     price = session["cart"]["books"].inject(0){|p, b| p + b["price"].to_f*b["quantity"].to_i}
+     price
+    end
+
     def book_params
-     params.require(:book).permit(:title, :description, :price, :quantity, 
+     params.require(:book).permit(:id,:title, :description, :price, :quantity, 
                                   :filterrific, :author_id, :category_id)
     end
 end

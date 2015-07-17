@@ -1,0 +1,20 @@
+%h5 Credit Card
+= f.fields_for :credit_card, @profile.credit_card do |ff|
+  .field
+    = ff.label      :number
+    = ff.text_field :number
+  .field
+    = ff.label      :cvv
+    = ff.text_field :cvv
+  .field
+    = ff.label      :expiration_month
+    = ff.text_field :expiration_month, type: :number
+  .field
+    = ff.label      :expiration_year
+    = ff.text_field :expiration_year, type: :number
+  .field
+    = ff.label      :first_name
+    = ff.text_field :first_name
+  .field
+    = ff.label      :last_name
+    = ff.text_field :last_name

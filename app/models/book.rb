@@ -1,6 +1,8 @@
 class Book < ActiveRecord::Base
+  has_and_belongs_to_many :users
   belongs_to :author
   belongs_to :category
+  has_many   :reviews
   validates  :title, :description, :quantity, :price, 
              :category_id, :author_id, presence: true
   validates  :price, :quantity, numericality: {greater_than: 0}

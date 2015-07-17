@@ -1,12 +1,25 @@
+.form-header{
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  width: 100%;
+  background-color: #656666;
+  padding: none;
+  color: white;
+  .row .col{
+    padding: none;
+  }
+}
+
 .login-form {
-  box-shadow: 0 0 5px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 2px;
+  padding: none;
+  margin: none;
+
   // @extend .grey.lighten-5;
 }
 .login-container {
-  margin-top: 20px;
+  margin-top: 5%;
   margin-bottom: 20px;
 }
 
-.select {
-  display:  block;;
-}
+

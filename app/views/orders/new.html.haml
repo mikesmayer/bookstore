@@ -1,3 +1,25 @@
 %h1 New Order
-= render 'form'
+-# = session[:order_params].inspect
+-# = @order.current_step.inspect
+- if @order.current_step == "shipping"
+  = render "cart_view"
+- if @order.current_step == "billing"
+  = render "cart_view"
+  = render "shipping_address_view"
+- if @order.current_step == "confirmation"
+  = render "cart_view"
+  = render "billing_address_view"
+-# = render 'form'
+= form_for @order do |f|
+  - if @order.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@order.errors.count, "error")
+        prohibited this order from being saved:
+      %ul
+        - @order.errors.full_messages.each do |message|
+          %li= message
+  = render "#{@order.current_step}_step", :f => f
+  = f.submit "Continue"
+  = f.submit "Back", name: "back_button" unless @order.first_step?
 = link_to 'Back', orders_path

@@ -1,0 +1,9 @@
+- if can? :manage, :book
+  = render "users/admin_panel"
+- else
+  .cart
+    %h5.center Cart
+    #cart_preview
+      = render "books/cart_preview"
+    = link_to "Create Order", new_order_path(@order)
+    = link_to "Go to Cart",   cart_books_path

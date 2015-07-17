@@ -1,0 +1,18 @@
+%h5 Billing Address
+= f.fields_for :billing_address, @order.billing_address do |ff|
+  .field
+    = ff.label      :user_address
+    = ff.text_field :user_address
+  .field
+    = ff.label      :zipcode
+    = ff.text_field :zipcode
+  .field
+    = ff.label      :city
+    = ff.text_field :city
+  .field
+    = ff.label      :phone 
+    = ff.text_field :phone
+  = ff.fields_for :country, @order.billing_address.country do |fff|
+    .field
+      = fff.label      :name
+      = fff.text_field :name

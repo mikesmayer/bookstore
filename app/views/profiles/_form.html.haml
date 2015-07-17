@@ -1,11 +1,30 @@
-= form_for(@profile) do |f|
-  - if @profile.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@profile.errors.count, "error")
-        prohibited this profile from being saved:
-      %ul
-        - @profile.errors.full_messages.each do |message|
-          %li= message
-  .actions
-    = f.submit
+%p#notice= notice
+= form_for @profile, url: profile_path, method: :put do |f|
+  .container
+  .row
+    - if @profile.errors.any?
+      #error_explanation
+        %h2
+          = pluralize(@profile.errors.count, "error")
+          prohibited this profile from being saved:
+        %ul
+          - @profile.errors.full_messages.each do |message|
+            %li= message
+  .row
+    %h3.center Profile Information
+  .row
+    .col.l6
+      = render "profile_account_edit_form"
+    .col.l6
+      = render "profile_credit_card_edit_form", :f => f
+  .row
+    .col.l6
+      = render "profile_billing_address_edit_form", :f => f
+    .col.l6
+      = render "profile_shipping_address_edit_form", :f => f
+  .row
+    .actions.center
+      = f.submit
+= link_to 'Edit', edit_profile_path
+|
+

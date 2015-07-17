@@ -27,7 +27,7 @@ shared_examples "all user show_book" do
   end
 
   it "has link to books_path" do
-    expect(rendered).to have_link('Back', href: books_path)
+    expect(rendered).to have_link('Back', href: root_path)
   end
 end
 

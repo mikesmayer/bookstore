@@ -80,6 +80,7 @@ RSpec.describe "authors/index", type: :view do
 
     it "has link to destroy_author_path" do
       expect(rendered).to have_link('Destroy', href: author_path(author))
+      puts controller
     end
   end
 end

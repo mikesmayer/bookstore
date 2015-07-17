@@ -39,6 +39,8 @@ RSpec.describe "books/index", type: :view do
     allow(view).to receive(:form_for_filterrific)
     allow(book).to receive(:author).and_return(author)
     allow(book).to receive(:category).and_return(category)
+    allow(view).to receive(:cart_books_quantity)
+    allow(view).to receive(:cart_total_price)
   end
 
   context "visitor" do

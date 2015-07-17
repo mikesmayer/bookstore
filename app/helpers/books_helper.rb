@@ -20,4 +20,8 @@ module BooksHelper
   def cart_books_list
     render partial: "books/cart_books_list"
   end
+
+  def users_list(book)
+    render partial: "users/user_wisher",  collection: book.users, as: :user
+  end
 end

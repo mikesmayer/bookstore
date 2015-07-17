@@ -12,12 +12,8 @@ RSpec.describe Book, type: :model do
   it { should validate_numericality_of(:quantity).is_greater_than(0) }
   it { should belong_to(:author)}
   it { should belong_to(:category)}
+  it { should have_many(:reviews)}
   
-
-  it "has_many ratings" do
-    expect(book).to respond_to(:ratings)
-  end
-
   it "can be valid" do
     expect(book).to be_valid
   end
