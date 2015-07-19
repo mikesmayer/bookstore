@@ -8,7 +8,7 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :shipping_address, :billing_address, :credit_card 
   validates_associated :shipping_address, :billing_address, :credit_card
 
-  attr_writer :current_step, :ordered_books
+  attr_accessor :current_step, :ordered_books
 
 #OrderBook relations
   before_save do

@@ -95,8 +95,13 @@ class BooksController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { }
-      format.js
+      if current_user
+        format.html { }
+        format.js
+      else
+        format.html {redirect_to new_user_session_path, 
+                     notice: 'You should log in for creating order' unless current_user}
+      end
     end
   end
 

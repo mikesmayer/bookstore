@@ -1,11 +1,13 @@
 FactoryGirl.define do
   factory :profile do
-    email "MyString"
-password "MyString"
-first_name "MyString"
-last_name "MyString"
-credit_card nil
-address nil
+    user 
+    email               {user.email}
+    password            {user.password}
+    first_name          {Faker::Name.first_name}
+    last_name           {Faker::Name.last_name}
+    credit_card 
+    billing_address_id  {(FactoryGirl.create :address).id}
+    shipping_address_id {(FactoryGirl.create :address).id}
   end
 
 end

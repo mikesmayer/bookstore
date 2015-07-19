@@ -24,4 +24,8 @@ module BooksHelper
   def users_list(book)
     render partial: "users/user_wisher",  collection: book.users, as: :user
   end
+
+  def book_reviews(book)
+    Book.find(book.id).reviews.where(approved: true)
+  end
 end

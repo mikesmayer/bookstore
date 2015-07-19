@@ -1,6 +1,6 @@
 require 'features/features_spec_helper'
 
-feature "User successfully put book in cart and create new order"  do
+feature "User can put book in cart and create new order"  do
   let(:book){FactoryGirl.create(:book)}
   let(:user){FactoryGirl.create(:user)}
 
@@ -15,7 +15,7 @@ feature "User successfully put book in cart and create new order"  do
       end
     end
 
-    scenario 'Loginned user successfully add book to cart and create new order', js: true do
+    scenario 'Loginned user successfully adds book to cart and creates new order', js: true do
       book
       visit root_path
       click_link ('Add to cart')

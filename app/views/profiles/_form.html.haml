@@ -15,12 +15,12 @@
   .row
     .col.l6
       = render "profile_account_edit_form"
-    .col.l6
+    .col.l6#credit_card
       = render "profile_credit_card_edit_form", :f => f
   .row
-    .col.l6
+    .col.l6#billing_address
       = render "profile_billing_address_edit_form", :f => f
-    .col.l6
+    .col.l6#shipping_address
       = render "profile_shipping_address_edit_form", :f => f
   .row
     .actions.center

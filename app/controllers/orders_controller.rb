@@ -7,7 +7,11 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    if current_user && current_user.role?("admin")
+      @orders = Order.all
+    else
+      @orders = Order.where(user_id: current_user.id)
+    end
   end
 
   # GET /orders/1

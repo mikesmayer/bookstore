@@ -25,6 +25,12 @@
       %td= link_to "Wish", add_to_wish_list_book_path(@book),   method: :post, remote: true
       %td= link_to "Delete from wish", delete_from_wish_list_book_path(@book), method: :delete, remote:true
       %td= link_to 'New Review', new_review_path({book_id: @book.id})
+- book_reviews(@book).each do |review|
+  = review.rating
+  = review.text
+%br
+= users_list(@book)
+%br
         
 - if can? :manage, :book
   = link_to 'Edit', edit_book_path(@book)

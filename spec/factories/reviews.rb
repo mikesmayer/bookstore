@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :review do
-    raiting 1
-text "MyText"
-user nil
-book nil
+    rating 4
+    text {Faker::Lorem.paragraph}
+    user 
+    book {FactoryGirl.create :book}
   end
 
 end

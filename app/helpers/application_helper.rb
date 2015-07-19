@@ -9,4 +9,8 @@ module ApplicationHelper
      return ''
    end
 
+   def current_user_profile
+     link_to "Profile", profile_path
+   end
+
 end

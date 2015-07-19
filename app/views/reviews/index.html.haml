@@ -18,7 +18,7 @@
           %td.review-form
             = form_for review, :method => :put, remote: true do |f|
               = f.check_box :approved, id:  "review_approved_#{review.id}"
-              = f.label     " ",       for: "review_approved_#{review.id}"#, class: "review-checkbox"
+              = f.label     " ",       for: "review_approved_#{review.id}", id: "label_review_approved_#{review.id}"
               = f.button "Update", class: "waves-effect waves-light btn" 
 %br/
 = link_to 'New Review', new_review_path(@book)

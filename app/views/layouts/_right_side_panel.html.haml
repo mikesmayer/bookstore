@@ -1,6 +1,8 @@
 - if can? :manage, :book
   = render "users/admin_panel"
 - else
+  .profile
+    = current_user_profile
   .cart
     %h5.center Cart
     #cart_preview
