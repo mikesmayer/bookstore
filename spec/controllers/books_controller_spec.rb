@@ -24,7 +24,7 @@ RSpec.describe BooksController, type: :controller do
     allow(Book).to receive(:find).with(valid_attributes[:id].to_s).and_return(book)
   end
 
-  context "admin access" do
+  context "user is admin" do
     before do
       allow(controller).to receive(:current_user).and_return(user_admin)
     end
@@ -258,7 +258,7 @@ RSpec.describe BooksController, type: :controller do
 
       it "deletes book from session[:cart][:books]" do
         expect(session["cart"]["books"]).to eq([ ])
-      end
+      end  
     end
   end
 
