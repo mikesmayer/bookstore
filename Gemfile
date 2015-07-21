@@ -11,7 +11,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'haml'
 gem 'devise'
-gem 'cancan'
+gem 'cancancan'
 gem 'html2haml'
 gem 'filterrific'
 gem 'materialize-sass'
