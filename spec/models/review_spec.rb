@@ -1,5 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Review, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it{should belong_to(:user)}
+  it{should belong_to(:book)}
+  it{should validate_presence_of(:text)}
+  it{should validate_presence_of(:rating)}
+  it{should validate_numericality_of(:rating).is_greater_than(0)}
+  it{should validate_numericality_of(:rating).is_less_than(6)}
 end

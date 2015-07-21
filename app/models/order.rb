@@ -5,8 +5,9 @@ class Order < ActiveRecord::Base
   belongs_to :shipping_address, class_name: "Address", foreign_key: "shipping_address_id"
   has_many   :order_books
   has_many   :books, through: :order_books
-  accepts_nested_attributes_for :shipping_address, :billing_address, :credit_card 
+  accepts_nested_attributes_for :shipping_address, :billing_address, :credit_card, reject_if: :creation_in_progress? 
   validates_associated :shipping_address, :billing_address, :credit_card
+  
 
   attr_accessor :current_step, :ordered_books
 
@@ -35,14 +36,16 @@ class Order < ActiveRecord::Base
   end
 
   def book_exist?(id, quantity)
-    if book = Book.find(id)
+    book = Book.select{|book| book.id == id}.first
+    if book != nil
       if book.quantity >= quantity
-        book.quantity -= quantity
-        book.save
+        new_quantity = book.quantity - quantity
+        book.update!(quantity: new_quantity)
         return true
       else
         return false
       end
+    else
       false
     end
   end
@@ -71,5 +74,10 @@ class Order < ActiveRecord::Base
 
   def last_step?
     current_step == steps.last
+  end
+
+  def creation_in_progress?
+    return true unless current_step == "confirmation"
+    return false if current_step == "confirmation"
   end
 end

@@ -3,8 +3,6 @@ class BooksController < ApplicationController
   before_action :check_permissions, only: [:new, :edit, :update, :destroy, :create]
   before_action :set_book,          only: [:add_to_wish_list, :delete_from_wish_list, :show, :edit, :update, :destroy]
 
-  # GET /books
-  # GET /books.json
   def index
     session[:order_step] = nil
     session[:order_params] = nil
@@ -16,12 +14,9 @@ class BooksController < ApplicationController
     end
   end
 
-  # GET /books/1
-  # GET /books/1.json
   def show
   end
 
-  # GET /books/new
   def new
     @book = Book.new
 
@@ -31,12 +26,9 @@ class BooksController < ApplicationController
     end
   end
 
-  # GET /books/1/edit
   def edit
   end
 
-  # POST /books
-  # POST /books.json
   def create
     @book = Book.new(book_params)
 
@@ -51,8 +43,6 @@ class BooksController < ApplicationController
     end
   end
 
-  # PATCH/PUT /books/1
-  # PATCH/PUT /books/1.json
   def update
     respond_to do |format|
       if @book.update(book_params)
@@ -66,8 +56,6 @@ class BooksController < ApplicationController
     end
   end
 
-  # DELETE /books/1
-  # DELETE /books/1.json
   def destroy
     @book.destroy
 
@@ -85,6 +73,7 @@ class BooksController < ApplicationController
     end
 
     respond_to do |format|
+      format.html{render :nothing, true}
       format.js
     end
   end
@@ -134,13 +123,15 @@ class BooksController < ApplicationController
      end
   end
 
-  private
-
-    def add_cart
+  def add_cart
       if session["cart"].nil?
         session["cart"] = {"books" => []}
       end
     end
+
+  private
+
+    
 
     def book_in_cart
       if session["cart"]["books"] == []

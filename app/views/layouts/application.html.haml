@@ -24,6 +24,9 @@
         #notice= flash[:notice]
       - if flash[:error].present?
         #notice= flash[:error]
+      %p
+        = session["order_step"].inspect
+        = session["order_params"].inspect
       = yield
     .page-footer
       Footer

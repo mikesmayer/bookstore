@@ -5,7 +5,7 @@ class Book < ActiveRecord::Base
   has_many   :reviews
   validates  :title, :description, :quantity, :price, 
              :category_id, :author_id, presence: true
-  validates  :price, :quantity, numericality: {greater_than: 0}
+  validates  :price, numericality: {greater_than: 0}
 
  filterrific :available_filters => %w[
                 search_query
@@ -48,9 +48,5 @@ class Book < ActiveRecord::Base
   def self.to_hash(id)
     book = Book.find(id)
     {id: book.id, title: book.title, price: book.price, quantity: 1}
-
   end
-  
-
-  
 end

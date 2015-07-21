@@ -6,6 +6,7 @@ FactoryGirl.define do
     shipping_address  {FactoryGirl.create :address}
     credit_card
     user
+    status "processed"
 
      after(:build) do |order| 
        book = FactoryGirl.create :book

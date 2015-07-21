@@ -35,9 +35,10 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    session[:order_params].merge!(order_params) if order_params
-    @order = Order.new(session[:order_params])
-    @order.current_step = session[:order_step]
+    session["order_params"].merge!(order_params) if order_params
+
+    @order = Order.new(session["order_params"])
+    @order.current_step = session["order_step"]
 
     if params[:back_button]
       @order.previous_step
@@ -46,16 +47,18 @@ class OrdersController < ApplicationController
       @order.ordered_books = session["cart"]["books"]
       @order.save
     else
-      if @order.valid?
+      if true
         @order.next_step
+      else
+        @order.errors.messages.merge!(step.errors.messages)
       end
     end
-    session[:order_step] = @order.current_step
+    session["order_step"] = @order.current_step
     if @order.new_record?
       build_order
       render 'new'
     else
-      session[:order_step] = session[:order_params] = nil
+      session["order_step"] = session["order_params"] = nil
       flash[:notice] = "Order saved."
       redirect_to order_path(@order)
     end

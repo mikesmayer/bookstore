@@ -1,5 +1,5 @@
 %h5 Credit Card
-= f.fields_for :credit_card, @order.credit_card do |ff|
+= f.fields_for :credit_card, :include_id => false do |ff|
   .field
     = ff.label      :number
     = ff.text_field :number
