@@ -4,7 +4,11 @@ FactoryGirl.define do
     zipcode      {Faker::Address.zip_code}
     city         {Faker::Address.city}
     phone        {Faker::PhoneNumber.cell_phone}
-    country 
+    country      
   end
+
+  trait :with_country_attrs do
+    country_attributes  {(FactoryGirl.attributes_for :country)}
+  end 
 
 end

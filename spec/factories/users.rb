@@ -7,7 +7,13 @@ FactoryGirl.define do
 
   trait :as_admin do
     after(:create) do |user|
-      user.roles << create(:role, :admin)
+      user.roles << create(:role, :admin) 
+    end
+  end
+
+  trait :as_customer do
+    after(:create) do |user|
+      user.roles << create(:role, :customer)
     end
   end
 

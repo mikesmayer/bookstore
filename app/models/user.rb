@@ -6,7 +6,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  after_create :create_user_profile
+  after_create :create_user_profile#, :set_role
+
+  # def set_role
+  #   role = Role.find_by(name: "customer")
+  #   self.roles << role
+  # end
 
   def create_user_profile
     self.create_profile(profile_params)

@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
-  before_action :set_profile, only: [:show, :edit, :update, :destroy]
-  #load_and_authorize_resource
+  before_action :set_profile, only: [:show, :edit, :update]
+  authorize_resource :profile
 
   def show
   end
@@ -11,7 +11,7 @@ class ProfilesController < ApplicationController
   def update
     respond_to do |format|
       if @profile.update(profile_params) 
-        format.html { redirect_to @profile, notice: 'Profile was successfully updated.' }
+        format.html { redirect_to profile_path, notice: 'Profile was successfully updated.' }
         format.json { render :show, status: :ok, location: @profile }
       else
         format.html { render :edit }
@@ -21,10 +21,9 @@ class ProfilesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     
   def set_profile
-    @profile = Profile.find(current_user.id)#current_user.profile
+    @profile = current_user.profile#Profile.find(current_user.id)#current_user.profile
     @profile.shipping_address || @profile.build_shipping_address
     @profile.billing_address  || @profile.build_billing_address
     @profile.credit_card      || @profile.build_credit_card
@@ -33,7 +32,7 @@ class ProfilesController < ApplicationController
   end
 
     
-    def profile_params
-      params.require(:profile).permit!
-    end
+  def profile_params
+    params.require(:profile).permit!#(:email, :password)
+  end
 end

@@ -19,6 +19,10 @@ RSpec.describe BooksController, type: :controller do
   
 
   before do
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    allow(controller).to receive(:current_ability).and_return(@ability)
+    @ability.can :manage, :all
     allow(Book).to receive(:all).and_return([book])
     allow(Book).to receive(:new).and_return(book)
     allow(Book).to receive(:find).with(valid_attributes[:id].to_s).and_return(book)

@@ -1,6 +1,7 @@
 class BooksController < ApplicationController
   before_action :add_cart
-  before_action :check_permissions, only: [:new, :edit, :update, :destroy, :create]
+  #before_action :check_permissions, only: [:new, :edit, :update, :destroy, :create]
+  load_and_authorize_resource
   before_action :set_book,          only: [:add_to_wish_list, :delete_from_wish_list, :show, :edit, :update, :destroy]
 
   def index
