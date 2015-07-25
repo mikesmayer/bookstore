@@ -9,9 +9,7 @@ class ReviewsController < ApplicationController
   end
 
   def new
-    redirect_to new_user_session_path, notice: 'You should log in for creating review' unless current_user
-    @review = Review.new
-    @review.book_id = params[:book_id]
+    @review = Review.new(book_id: params[:book_id])
   end
 
   def edit
@@ -19,7 +17,7 @@ class ReviewsController < ApplicationController
 
   def create
 
-    @review = current_user.review.new(review_params) if current_user
+    @review = current_user.review.new(review_params) 
 
     respond_to do |format|
 
@@ -67,7 +65,6 @@ class ReviewsController < ApplicationController
       end
     end
   end
-
 
   private
     def set_review

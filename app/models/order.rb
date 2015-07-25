@@ -5,7 +5,7 @@ class Order < ActiveRecord::Base
   belongs_to :shipping_address, class_name: "Address", foreign_key: "shipping_address_id"
   has_many   :order_books
   has_many   :books, through: :order_books
-  accepts_nested_attributes_for :shipping_address, :billing_address, :credit_card, reject_if: :creation_in_progress? 
+  accepts_nested_attributes_for :shipping_address, :billing_address, :credit_card#, reject_if: :creation_in_progress? 
   validates_associated :shipping_address, :billing_address, :credit_card
   
 

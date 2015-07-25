@@ -17,6 +17,7 @@ class Ability
       can :manage, Profile, user_id: user.id
       can :manage, Order#,   user_id: user.id
       can :manage, Review
+      can :manage, Book
       cannot :index, Review
       cannot :update_status, Review
 

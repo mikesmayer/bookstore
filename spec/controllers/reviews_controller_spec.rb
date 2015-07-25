@@ -4,10 +4,9 @@ RSpec.describe ReviewsController, type: :controller do
   
   let(:review_attrs){FactoryGirl.attributes_for :review}
   let(:review){mock_model(Review, review_attrs)}
-  
+  login_user
 
   before do
-
     @ability = Object.new
     @ability.extend(CanCan::Ability)
     allow(controller).to receive(:current_ability).and_return(@ability)
@@ -17,8 +16,6 @@ RSpec.describe ReviewsController, type: :controller do
     allow(Review).to receive(:find).with(review.id.to_s).and_return(review)
   end
 
-
-
   describe "cancan negative abilities" do
     context "index" do
       context "cancan doesnt allow :index" do
@@ -27,7 +24,6 @@ RSpec.describe ReviewsController, type: :controller do
           get :index
         end
         it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
-      end
       end
     end
 
@@ -100,6 +96,7 @@ RSpec.describe ReviewsController, type: :controller do
         it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
       end
     end
+  end
 
   describe "GET #index" do
     before do
@@ -129,6 +126,21 @@ RSpec.describe ReviewsController, type: :controller do
     end
   end
 
+  describe "GET #new" do
+    
+    before do
+      get :new, {book_id: 1}
+    end
+
+    it "assigns @review to review" do
+      expect(assigns[:review]).to eq(review)
+    end
+
+    it "render new template" do
+      expect(response).to render_template("new")
+    end
+  end
+
   describe "GET #edit" do
     before do
       get :edit, {id: review.id}
@@ -138,7 +150,7 @@ RSpec.describe ReviewsController, type: :controller do
       expect(assigns[:review]).to eq(review)
     end
 
-    it "render show template" do
+    it "render edit template" do
       expect(response).to render_template("edit")
     end
   end

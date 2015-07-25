@@ -1,41 +1,27 @@
 class OrdersController < ApplicationController
-  before_action :set_order, :build_order, only: [ :show, :edit, :update, :destroy]
-  
+  load_and_authorize_resource
 
-  #before_action :check_permissions, only: [:new, :edit, :update, :destroy, :create]
-
-  # GET /orders
-  # GET /orders.json
   def index
-    if current_user && current_user.role?("admin")
-      @orders = Order.all
-    else
-      @orders = Order.where(user_id: current_user.id)
-    end
+    @orders = Order.accessible_by(current_ability).all
   end
 
-  # GET /orders/1
-  # GET /orders/1.json
   def show
   end
 
-  # GET /orders/new
   def new
-    redirect_to new_user_session_path, notice: 'You should log in for creating order' unless current_user
+     redirect_to(cart_books_path) if session["cart"]["books"].empty?
      session[:order_params] ||= {}
-     @order = Order.new(session[:order_params])
+     @order = Order.new(session["order_params"])
      build_order
-     @order.current_step = session[:order_step]
+     @order.current_step = session["order_step"]
   end
 
-  # GET /orders/1/edit
   def edit
   end
 
-  # POST /orders
-  # POST /orders.json
   def create
-    session["order_params"].merge!(order_params) if order_params
+
+    session["order_params"].merge!(order_params) if order_params 
 
     @order = Order.new(session["order_params"])
     @order.current_step = session["order_step"]
@@ -47,16 +33,14 @@ class OrdersController < ApplicationController
       @order.ordered_books = session["cart"]["books"]
       @order.save
     else
-      if true
+      if step_valid?
         @order.next_step
-      else
-        @order.errors.messages.merge!(step.errors.messages)
       end
     end
     session["order_step"] = @order.current_step
     if @order.new_record?
       build_order
-      render 'new'
+      render action: "new"
     else
       session["order_step"] = session["order_params"] = nil
       flash[:notice] = "Order saved."
@@ -64,8 +48,6 @@ class OrdersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /orders/1
-  # PATCH/PUT /orders/1.json
   def update
     respond_to do |format|
       if @order.update(order_params)
@@ -78,8 +60,6 @@ class OrdersController < ApplicationController
     end
   end
 
-  # DELETE /orders/1
-  # DELETE /orders/1.json
   def destroy
     @order = Order.find(params[:id])
     @order.destroy
@@ -90,26 +70,43 @@ class OrdersController < ApplicationController
   end
 
   private
+
+    def step_valid?
+      if @order.current_step == "shipping"
+         unless @order.shipping_address.valid?
+            @order.errors.messages.merge!(@order.shipping_address.errors.messages)
+            return false
+         end
+      elsif @order.current_step == "billing"
+         unless @order.billing_address.valid?
+            @order.errors.messages.merge!(@order.billing_address.errors.messages)
+            return false
+         end
+      elsif @order.current_step == "paying"
+         unless @order.credit_card.valid?
+            @order.errors.messages.merge!(@order.credit_card.errors.messages)
+            return false
+         end
+      end
+      true
+    end
+
     def set_order
       @order = Order.new
     end
 
     def build_order
       @profile = current_user.profile if current_user
-      @order.shipping_address || @order.build_shipping_address
+      @order.shipping_address || @order.build_shipping_address#(session["order_params"]["shipping_address"])
       @order.billing_address  || @order.build_billing_address
       @order.credit_card      ||  @order.build_credit_card 
       @order.shipping_address.country ||  @order.shipping_address.build_country
       @order.billing_address.country  ||  @order.billing_address.build_country
     end
 
-    def chek_user
-      #redirect_to new_user_session_path, notice: 'You should log in for creating order' unless current_user 
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-     params[:order]# => .require(:order)#.permit!#(:user_id, :credit_card_id, :billing_address_id, :shipping_address_id
+      #params[:order]
+     params.fetch(:order, {}).permit!#(:user_id, :credit_card_id, :billing_address_id, :shipping_address_id
                                     #)
     end
 end

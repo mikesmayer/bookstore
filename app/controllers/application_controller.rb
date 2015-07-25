@@ -6,13 +6,15 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     if exception.action == :index
-      if exception.subject == Review
+      if exception.subject == Review 
         render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
       else
         redirect_to new_user_session_path
       end
     else
       if (exception.subject.kind_of? Review) && (exception.action != :update_status)
+        redirect_to new_user_session_path
+      elsif exception.subject.kind_of? Order
         redirect_to new_user_session_path
       else
         render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
