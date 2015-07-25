@@ -2,223 +2,248 @@ require 'rails_helper'
 
 RSpec.describe AuthorsController, type: :controller do
 
-  let(:user){FactoryGirl.create(:user)}
-  let(:user_admin){FactoryGirl.create(:user,:as_admin)}
-  let(:valid_attributes)    {{ id:        1,
-                              first_name: "First_name", 
-                              last_name:  "Last_name", 
-                              biography:  "Author_Biography" }}
-  let(:new_valid_attributes){{
-                              first_name: "New_First_name", 
-                              last_name:  "New_Last_name", 
-                              biography:  "New_Author_Biography" }.stringify_keys}
-
+  let(:valid_attributes) {FactoryGirl.attributes_for :author}
   let(:author){mock_model(Author, valid_attributes)}
 
   before do
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    allow(controller).to receive(:current_ability).and_return(@ability)
+    @ability.can :manage, :all
     allow(Author).to receive(:all).and_return([author])
+    allow(Author).to receive_message_chain(:where, :all){[author]}
     allow(Author).to receive(:new).and_return(author)
-    allow(Author).to receive(:find).with(valid_attributes[:id].to_s).and_return(author)
+    allow(Author).to receive(:find).with(author.id.to_s).and_return(author)
   end
 
-  describe "admin access" do
-    before do
-      allow(controller).to receive(:current_user).and_return(user_admin)
-    end
-
-    describe "GET #index" do
-      it "assigns all authors as @authors" do
-        get :index
-        expect(assigns(:authors)).to eq([author])
-      end
-    end
-
-    describe "GET #show" do
-      before do
-        get :show, {id: author.to_param}
-      end
-
-      it "assigns @author variable" do
-        expect(assigns[:author]).to eql(author)
-      end
-
-      it "renders template show" do
-        expect(response).to render_template(:show)
-      end
-    end
-
-    describe "GET #new" do
-      before do
-        get :new
-      end
-
-      it "assigns @author variable" do
-        expect(assigns[:author]).to eql(author)
-      end
-
-      it "renders new template" do
-        expect(response).to render_template(:new)
-      end
-    end
-
-    describe "POST #create" do
-      context "with valid params" do
-        it "redirects to author_path" do
-          allow(author).to receive(:save).and_return(true)
-          post :create, {:author => valid_attributes}
-          expect(response).to redirect_to(author)
-        end
-      end
-  
-      context "with invalid params" do
-        it "renders 'new' template" do
-          allow(author).to receive(:save).and_return(false)
-          post :create, {author: valid_attributes}
-          expect(response).to render_template(:new)
-        end
-      end
-    end
-
-    describe "GET #edit" do
-      before do
-        get :edit, valid_attributes
-      end
-  
-      it "assigns @author variable" do
-        expect(assigns[:author]).to eql(author)
-      end
-  
-      it "renders new template" do
-        expect(response).to render_template(:edit)
-      end
-    end
-
-    describe "PUT #update" do
-      context "with valid params" do
+  describe "cancan negative abilities" do
+    context "index" do
+      context "cancan doesnt allow :index" do
         before do
-          allow(author).to receive(:update).and_return(true)
-          put :update, {:id => author.to_param, author: new_valid_attributes}
+          @ability.cannot :index, Author
+          get :index
         end
-
-        it "assigns @author" do
-          expect(assigns[:author]).to eql(author)
-        end
-
-        it "receives update for @author" do
-          expect(author).to receive(:update).with(new_valid_attributes)
-          put :update, {:id => author.to_param, author: new_valid_attributes}
-        end
-
-       
-        it "redirects to authors_path" do
-          expect(response).to redirect_to(author)
-        end
-
-        it "sends success notice" do
-          expect(flash[:notice]).to eq 'Author was successfully updated.'
-        end
-      end
-
-      context "with invalid params" do
-        before do
-          allow(author).to receive(:update).and_return(false)
-          put :update, {:id => author.to_param, author: new_valid_attributes}
-        end
-
-        it "re-renders edit form" do
-          expect(response).to render_template(:edit)
-        end
-
-        it "sends error flash" do
-          expect(flash[:error]).to eq 'Could not save author.'
-        end
+        it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
       end
     end
 
-    describe "DELETE #destroy" do 
-      it "redirects to authors_path" do
-        allow(author).to receive(:destroy)
-        delete :destroy, {:id => author.to_param}
-        expect(response).to redirect_to(authors_path)
+    context 'show' do
+      context 'cancan doesnt allow :show' do
+        before do
+          @ability.cannot :show, Author
+          get :show, {id: author.id}
+        end
+        it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
+      end
+    end
+
+    context 'new' do
+      context 'cancan doesnt allow :new' do
+        before do
+          @ability.cannot :new, Author
+          get :new
+        end
+        it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
+      end
+    end
+
+    context 'edit' do
+      context 'cancan doesnt allow :edit' do
+        before do
+          @ability.cannot :edit, Author
+          get :edit, {id: author.id}
+        end
+        it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
+      end
+    end
+
+    context 'create' do
+      context 'cancan doesnt allow :create' do
+        before do
+          @ability.cannot :create, Author
+          post :create, author: valid_attributes 
+        end
+        it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
+      end
+    end
+
+    context 'update' do
+      context 'cancan doesnt allow :update' do
+        before do
+          @ability.cannot :update, Author
+          put :update, {id: author.id, author: valid_attributes}
+        end
+        it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
+      end
+    end
+
+    context 'destroy' do
+      context 'cancan doesnt allow :destroy' do
+        before do
+          @ability.cannot :destroy, Author
+          delete :destroy, {id: author.id}
+        end
+        it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
       end
     end
   end
 
-  describe "default user access" do
-    before do
-      allow(controller).to receive(:current_user).and_return(user)
-    end
-
     describe "GET #index" do
-      it "assigns all authors as @authors" do
-        get :index
-        expect(assigns(:authors)).to eq([author])
-      end
+    before do
+      get :index
+    end
+      
+    it "assigns all authors as @authors" do
+      expect(assigns(:authors)).to eq([author])
     end
 
-    describe "GET #show" do
+    it "renders index template" do
+      expect(response).to render_template('index')
+    end
+  end
+
+  describe "GET #show" do
+    before do
+      get :show, {id: author.id}
+    end
+
+    it "assigns @author to author" do
+      expect(assigns[:author]).to eq(author)
+    end
+
+    it "render show template" do
+      expect(response).to render_template("show")
+    end
+  end
+
+  describe "GET #new" do
+    
+    before do
+      get :new
+    end
+
+    it "assigns @author to author" do
+      expect(assigns[:author]).to eq(author)
+    end
+
+    it "render new template" do
+      expect(response).to render_template("new")
+    end
+  end
+
+  describe "GET #edit" do
+    before do
+      get :edit, {id: author.id}
+    end
+
+    it "assigns @author to author" do
+      expect(assigns[:author]).to eq(author)
+    end
+
+    it "render edit template" do
+      expect(response).to render_template("edit")
+    end
+  end
+
+  describe "POST #create" do
+    context "invalid params" do
       before do
-        get :show, {id: author.to_param}
+        allow(author).to receive(:save).and_return(false)
+        post :create, {author: valid_attributes}
       end
 
-      it "assigns @author variable" do
-        expect(assigns[:author]).to eql(author)
+      it "assigns @author to author" do
+        expect(assigns[:author]).to eq(author)
       end
 
-      it "renders template show" do
-        expect(response).to render_template(:show)
+      it "re-renders new template" do
+        expect(response).to render_template('new')
       end
     end
 
-    describe "GET #new" do
+    context "valid params" do
       before do
-        get :new
+        allow(author).to receive(:save).and_return(true)
+        post :create, {author: valid_attributes}
       end
 
-      it "renders error 404 " do
-        expect(response).to render_template(file: "#{Rails.root}/public/404.html")
+      it "assigns @author to author" do
+        expect(assigns[:author]).to eq(author)
+      end
+
+      it "redirect_to show author" do
+        expect(response).to redirect_to(author_path(author))
+      end
+
+      it "sends success message" do
+        expect(flash[:notice]).to eq 'Author was successfully created.'
       end
     end
 
-    describe "POST #create" do
+    it "receives save for author" do
+      expect(author).to receive(:save)
+      post :create, {author: valid_attributes}
+    end
+  end
+
+  describe "PUT #update" do
+    context "invalid params" do
       before do
-        post :create, {:author => valid_attributes}
+        allow(author).to receive(:update).and_return(false)
+        put :update, {id: author.id, author: valid_attributes}
       end
 
-      it "renders error 404 " do
-        expect(response).to render_template(file: "#{Rails.root}/public/404.html")
+      it "assigns @author to author " do
+        expect(assigns[:author]).to eq(author)
+      end
+
+      it "re-renders edit template" do
+        expect(response).to render_template('edit')
       end
     end
 
-    describe "GET #edit" do
+    context "valid params" do
       before do
-        get :edit, {:id => author.to_param, author: author}
+        allow(author).to receive(:update).and_return(true)
+        put :update, {id: author.id, author: valid_attributes}
       end
 
-      it "renders error 404 " do
-        expect(response).to render_template(file: "#{Rails.root}/public/404.html")
-      end
-    end
-
-    describe "PUT #update" do
-      before do
-        put :update, {:id => author.to_param, author: author}
+      it "assigns @author to author " do
+        expect(assigns[:author]).to eq(author)
       end
 
-      it "renders error 404 " do
-        expect(response).to render_template(file: "#{Rails.root}/public/404.html")
-      end
-    end
-
-    describe "DELETE #destroy" do
-      before do
-        delete :destroy, {:id => author.to_param, author: author}
+      it "redirect_to show author" do
+        expect(response).to redirect_to(author_path(author))
       end
 
-      it "renders error 404 " do
-        expect(response).to render_template(file: "#{Rails.root}/public/404.html")
+      it "sends success message" do
+        expect(flash[:notice]).to eq 'Author was successfully updated.'
       end
     end
-  end 
 
+    it "receives update for author" do
+      expect(author).to receive(:update)
+      put :update, {id: author.id, author: valid_attributes}
+    end
+  end
+
+  describe "DELETE #destroy" do
+    before do
+      allow(author).to receive(:destroy)
+      delete :destroy, {id: author.id}
+    end
+
+    it "receives destroy for author" do
+      expect(author).to receive(:destroy)
+      delete :destroy, {id: author.id}
+    end
+
+    it "redirects to author_path " do
+      expect(response).to redirect_to(authors_path)
+    end
+
+    it "sends success message" do
+      expect(flash[:notice]).to eq 'Author was successfully destroyed.'
+    end
+  end
 end
