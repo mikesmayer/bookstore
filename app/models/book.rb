@@ -7,6 +7,8 @@ class Book < ActiveRecord::Base
              :category_id, :author_id, presence: true
   validates  :price, numericality: {greater_than: 0}
 
+  mount_uploader :cover, CoverUploader
+
  filterrific :available_filters => %w[
                 search_query
                 with_category_id

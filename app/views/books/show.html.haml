@@ -1,4 +1,6 @@
 %p#notice= notice
+= image_tag @book.cover_url(:thumb).to_s
+= image_tag @book.cover_url.to_s
 %table
   %thead
     %tr

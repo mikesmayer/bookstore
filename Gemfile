@@ -15,6 +15,9 @@ gem 'cancancan'
 gem 'html2haml'
 gem 'filterrific'
 gem 'materialize-sass'
+gem 'carrierwave'
+gem 'rmagick'
+
 
 
 group :development, :test do

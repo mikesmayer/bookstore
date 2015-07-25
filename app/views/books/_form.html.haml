@@ -1,4 +1,4 @@
-= form_for(@book) do |f|
+= form_for @book, html: {multipart: true} do |f|
   - if @book.errors.any?
     #error_explanation
       %h2
@@ -7,6 +7,10 @@
       %ul
         - @book.errors.full_messages.each do |message|
           %li= message
+  .field
+    = f.file_field :cover
+    = f.label :remote_cover_url
+    = f.text_field :remote_cover_url
   .field
     = f.label       :title
     = f.text_field  :title
