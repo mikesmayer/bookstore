@@ -42,7 +42,7 @@ class OrdersController < ApplicationController
       build_order
       render action: "new"
     else
-      session["order_step"] = session["order_params"] = nil
+      session["order_step"] = session["order_params"] =  session["cart"] = nil
       flash[:notice] = "Order saved."
       redirect_to order_path(@order)
     end

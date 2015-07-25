@@ -6,7 +6,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     if exception.action == :index
-      if exception.subject == Review 
+      subject = exception.subject
+      if (subject == Review) || (subject == Category) || (subject == Book) || (subject==Author)
         render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
       else
         redirect_to new_user_session_path

@@ -1,12 +1,8 @@
 class BooksController < ApplicationController
   before_action :add_cart
-  #before_action :check_permissions, only: [:new, :edit, :update, :destroy, :create]
   load_and_authorize_resource
-  before_action :set_book,          only: [:add_to_wish_list, :delete_from_wish_list, :show, :edit, :update, :destroy]
 
   def index
-    session[:order_step] = nil
-    session[:order_params] = nil
     book_filterrific
     if @filterrific.nil?
       @books = Book.all
@@ -131,8 +127,6 @@ class BooksController < ApplicationController
     end
 
   private
-
-    
 
     def book_in_cart
       if session["cart"]["books"] == []

@@ -7,8 +7,6 @@ RSpec.describe OrdersController, type: :controller do
   let(:order_attr){FactoryGirl.attributes_for :order}
   let(:order){mock_model(Order, order_attr)}
   
-  
-
   before do
     @ability = Object.new
     @ability.extend(CanCan::Ability)

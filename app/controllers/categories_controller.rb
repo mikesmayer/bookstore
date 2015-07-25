@@ -1,6 +1,7 @@
 class CategoriesController < ApplicationController
-  before_filter :check_permissions, only: [:new, :edit, :update, :destroy, :create]
-  before_action :set_category, only: [:show, :edit, :update, :destroy]
+  #before_filter :check_permissions, only: [:new, :edit, :update, :destroy, :create]
+  #before_action :set_category, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
 
   # GET /categories
   # GET /categories.json
