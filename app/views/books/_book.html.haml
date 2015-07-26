@@ -1,14 +1,30 @@
-%tr
-  %td= book.title
-  %td= book.description
-  %td= book.price
-  %td= book.quantity
-  %td= book.author.full_name
-  %td= book.category.category_name
-  %td= link_to "Wish", add_to_wish_list_book_path(book),   method: :post, remote: true
-  %td= link_to "Delete from wish", delete_from_wish_list_book_path(book), method: :delete, remote: true
-  %td= link_to "Add to cart", add_to_cart_book_path(book), method: :post, remote: true
-  %td= link_to 'Show', book
-  - if can? :manage, :book
-    %td= link_to 'Edit', edit_book_path(book)
-    %td= link_to 'Destroy', book, method: :delete,  data: { confirm: 'Are you sure?' }
+- if can? :manage, :book
+  %tr
+    %td= book.title
+    %td= book.description
+    %td= book.price
+    %td= book.quantity
+    %td= book.author.full_name
+    %td= book.category.category_name
+    %td= link_to "Wish", add_to_wish_list_book_path(book),   method: :post, remote: true
+    %td= link_to "Delete from wish", delete_from_wish_list_book_path(book), method: :delete, remote: true
+    %td= link_to "Add to cart", add_to_cart_book_path(book), method: :post, remote: true
+    %td= link_to 'Show', book
+    - if can? :manage, :book
+      %td= link_to 'Edit', edit_book_path(book)
+      %td= link_to 'Destroy', book, method: :delete,  data: { confirm: 'Are you sure?' }
+- else
+.card
+  .card-image.waves-effect.waves-block.waves-light
+    %img.activator{:src => "images/office.jpg"}/
+  .card-content
+    %span.card-title.activator.grey-text.text-darken-4
+      Card Title
+      %i.material-icons.right more_vert
+    %p
+      %a{:href => "#"} This is a link
+  .card-reveal
+    %span.card-title.grey-text.text-darken-4
+      Card Title
+      %i.material-icons.right close
+    %p Here is some more information about this product that is only revealed once clicked on.

@@ -1,6 +1,10 @@
-%table
-  %thead
-    %tr
-      %th{:colspan => "3"}
-  %tbody
-    = render @books
+- if can? :manage, :book
+  %table
+    %thead
+      %tr
+        %th{:colspan => "3"}
+    %tbody
+      = render @books
+- else
+  = render @books
+  

@@ -16,6 +16,7 @@
                      @filterrific.select_options[:with_category_id],
                      { :include_blank => '- Any -' },
                      { :class => 'form-control' }
+-if can? :manage, :book
 .row
   .col.l10
     %h5.center Listing Books
