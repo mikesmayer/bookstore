@@ -14,17 +14,35 @@
       %td= link_to 'Edit', edit_book_path(book)
       %td= link_to 'Destroy', book, method: :delete,  data: { confirm: 'Are you sure?' }
 - else
-.card
-  .card-image.waves-effect.waves-block.waves-light
-    %img.activator{:src => "images/office.jpg"}/
-  .card-content
-    %span.card-title.activator.grey-text.text-darken-4
-      Card Title
-      %i.material-icons.right more_vert
-    %p
-      %a{:href => "#"} This is a link
-  .card-reveal
-    %span.card-title.grey-text.text-darken-4
-      Card Title
-      %i.material-icons.right close
-    %p Here is some more information about this product that is only revealed once clicked on.
+  .card
+    -# = image_tag book.cover_url(:thumb).to_s
+    .card-image.waves-effect.waves-block.waves-light.activator
+      = image_tag book.cover_url.to_s, class: "activator"
+      -# %span.card-title 
+    .card-content
+      %p.center-align
+        = link_to "Add to cart", add_to_cart_book_path(book), class: "waves-effect waves-light btn ", method: :post, remote: true
+    .card-reveal
+      %span.card-title.grey-text.text-darken-4
+        hide
+      %ul.align-center
+        %li.align-center
+          Author
+          %br
+          = book.author.full_name
+        %li
+          Title
+          = book.title
+        %li 
+          Price:
+          = book.price
+        %li
+          = link_to 'Full Info', book
+          = link_to "Wish", add_to_wish_list_book_path(book),   method: :post, remote: true
+      %p.center-align
+        = link_to "Add to cart", add_to_cart_book_path(book), 
+                                 class: "waves-effect waves-light btn ", 
+                                 method: :post, remote: true
+
+
+

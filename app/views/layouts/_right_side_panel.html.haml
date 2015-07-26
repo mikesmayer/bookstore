@@ -1,11 +1,11 @@
 - if can? :manage, :book
   = render "users/admin_panel"
 - else
-  .profile
-    = current_user_profile
   .cart
-    %h5.center Cart
+    -# %h5.center Cart
+    = link_to cart_books_path, class: "btn-large waves-effect waves-light", id: "cart-button" do
+      %i.large.material-icons shopping_cart
     #cart_preview
       = render "books/cart_preview"
-    = link_to "Create Order", new_order_path(@order)
-    = link_to "Go to Cart",   cart_books_path
+    -# = link_to "Create Order", new_order_path(@order)
+    -# = link_to "Go to Cart",   cart_books_path

@@ -1,6 +1,7 @@
-%p#notice= notice
+-# %p#notice= notice
+ 
 .row
-  .search-author-field
+  .search-author-field#search-panel
     = form_for_filterrific @filterrific, url: books_path do |f|
       .col.l6
         .field
@@ -17,24 +18,34 @@
                      { :include_blank => '- Any -' },
                      { :class => 'form-control' }
 -if can? :manage, :book
-.row
-  .col.l10
-    %h5.center Listing Books
-    #filterrific_results
-      %table
-        %thead
-          %tr
-            %th Title
-            %th Description
-            %th Price
-            %th Quantity
-        %tbody
-          = render @books
-    %br/
-    - if can? :manage, :book
-      = link_to 'New Book', new_book_path
-  .col.l2
-    = render "layouts/right_side_panel"
+  .row
+    .col.l10
+      %h5.center Listing Books
+      #filterrific_results
+        %table
+          %thead
+            %tr
+              %th Title
+              %th Description
+              %th Price
+              %th Quantity
+          %tbody
+            = render @books
+      %br/
+      - if can? :manage, :book
+        = link_to 'New Book', new_book_path
+    .col.l2
+      = render "layouts/right_side_panel"
+- else
+  .row
+    .col.s11.m9.l10
+      %h4.center Today in Store
+      #filterrific_results
+        = render @books
+    .col.s1.m3.l2
+      = render "layouts/right_side_panel"
+
+
   
       
 

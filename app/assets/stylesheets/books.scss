@@ -1,8 +1,45 @@
+
+#cart-button {
+  height: 130px;
+  line-height: 130px;
+  i{
+    font-size: 100px;
+  }
+}
+
 .cart {
-  box-shadow: 0 0 2px;
-  padding: 10px;
-  height: 100%;
+   margin-top: 100px;
+  // box-shadow: 0 0 2px;
+  // padding: 10px;
+  // height: 200px;
+   z-index: 100; 
   // border-left: solid;
   // border-width: 1px;
   // border-color: #656666;
+}
+
+.card {
+  display: inline-block;
+  height: 450px;
+  width:  250px;
+  margin: 20px;
+  z-index: 100;
+}
+
+.card-image {
+  height: 380px;
+  width: 100%;
+}
+
+#search-panel {
+  input {
+    height: 30px;
+  }
+  color: black;
+  // opacity: 0.3;
+  height: 60px;
+  width: 100%;
+  background-color: rgba(101, 102, 102, 0.3);
+  // background-color: #656666;
+  z-index: 101; 
 }

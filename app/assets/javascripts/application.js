@@ -27,6 +27,8 @@
 
 $(document).ready(function() {
     $('select').material_select();
+    $('#search-panel').pushpin({ top: 150 });
+    $('.cart').pushpin({ top: 150});
     // $('select.rating').material_select('destroy');
     // $('select#book_category_id').select2();
     // $('select#book_author_id').select2();
