@@ -3,6 +3,7 @@ class BooksController < ApplicationController
   load_and_authorize_resource
 
   def index
+    #session["cart"]["books"] = []
     book_filterrific
     if @filterrific.nil?
       @books = Book.all

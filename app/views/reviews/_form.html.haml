@@ -21,7 +21,6 @@
   = f.label :text
   = f.text_area :text
   = f.hidden_field :book_id, :value => @review.book_id
-
   .actions
-    = f.submit
+    = f.button "Create Review", class: "waves-effect waves-light btn "
 

@@ -7,6 +7,12 @@
   }
 }
 
+.book-cover {
+  img {
+    width: 90%;
+  }
+}
+
 .cart {
    margin-top: 100px;
   // box-shadow: 0 0 2px;
@@ -29,6 +35,10 @@
 .card-image {
   height: 380px;
   width: 100%;
+}
+
+.cart-order-panel {
+  margin-right: 50px;
 }
 
 #search-panel {

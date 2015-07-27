@@ -17,7 +17,7 @@
           %td= link_to "Show" , book_path(Book.find(book["id"]))
           %td= link_to "Delete",delete_from_cart_book_path(Book.find(book["id"])),
                                 method: :delete, remote:true
-%ul.right-align
+%ul.right-align.cart-order-panel
   %h5 Total price:
   %li
     = cart_total_price

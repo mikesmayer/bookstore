@@ -26,6 +26,6 @@ module BooksHelper
   end
 
   def book_reviews(book)
-    Book.find(book.id).reviews.where(approved: true)
+    Review.all.where(approved: true, book_id: book.id)
   end
 end

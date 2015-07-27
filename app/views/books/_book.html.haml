@@ -38,6 +38,7 @@
           = book.price
         %li
           = link_to 'Full Info', book
+          %br
           = link_to "Wish", add_to_wish_list_book_path(book),   method: :post, remote: true
       %p.center-align
         = link_to "Add to cart", add_to_cart_book_path(book), 
