@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 require Rails.root.join('spec','support','seed_helper.rb')
-require 'rubygems'           #so it can load gems
-require 'factory_girl_rails' #so it can run in development
+require 'rubygems'           
+require 'factory_girl_rails' 
 require 'faker'
 seed_data

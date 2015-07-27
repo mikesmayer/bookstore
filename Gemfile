@@ -15,18 +15,17 @@ gem 'html2haml'
 gem 'filterrific'
 gem 'materialize-sass'
 gem 'carrierwave'
-gem 'rmagick'
+gem 'rmagick', require: false
 gem 'will_paginate'
+gem 'faker'
+gem 'byebug'
+gem 'factory_girl_rails'
+gem 'rspec-rails'
+gem 'spring'
 
 group :development, :test do
   gem 'sqlite3'
-  gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
-  gem 'factory_girl_rails'
-  gem 'byebug'
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
-  gem 'faker'
 end
 
 group :test do
@@ -38,13 +37,6 @@ end
 
 group :production do
   gem 'pg'
-  gem 'rspec-rails'
-  gem 'rspec-activemodel-mocks'
-  gem 'factory_girl_rails'
-  gem 'byebug'
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
-  gem 'faker'
 end
 
 
