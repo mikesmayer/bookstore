@@ -5,8 +5,8 @@ class CreateProfiles < ActiveRecord::Migration
       t.string :password
       t.string :first_name
       t.string :last_name
-      t.references :credit_card, index: true, foreign_key: true
-      t.references :address, index: true, foreign_key: true
+      t.references :credit_card, index: true
+      t.references :address, index: true
 
       t.timestamps null: false
     end
