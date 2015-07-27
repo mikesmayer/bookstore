@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.2'
-gem 'sqlite3'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
@@ -19,9 +18,8 @@ gem 'carrierwave'
 gem 'rmagick'
 gem 'will_paginate'
 
-
-
 group :development, :test do
+  gem 'sqlite3'
   gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
   gem 'factory_girl_rails'
@@ -35,7 +33,19 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
-  gem 'faker'
   gem 'selenium-webdriver'
 end
+
+group :production do
+  gem 'pg'
+  gem 'rspec-rails'
+  gem 'rspec-activemodel-mocks'
+  gem 'factory_girl_rails'
+  gem 'byebug'
+  gem 'web-console', '~> 2.0'
+  gem 'spring'
+  gem 'faker'
+end
+
+
 
