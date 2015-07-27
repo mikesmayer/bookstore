@@ -7,7 +7,7 @@ class BooksController < ApplicationController
     if @filterrific.nil?
       @books = Book.all
     else
-      @books = Book.filterrific_find(@filterrific).first(10)
+      @books = Book.filterrific_find(@filterrific).first(100)
     end
   end
 

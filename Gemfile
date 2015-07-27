@@ -17,6 +17,7 @@ gem 'filterrific'
 gem 'materialize-sass'
 gem 'carrierwave'
 gem 'rmagick'
+gem 'will_paginate'
 
 
 

@@ -30,4 +30,8 @@ RSpec.describe Book, type: :model do
     expect(book).to be_valid
   end
 
+  it "dsfdsf" do
+    p FactoryGirl.create :book, :with_cover
+  end
+
 end

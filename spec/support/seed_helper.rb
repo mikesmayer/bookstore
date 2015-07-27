@@ -1,12 +1,13 @@
 
 
 def seed_data
-  
-    book = FactoryGirl.build :book, category: FactoryGirl.create(:category)
-    file = File.open(File.join(Rails.root, '/public/uploads/book/cover/100/51BYvUcML_2BL._SX329_BO1_204_203_200_.jpg'))
-    book.cover = file
-    file.close
-    book.save!
+  categories_name = ["novel","drama", "humor", "kids", "fantasy"]
+  categories = [ ]
+  categories_name.each{|c_n| categories << (FactoryGirl.create :category, category_name: c_n)} 
+  authors = [ ]
+  20.times {authors << (FactoryGirl.create :author)}
 
-
+  100.times do
+    book = FactoryGirl.create :book, :with_cover, author_id: authors[rand(0..19)].id, category_id: categories[rand(0..4)].id
+  end
 end
