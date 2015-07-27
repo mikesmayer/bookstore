@@ -7,11 +7,12 @@ class BooksController < ApplicationController
     if @filterrific.nil?
       @books = Book.all
     else
-      @books = Book.filterrific_find(@filterrific).first(100)
+      @books = Book.filterrific_find(@filterrific).paginate(:page => params[:page])
     end
   end
 
   def show
+    @review = Review.new(book_id: @book.id)
   end
 
   def new

@@ -32,6 +32,7 @@
               %th Quantity
           %tbody
             = render @books
+            = will_paginate @books
       %br/
       - if can? :manage, :book
         = link_to 'New Book', new_book_path
@@ -43,8 +44,10 @@
       %h4.center Today in Store
       #filterrific_results
         = render @books
+        = will_paginate @books
     .col.s1.m3.l2
       = render "layouts/right_side_panel"
+
 
 
   

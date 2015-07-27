@@ -14,7 +14,7 @@ class Book < ActiveRecord::Base
                 with_category_id
               ]
 
-  self.per_page = 10
+  self.per_page = 12
 
   scope :search_query, lambda { |query|
     return nil  if query.blank?

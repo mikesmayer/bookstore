@@ -1,32 +1,60 @@
 %p#notice= notice
-= image_tag @book.cover_url(:thumb).to_s
-= image_tag @book.cover_url.to_s
-%table
-  %thead
-    %tr
-      %th Title
-      %th Description
-      %th Price
-      %th Quantity
-      %th Full Name
-      %th Category
-  %tbody
-    %tr
-      %td
-        = @book.title
-      %td
-        = @book.description
-      %td
-        = @book.price
-      %td
-        = @book.quantity
-      %td
-        = @book.author.full_name
-      %td
-        = @book.category.category_name
-      %td= link_to "Wish", add_to_wish_list_book_path(@book),   method: :post, remote: true
-      %td= link_to "Delete from wish", delete_from_wish_list_book_path(@book), method: :delete, remote:true
-      %td= link_to 'New Review', new_review_path({book_id: @book.id})
+.container
+  .row
+    .col.l4.m6.s12
+      = image_tag @book.cover_url.to_s
+    .col.l8.m6.s12
+      %ul
+        - unless can? :manage, Book
+          %li
+            = link_to "Wish", add_to_wish_list_book_path(@book),   method: :post, remote: true
+            %br
+            = link_to "Delete from wish", delete_from_wish_list_book_path(@book), method: :delete, remote:true
+        %li
+          Category:
+          = @book.category.category_name
+        %li
+          Author:
+          = @book.author.full_name
+        %li
+          Title:
+          = @book.title
+        %li
+          Description:
+          = @book.description
+        %li
+          Price:
+          = @book.price
+
+  .row
+    = render 'reviews/form', locals: {book_id: @book.id}
+
+-# %table
+-#   %thead
+-#     %tr
+-#       %th Title
+-#       %th Description
+-#       %th Price
+-#       %th Quantity
+-#       %th Full Name
+-#       %th Category
+-#   %tbody
+-#     %tr
+-#       %td
+-#         = @book.title
+-#       %td
+-#         = @book.description
+-#       %td
+-#         = @book.price
+-#       %td
+-#         = @book.quantity
+-#       %td
+-#         = @book.author.full_name
+-#       %td
+-#         = @book.category.category_name
+-#       %td= link_to "Wish", add_to_wish_list_book_path(@book),   method: :post, remote: true
+-#       %td= link_to "Delete from wish", delete_from_wish_list_book_path(@book), method: :delete, remote:true
+-#       %td= link_to 'New Review', new_review_path({book_id: @book.id})
 - book_reviews(@book).each do |review|
   = review.rating
   = review.text

@@ -5,6 +5,8 @@
         %th{:colspan => "3"}
     %tbody
       = render @books
+      = will_paginate @books
 - else
   = render @books
+  = will_paginate @books
   
