@@ -6,7 +6,7 @@ class CreateOrders < ActiveRecord::Migration
       t.references :billing_address, references: :addresses, index: true
       t.references :shipping_address, references: :addresses, index: true
       t.string :status
-      t.references :customer, index: true, foreign_key: true
+      #t.references :customer, index: true, foreign_key: true
       t.references :credit_card, index: true, foreign_key: true
 
       t.timestamps null: false
