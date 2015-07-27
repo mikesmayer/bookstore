@@ -2,7 +2,7 @@ require 'features/features_spec_helper'
 
 feature 'Order creating process', js: true do
 
-  let(:user){FactoryGirl.create :user}
+  let(:user){FactoryGirl.create :user, :as_customer}
   let(:book){FactoryGirl.create :book}
   let(:shipping_address){FactoryGirl.create :address}
   let(:billing_address){FactoryGirl.create :address}
@@ -18,7 +18,8 @@ feature 'Order creating process', js: true do
     book
     visit root_path
     click_link 'Add to cart'
-    click_link 'Create Order'
+    find('#cart-button').click
+    click_link ('Create Order')
 
     #shipping address step
     within '#new_order' do
@@ -75,7 +76,7 @@ feature 'Order creating process', js: true do
     expect(page).to have_content("#{credit_card.number}")
     expect(page).to have_content("#{credit_card.cvv}")
     expect(page).to have_content("#{credit_card.expiration_month}")
-    expect(page).to have_content("#{credit_card.credit_card.expiration_year}")
+    expect(page).to have_content("#{credit_card.expiration_year}")
     expect(page).to have_content("#{credit_card.first_name}")
     expect(page).to have_content("#{credit_card.last_name}")
   end

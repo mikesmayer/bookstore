@@ -245,5 +245,7 @@ RSpec.describe AuthorsController, type: :controller do
     it "sends success message" do
       expect(flash[:notice]).to eq 'Author was successfully destroyed.'
     end
+
+    
   end
 end

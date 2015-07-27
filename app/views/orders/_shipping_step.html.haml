@@ -1,4 +1,6 @@
-%h5 Shipping Address
+-# .row
+-#   .col.s4
+%h5.center-align Shipping Address
 = f.fields_for(:shipping_address, :include_id => false) do |ff|
   .field
     = ff.label      :user_address

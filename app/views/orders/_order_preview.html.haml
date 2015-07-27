@@ -1,0 +1,99 @@
+.row
+  .col.s8.offset-s2#ordered-books-table
+    %hr
+    %h5.center Shipping Address
+    %hr
+    %table
+      %tbody
+        %tr
+          %th
+            Address:
+          %td
+            = @order.shipping_address.user_address
+        %tr
+          %th
+            Zipcode:
+          %td
+            =@order.shipping_address.zipcode
+        %tr
+          %th
+            City:
+          %td
+            =@order.shipping_address.city
+        %tr
+          %th
+            Phone:
+          %td
+            =@order.shipping_address.phone
+        %tr
+          %th
+            Country:
+          %td
+            =@order.shipping_address.country.name
+.row
+  .col.s8.offset-s2#ordered-books-table
+    %h5.center Billing Address
+    %hr
+    %table
+      %tbody
+        %tr
+          %th
+            Address:
+          %td
+            = @order.billing_address.user_address
+        %tr
+          %th
+            Zipcode:
+          %td
+            =@order.billing_address.zipcode
+        %tr
+          %th
+            City:
+          %td
+            =@order.billing_address.city
+        %tr
+          %th
+            Phone:
+          %td
+            =@order.billing_address.phone
+        %tr
+          %th
+            Country:
+          %td
+            =@order.billing_address.country.name
+.row
+  .col.s8.offset-s2#ordered-books-table
+    %h5.center Credit Card
+    %hr
+    %table
+      %tbody
+        %tr
+          %th
+            Number:
+          %td
+            = @order.credit_card.number
+        %tr
+          %th
+            CVV:
+          %td
+            =@order.credit_card.cvv
+        %tr
+          %th
+            Expiration Year:
+          %td
+            =@order.credit_card.expiration_year
+        %tr
+          %th
+            Expiration_month:
+          %td
+            =@order.credit_card.expiration_month
+        %tr
+          %th
+            First Name:
+          %td
+            =@order.credit_card.first_name
+        %tr
+          %th 
+            Last Name
+          %td 
+            =@order.credit_card.last_name

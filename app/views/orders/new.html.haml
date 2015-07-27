@@ -1,5 +1,5 @@
-%h1 New Order
-= @order.errors.inspect
+%h1.center-align New Order
+-# = @order.errors.inspect
 -# = session[:order_params].inspect
 -# = @order.current_step.inspect
 - if @order.current_step == "shipping"
@@ -7,20 +7,26 @@
 - if @order.current_step == "billing"
   = render "cart_view"
   = render "shipping_address_view"
-- if @order.current_step == "confirmation"
+- if @order.current_step == "paying"
   = render "cart_view"
   = render "billing_address_view"
--# = render 'form'
+- if @order.current_step == "confirmation"
+  = render "cart_view"
+  = render 'order_preview'
 = form_for @order do |f|
-  - if @order.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@order.errors.count, "error")
-        prohibited this order from being saved:
-      %ul
-        - @order.errors.full_messages.each do |message|
-          %li= message
-  = render "#{@order.current_step}_step", :f => f
-  = f.submit "Continue"
-  = f.submit "Back", name: "back_button" unless @order.first_step?
+  .row
+    .col.l6
+      = render "#{@order.current_step}_step", :f => f
+    .col.l6
+      - if @order.errors.any?
+        #error_explanation
+          %h2
+            = pluralize(@order.errors.count, "error")
+            prohibited this order from being saved:
+          %ul
+            - @order.errors.full_messages.each do |message|
+              %li= message
+  = f.button "Continue", class: "waves-effect waves-light btn "
+  = f.button "Back", class: "waves-effect waves-light btn ",
+                     name: "back_button" unless @order.first_step?
 = link_to 'Back', orders_path

@@ -1,7 +1,8 @@
 require 'features/features_spec_helper'
 
 feature 'User has one profile with contact info' do
-  let(:profile){FactoryGirl.create :profile}
+  let(:user){FactoryGirl.create :user, :as_customer}
+  let(:profile){user.profile}
   let(:billing_address){FactoryGirl.create :address}
   let(:shipping_address){FactoryGirl.create :address}
   let(:credit_card){FactoryGirl.create :credit_card}

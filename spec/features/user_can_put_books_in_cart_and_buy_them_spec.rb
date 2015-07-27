@@ -2,7 +2,7 @@ require 'features/features_spec_helper'
 
 feature "User can put book in cart and create new order"  do
   let(:book){FactoryGirl.create(:book)}
-  let(:user){FactoryGirl.create(:user)}
+  let(:user){FactoryGirl.create(:user, :as_customer)}
 
   context "Loginned user" do
 
@@ -19,6 +19,7 @@ feature "User can put book in cart and create new order"  do
       book
       visit root_path
       click_link ('Add to cart')
+      find('#cart-button').click
       click_link ('Create Order')
       expect(page).to have_content "New Order"
       expect(page).to have_content "#{book.title}"
@@ -32,8 +33,9 @@ feature "User can put book in cart and create new order"  do
      book
      visit root_path
      click_link ('Add to cart')
+     find('#cart-button').click
      click_link ('Create Order')
-     expect(page).to have_content "You should log in for creating order"
+     expect(page).to have_content "Log in"
    end
  end
   

@@ -2,7 +2,7 @@ require 'features/features_spec_helper'
 
 feature "User successfully deletes book from cart"  do
   let(:book){FactoryGirl.create(:book)}
-  let(:user){FactoryGirl.create(:user)}
+  let(:user){FactoryGirl.create(:user, :as_customer)}
 
 
   before do
@@ -18,7 +18,7 @@ feature "User successfully deletes book from cart"  do
     book
     visit root_path
     click_link ('Add to cart')
-    click_link ('Go to Cart')
+    find('#cart-button').click
     click_link ('Delete')
     expect(page).not_to have_content "#{book.title}"
   end

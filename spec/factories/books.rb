@@ -17,4 +17,8 @@ FactoryGirl.define do
     id {rand(1..10)}
   end
 
+  trait :with_cover do
+    
+  end
+
 end

@@ -3,8 +3,7 @@ FactoryGirl.define do
     credit_card
     billing_address  {(FactoryGirl.create :address)}
     shipping_address {(FactoryGirl.create :address)}
-    
-    # user
+    user
     # email               {User.find(user_id).email}
     # password            {User.find(user_id).password}
     # first_name          {Faker::Name.first_name}

@@ -1,16 +1,16 @@
--# %p#notice= notice
+ 
  
 .row
-  .search-author-field#search-panel
+  .search-author-field.s12#search-panel
     = form_for_filterrific @filterrific, url: books_path do |f|
-      .col.l6
+      .col.s6
         .field
           = f.label "Search", for: "filterrific_search_query"
           = f.text_field :search_query, 
                        :class        => 'filterrific-periodically-observed chardin_box form-control', 
                        :type         => 'search', 
                        :autocomplete => 'off'
-      .col.l6
+      .col.s6
         .field
           = f.label "Category", for: "filterrific_with_category_id"
           = f.select :with_category_id,
@@ -18,6 +18,7 @@
                      { :include_blank => '- Any -' },
                      { :class => 'form-control' }
 -if can? :manage, :book
+  %p#notice= notice
   .row
     .col.l10
       %h5.center Listing Books

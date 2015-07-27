@@ -2,7 +2,7 @@ require 'features/features_spec_helper'
 
 feature 'Reviewing books by user' do
   
-  let(:user){FactoryGirl.create :user}
+  let(:user){FactoryGirl.create :user, :as_customer}
   let(:book){FactoryGirl.create :book}
 
   before do
@@ -17,7 +17,8 @@ feature 'Reviewing books by user' do
   scenario 'User successfully reviews books' do
     book
     visit root_path
-    click_link "Show"
+    find(".card").click
+    click_link "Full Info"
     click_link "New Review"
     within '#new_review' do
       find('#rating5').click

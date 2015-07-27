@@ -7,7 +7,6 @@ feature "Administrator successfully signs in" do
     visit new_user_session_path
   end
 
-
   scenario "Visitor signs in successfully as admin" do
     within '#new_user' do
       fill_in 'Email',     with: user_admin.email

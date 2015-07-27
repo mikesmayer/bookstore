@@ -2,7 +2,7 @@ require 'features/features_spec_helper'
 
 feature "User can add book to wishlist"  do
   let(:book){FactoryGirl.create(:book)}
-  let(:user){FactoryGirl.create(:user)}
+  let(:user){FactoryGirl.create(:user, :as_customer)}
 
   before do
     visit new_user_session_path
@@ -15,10 +15,10 @@ feature "User can add book to wishlist"  do
 
   scenario 'Loginned user successfully add book to wishlist that can see other users', js: true do
     book
-    visit root_path
+    visit book_path(book)
     click_link ('Wish')
     click_link "Sign out"
-    click_link ('Show')
+    visit book_path(book)
     expect(page).to have_content "#{user.email}"
   end
 end

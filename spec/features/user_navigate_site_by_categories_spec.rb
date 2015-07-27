@@ -10,6 +10,7 @@ feature "A user can navigate the site by categories"  do
     visit books_path
     find('.select-dropdown').click
     find('span', text: "#{first_book.category.category_name}").click
+    Capybara.ignore_hidden_elements = false
     expect(page).not_to have_content "#{second_book.title}"
     expect(page).to have_content "#{first_book.title}"
   end

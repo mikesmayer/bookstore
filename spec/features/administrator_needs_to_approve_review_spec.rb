@@ -6,8 +6,7 @@ feature 'Approving review by administrator' do
   
   scenario "User can't see not approved review" do
     review
-    visit root_path
-    click_link "Show"
+    visit book_path(review.book)
     expect(page).not_to have_content("#{review.text}")
   end
 
