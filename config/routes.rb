@@ -14,10 +14,12 @@ Rails.application.routes.draw do
     end
   end
 
+  post   'add_to_cart/:id'            => "carts#add_to_cart",       as: "add_to_cart"
+  delete 'delete_from_cart/:id'       => "carts#delete_from_cart",  as: "delete_from_cart"
+  get    'cart'                       => "carts#show"
+
   resources :books do
     member do
-      post   'add_to_cart'            => "books#add_to_cart"
-      delete 'delete_from_cart'       => "books#delete_from_cart"
       post   'add_to_wish_list'       => "books#add_to_wish_list"
       delete 'delete_from_wish_list'  => "books#delete_from_wish_list"
     end
@@ -30,6 +32,4 @@ Rails.application.routes.draw do
   resources :authors
   resources :categories
   root 'books#index'
-
-  # get "admin/dashboard" => "pages#dashboard"
 end

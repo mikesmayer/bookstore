@@ -3,9 +3,9 @@
 - else
   .cart
     -# %h5.center Cart
-    = link_to cart_books_path, class: "btn-large waves-effect waves-light", id: "cart-button" do
+    = link_to cart_path, class: "btn-large waves-effect waves-light", id: "cart-button" do
       %i.large.material-icons shopping_cart
     #cart_preview
-      = render "books/cart_preview"
+      = render "carts/cart_preview"
     -# = link_to "Create Order", new_order_path(@order)
     -# = link_to "Go to Cart",   cart_books_path

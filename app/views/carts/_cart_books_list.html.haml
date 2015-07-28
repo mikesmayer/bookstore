@@ -14,8 +14,8 @@
         %td= book["price"]
         %td= book["quantity"]
         - unless book["id"].nil?
-          %td= link_to "Show" , book_path(Book.find(book["id"]))
-          %td= link_to "Delete",delete_from_cart_book_path(Book.find(book["id"])),
+          %td= link_to "Show" , book_path(find_book(book["id"]))
+          %td= link_to "Delete",delete_from_cart_path(find_book(book["id"])),
                                 method: :delete, remote:true
 %ul.right-align.cart-order-panel
   %h5 Total price:

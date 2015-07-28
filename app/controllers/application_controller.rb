@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  helper_method :current_cart
   
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -30,25 +29,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def book_filterrific
-    @filterrific = initialize_filterrific(
-      Book,
-      params[:filterrific],
-      :select_options => {
-        with_category_id: Category.options_for_select
-      }
-    ) or return
-    
+  def current_cart
+    @cart ||= Cart.new(session)
   end
-
-def carter
-  @cart = Cart.new(session)
-end
-
-
-
-  
-
-  
-
 end
