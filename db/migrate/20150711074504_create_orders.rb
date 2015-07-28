@@ -12,7 +12,6 @@ class CreateOrders < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_foreign_key :orders, :addresses, column: :billing_address_id
-    add_foreign_key :orders, :addresses, column: :shipping_address_id
+    
   end
 end

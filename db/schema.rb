@@ -19,10 +19,8 @@ ActiveRecord::Schema.define(version: 20150725155257) do
     t.string   "city"
     t.string   "phone"
     t.integer  "country_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
-    t.integer  "billing_address_id"
-    t.integer  "shipping_address_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   add_index "addresses", ["country_id"], name: "index_addresses_on_country_id"
@@ -108,9 +106,7 @@ ActiveRecord::Schema.define(version: 20150725155257) do
     t.integer  "user_id"
   end
 
-  add_index "orders", ["billing_address_id"], name: "index_orders_on_billing_address_id"
   add_index "orders", ["credit_card_id"], name: "index_orders_on_credit_card_id"
-  add_index "orders", ["shipping_address_id"], name: "index_orders_on_shipping_address_id"
 
   create_table "profiles", force: :cascade do |t|
     t.string   "email"
