@@ -3,13 +3,16 @@ class CreateOrders < ActiveRecord::Migration
     create_table :orders do |t|
       t.decimal :total_price
       t.datetime :completed_date
-      t.references :billing_address, references: :addresses, index: true
-      t.references :shipping_address, references: :addresses, index: true
+      t.references :billing_address,  index: true
+      t.references :shipping_address,  index: true
       t.string :status
       #t.references :customer, index: true, foreign_key: true
       t.references :credit_card, references: :credit_cards, index: true
 
       t.timestamps null: false
     end
+
+    add_foreign_key :orders, :addresses, column: :billing_address_id
+    add_foreign_key :orders, :addresses, column: :shipping_address_id
   end
 end
