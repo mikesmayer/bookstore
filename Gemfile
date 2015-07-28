@@ -16,6 +16,7 @@ gem 'filterrific'
 gem 'materialize-sass'
 gem 'carrierwave'
 gem 'rmagick', require: false
+gem 'cloudinary'
 gem 'will_paginate'
 gem 'faker'
 gem 'byebug'
