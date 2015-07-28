@@ -9,11 +9,7 @@ class OrdersController < ApplicationController
   end
 
   def new
-     redirect_to(cart_books_path) if session["cart"]["books"].empty?
-     session[:order_params] ||= {}
      @order = Order.new(session["order_params"])
-     build_order
-     @order.current_step = session["order_step"]
   end
 
   def edit

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resource  :profile
   resources :orders
+  resources :order_steps
   resources :reviews do
     member do
       put 'update_status' =>"reviews#update_status"

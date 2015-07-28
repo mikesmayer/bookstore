@@ -23,6 +23,7 @@ gem 'byebug'
 gem 'factory_girl_rails'
 gem 'rspec-rails'
 gem 'spring'
+gem 'wicked'
 
 group :development, :test do
   gem 'sqlite3'

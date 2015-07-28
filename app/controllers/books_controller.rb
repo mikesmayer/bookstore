@@ -1,10 +1,15 @@
 class BooksController < ApplicationController
+
+  include FilterrificStuf
+
   before_action :add_cart
   load_and_authorize_resource
 
-  def index
-    session["cart"]["books"] = []
-    book_filterrific
+
+
+  def index  
+    #session["cart"]["books"] = []
+    filterrific_books
     if @filterrific.nil?
       @books = Book.all
     else

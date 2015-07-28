@@ -1,16 +1,21 @@
-# class Cart
-#   attr_accessor :books
+class Cart
 
-#   def initialize
-#     @books    = []
-#   end
+  attr_reader :books
 
-#   def add_book(book)
-#     book = {"id" => book.id, "title"=> book.title, "price"=> book.price, "quantity": 1}
-#     @books << book
-#   end
+  def initialize(session)
+    @session = session
+    #@books = books_in_cart(session)
+  end
 
-#   def greet
-    
-#   end
-# end
+  def books_in_cart
+    @session["cart"]["books"]
+  end
+
+  def add_book
+    @session["cart"]["books"] << "tester"
+  end
+  def hello
+    "hello"
+  end
+  
+end

@@ -41,15 +41,11 @@ class ApplicationController < ActionController::Base
     
   end
 
-  # def after_sign_in_path_for(resourse)
+def carter
+  @cart = Cart.new(session)
+end
 
-  #   if  current_user.role? "admin"
-  #     admin_books_path
-  #   else
-  #     root_path
-  #   end
 
-  # end
 
   
 
