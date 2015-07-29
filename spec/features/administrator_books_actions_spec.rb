@@ -35,7 +35,6 @@ feature "Administrator books CRUD actions" do
     expect(page).to have_content "#{new_book.title}"
     expect(page).to have_content "#{new_book.description}"
     expect(page).to have_content "#{new_book.price}"
-    expect(page).to have_content "#{new_book.quantity}"
   end
 
   scenario 'Administrator successfully edits book' do

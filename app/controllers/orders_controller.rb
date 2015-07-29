@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   load_and_authorize_resource
-
+  
   def index
     @orders = Order.accessible_by(current_ability).all
   end
@@ -48,11 +48,12 @@ class OrdersController < ApplicationController
   end
 
   private
-    def set_order
-      @order = Order.new
-    end
 
-    def order_params
-     params.fetch(:order, {}).permit(:user_id, :credit_card_id, :billing_address_id, :shipping_address_id)
-    end
+  def set_order
+    @order = Order.new
+  end
+
+  def order_params
+   params.fetch(:order, {}).permit(:user_id, :credit_card_id, :billing_address_id, :shipping_address_id)
+  end
 end

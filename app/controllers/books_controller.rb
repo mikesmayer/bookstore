@@ -1,9 +1,8 @@
 class BooksController < ApplicationController
-  include FilterrificStuf
+  include FilterrificStuff  
   load_and_authorize_resource
 
   def index  
-    #session["cart"]["books"] = []
     filterrific_books
     if @filterrific.nil?
       @books = Book.all
@@ -71,11 +70,11 @@ class BooksController < ApplicationController
 
     respond_to do |format|
       if current_user
-        format.html { }
+        format.html
         format.js
       else
-        format.html {redirect_to new_user_session_path, 
-                     notice: 'You should log in for creating order' unless current_user}
+        format.html 
+        format.js
       end
     end
   end

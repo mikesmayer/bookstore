@@ -3,7 +3,7 @@ FactoryGirl.define do
     rating 4
     text {Faker::Lorem.paragraph}
     user 
-    book #{FactoryGirl.create :book}
+    book 
   end
 
   # trait :review_with_id do 

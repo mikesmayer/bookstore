@@ -7,7 +7,7 @@
     %td= book.author.full_name
     %td= book.category.category_name
     %td= link_to "Wish", add_to_wish_list_book_path(book),   method: :post, remote: true
-    %td= link_to "Delete from wish", delete_from_wish_list_book_path(book_id: book.id), method: :delete, remote: true
+    -# %td= link_to "Delete from wish", delete_from_wish_list_book_path(book_id: book.id), method: :delete, remote: true
     %td= link_to "Add to cart", add_to_cart_path(book), method: :post, remote: true
     %td= link_to 'Show', book
     - if can? :manage, :book

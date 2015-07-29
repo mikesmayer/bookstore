@@ -13,7 +13,7 @@
               %br
               = link_to "Delete from wish", delete_from_wish_list_book_path(@book), method: :delete, remote:true
               %br
-              = link_to "Add to cart", add_to_cart_book_path(@book), method: :post, remote: true
+              = link_to "Add to cart", add_to_cart_path(@book), method: :post, remote: true
           %li
             Category:
             = @book.category.category_name

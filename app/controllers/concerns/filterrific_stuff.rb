@@ -1,4 +1,4 @@
-module FilterrificStuf
+module FilterrificStuff
 
   extend ActiveSupport::Concern
 

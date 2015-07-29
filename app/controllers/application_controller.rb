@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  before_action :add_cart
   helper_method :current_cart
   
 
@@ -31,5 +32,11 @@ class ApplicationController < ActionController::Base
 
   def current_cart
     @cart ||= Cart.new(session)
+  end
+
+  def add_cart
+    if session["cart"].nil?
+      session["cart"] = {"books" => []}
+    end
   end
 end

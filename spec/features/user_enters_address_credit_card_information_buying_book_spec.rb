@@ -3,7 +3,7 @@ require 'features/features_spec_helper'
 feature 'Order creating process', js: true do
 
   let(:user){FactoryGirl.create :user, :as_customer}
-  let(:book){FactoryGirl.create :book}
+  let!(:book){FactoryGirl.create :book}
   let(:shipping_address){FactoryGirl.create :address}
   let(:billing_address){FactoryGirl.create :address}
   let(:credit_card){FactoryGirl.create :credit_card}
@@ -15,41 +15,41 @@ feature 'Order creating process', js: true do
       fill_in 'Password',  with: user.password
       click_button("Log in")
     end
-    book
     visit root_path
     click_link 'Add to cart'
     find('#cart-button').click
     click_link ('Create Order')
+    click_link ('Add Books')
 
     #shipping address step
-    within '#new_order' do
+    within '.edit_order' do
       fill_in "User address", with: shipping_address.user_address
       fill_in "Zipcode",      with: shipping_address.zipcode
       fill_in "City",         with: shipping_address.city
       fill_in "Phone",        with: shipping_address.phone
       fill_in "Country",      with: shipping_address.country.name
-      click_button "Continue"
+      click_button "Accept"
     end
 
     # billing_address_step
-    within '#new_order' do
+    within '.edit_order' do
       fill_in "User address", with: billing_address.user_address
       fill_in "Zipcode",      with: billing_address.zipcode
       fill_in "City",         with: billing_address.city
       fill_in "Phone",        with: billing_address.phone
       fill_in "Country",      with: billing_address.country.name
-      click_button "Continue"
+      click_button "Accept"
     end
 
     # credit_card step
-    within '#new_order' do
+    within '.edit_order' do
       fill_in "Number",           with: credit_card.number
       fill_in "Cvv",              with: credit_card.cvv
       fill_in "Expiration month", with: credit_card.expiration_month
       fill_in "Expiration year",  with: credit_card.expiration_year
       fill_in "First name",       with: credit_card.first_name
       fill_in "Last name",        with: credit_card.last_name
-      click_button "Continue"
+      click_button "Accept"
     end
   end
   

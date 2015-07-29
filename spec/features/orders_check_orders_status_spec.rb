@@ -18,6 +18,6 @@ feature "User check status his orders"  do
   scenario 'Loginned user successfully checks order status' do
     order
     visit '/orders'
-    expect(page).to have_content "processed"
+    expect(page).to have_content "creating"
   end
 end

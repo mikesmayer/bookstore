@@ -1,7 +1,7 @@
 require 'features/features_spec_helper'
 
 feature "User successfully deletes book from cart"  do
-  let(:book){FactoryGirl.create(:book)}
+  let!(:book){FactoryGirl.create(:book)}
   let(:user){FactoryGirl.create(:user, :as_customer)}
 
 
@@ -15,7 +15,6 @@ feature "User successfully deletes book from cart"  do
   end
 
   scenario 'Loginned user successfully add book to cart and create new order', js: true do
-    book
     visit root_path
     click_link ('Add to cart')
     find('#cart-button').click

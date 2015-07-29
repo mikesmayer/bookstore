@@ -10,7 +10,7 @@ class Ability
       can :manage, :all
     
     elsif user.role? "customer"
-      can :read, Author
+      can    :read, Author
       cannot :index, Author
       can [:read, :add_to_wish_list, :delete_from_wish_list, 
            :add_to_cart, :delete_from_cart, :cart], Book

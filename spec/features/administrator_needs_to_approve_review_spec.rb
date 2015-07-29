@@ -1,11 +1,10 @@
 require 'features/features_spec_helper'
 
 feature 'Approving review by administrator' do
-  let(:review){FactoryGirl.create :review}
+  let!(:review){FactoryGirl.create :review}
   let(:user_admin){FactoryGirl.create :user, :as_admin}
   
   scenario "User can't see not approved review" do
-    review
     visit book_path(review.book)
     expect(page).not_to have_content("#{review.text}")
   end

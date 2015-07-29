@@ -2,7 +2,6 @@ class ProfilesController < ApplicationController
   include ResourceBuilder
   before_action :build_profile, only: [:show, :edit, :update]
   authorize_resource :profile
-  respond_to :html
 
   def show
   end
@@ -11,12 +10,15 @@ class ProfilesController < ApplicationController
   end
   
   def update
-      if @profile.update(profile_params)
-        flash[:notice] = 'Profile was successfully updated.'
-        redirect_to profile_path
+    respond_to do |format|
+      if @profile.update(profile_params) 
+        format.html { redirect_to profile_path, notice: 'Profile was successfully updated.' }
+        format.json { render :show, status: :ok, location: @profile }
       else
-        respond_with(@profile, action: "edit")
+        format.html { render :edit }
+        format.json { render json: @profile.errors, status: :unprocessable_entity }
       end
+    end
   end
 
   private

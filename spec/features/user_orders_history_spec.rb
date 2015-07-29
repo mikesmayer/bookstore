@@ -18,6 +18,6 @@ feature "User can see history of his order"  do
   scenario 'Loginned user successfully sees list of his orders' do
     order_list
     visit orders_path
-    expect(page).to have_content("processed", count: 5)
+    expect(page).to have_content("creating", count: 5)
   end
 end
