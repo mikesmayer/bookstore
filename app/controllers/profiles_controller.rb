@@ -1,6 +1,8 @@
 class ProfilesController < ApplicationController
-  before_action :set_profile, only: [:show, :edit, :update]
+  include ResourceBuilder
+  before_action :build_profile, only: [:show, :edit, :update]
   authorize_resource :profile
+  respond_to :html
 
   def show
   end
@@ -9,29 +11,16 @@ class ProfilesController < ApplicationController
   end
   
   def update
-    respond_to do |format|
-      if @profile.update(profile_params) 
-        format.html { redirect_to profile_path, notice: 'Profile was successfully updated.' }
-        format.json { render :show, status: :ok, location: @profile }
+      if @profile.update(profile_params)
+        flash[:notice] = 'Profile was successfully updated.'
+        redirect_to profile_path
       else
-        format.html { render :edit }
-        format.json { render json: @profile.errors, status: :unprocessable_entity }
+        respond_with(@profile, action: "edit")
       end
-    end
   end
 
   private
-    
-  def set_profile
-    @profile = current_user.profile#Profile.find(current_user.id)#current_user.profile
-    @profile.shipping_address || @profile.build_shipping_address
-    @profile.billing_address  || @profile.build_billing_address
-    @profile.credit_card      || @profile.build_credit_card
-    @profile.shipping_address.country || @profile.shipping_address.build_country
-    @profile.billing_address.country || @profile.billing_address.build_country
-  end
-
-    
+  
   def profile_params
     params.require(:profile).permit!#(:email, :password)
   end

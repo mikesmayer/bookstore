@@ -1,0 +1,13 @@
+= form_for @order, url: wizard_path do |f|
+  - if @order.errors.any?
+    .error_messages
+      %h2
+        = pluralize(@order.errors.count, "error")
+        prohibited this user from being saved:
+      %ul
+        - @order.errors.full_messages.each do |msg|
+          %li= msg
+  = yield f
+  .actions
+    = f.submit "Accept"
+    or #{link_to "next step", next_wizard_path}

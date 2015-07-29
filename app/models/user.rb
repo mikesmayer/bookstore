@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :books
   has_many :credit_cards
   has_one  :profile
+  has_many :orders
   has_many :review
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable

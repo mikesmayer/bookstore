@@ -1,0 +1,16 @@
+
+%h5 Confirmation
+
+= form_for @order, url: wizard_path do |f|
+  - if @order.errors.any?
+    .error_messages
+      %h2
+        = pluralize(@order.errors.count, "error")
+        prohibited this user from being saved:
+      %ul
+        - @order.errors.full_messages.each do |msg|
+          %li= msg
+  = f.check_box :order_accepted, id:  "order_accepted_#{@order.id}"
+  = f.label     " ",       for: "order_accepted_#{@order.id}"
+
+  = f.button "Update", class: "waves-effect waves-light btn" 

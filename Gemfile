@@ -24,6 +24,7 @@ gem 'factory_girl_rails'
 gem 'rspec-rails'
 gem 'spring'
 gem 'wicked'
+gem 'aasm'
 
 group :development, :test do
   gem 'sqlite3'

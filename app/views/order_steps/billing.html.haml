@@ -1,2 +1,19 @@
-%h5 billing
-= link_to "skip this step", previous_wizard_path
+= render layout: "form" do |f|
+  %h5 Billing Address
+  = f.fields_for :billing_address, :include_id => false do |ff|
+    .field
+      = ff.label      :user_address
+      = ff.text_field :user_address
+    .field
+      = ff.label      :zipcode
+      = ff.text_field :zipcode
+    .field
+      = ff.label      :city
+      = ff.text_field :city
+    .field
+      = ff.label      :phone 
+      = ff.text_field :phone
+    = ff.fields_for :country, @order.billing_address.country do |fff|
+      .field
+        = fff.label      :name, "Country"
+        = fff.text_field :name
