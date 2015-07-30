@@ -11,7 +11,6 @@ class OrderStepsController < ApplicationController
   end
 
   def update
-    build_order
     if @order.last_step? && @order.not_accepted?
       redirect_to :back
     else
@@ -22,11 +21,8 @@ class OrderStepsController < ApplicationController
 
   private
 
-  def finish_wizard_path
-    order_path(@order)
-  end
-
   def order_step_params
+    
     params.fetch(:order, {order_accepted: "0"}).permit(:order_accepted, 
     shipping_address_attributes: [:user_address, :zipcode, :city, :phone, country_attributes: [:name]],
     billing_address_attributes:  [:user_address, :zipcode, :city, :phone, country_attributes: [:name]],
