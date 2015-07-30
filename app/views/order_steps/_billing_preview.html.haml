@@ -1,0 +1,31 @@
+= render "shipping_preview"
+.order_check
+  %table
+    %tr 
+      %h5.underscore Shipping Address
+    %tr
+      %td
+        Address:
+      %td
+        = @order.shipping_address.user_address
+    %tr
+      %td
+        Zipcode:
+      %td
+        = @order.shipping_address.zipcode
+    %tr
+      %td 
+        City:
+      %td
+        = @order.shipping_address.zipcode
+    %tr
+      %td
+        Phone:
+      %td
+        = @order.shipping_address.phone
+    %tr
+      %td
+        Country
+      %td
+        = @order.shipping_address.country.name
+

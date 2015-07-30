@@ -1,5 +1,5 @@
 = render layout: "form" do |f|
-  %h5 Billing Address
+  %h5 Fill in Billing Address
   = f.fields_for :billing_address, :include_id => false do |ff|
     .field
       = ff.label      :user_address

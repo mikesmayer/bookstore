@@ -1,0 +1,30 @@
+= render "billing_preview"
+.order_check
+  %table
+    %tr 
+      %h5.underscore Billing Address
+    %tr
+      %td
+        Address:
+      %td
+        = @order.billing_address.user_address
+    %tr
+      %td
+        Zipcode:
+      %td
+        = @order.billing_address.zipcode
+    %tr
+      %td 
+        City:
+      %td
+        = @order.billing_address.zipcode
+    %tr
+      %td
+        Phone:
+      %td
+        = @order.billing_address.phone
+    %tr
+      %td
+        Country
+      %td
+        = @order.billing_address.country.name

@@ -1,4 +1,17 @@
-#ordered-books-table {
+.order_chek {
+  font-family: serif;
+}
+
+.upperscore {
+  border-top: 1px dashed #656666;
+}
+
+.underscore {
+  border-bottom: 1px dashed #656666;
+
+}
+
+.ordered-books-table {
   border: dashed;
   border-color: #656666;
  
@@ -6,4 +19,10 @@
 
 .order-table-row {
    margin-bottom:  0;
+}
+
+.check {
+  width: 80%;
+  height: 100%;
+  padding: 20px;
 }

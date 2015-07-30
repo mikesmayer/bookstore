@@ -91,4 +91,8 @@ class Order < ActiveRecord::Base
   def not_accepted?
     @order_accepted == "0"
   end
+
+  def quantity_in_order(book)
+    self.order_books.find_by(book_id: book.id).quantity
+  end
  end

@@ -1,0 +1,35 @@
+.order_check
+  %table
+    %tr.underscore
+      %td  
+        %h5 
+          Order:
+      %td
+        %h5
+          №
+          = @order.id
+    %tr.underscore
+      %td
+        %h6  Customer:
+      %td
+        %h6
+          =@order.user.email
+    %tr.underscore
+      %td 
+        %h5 Ordered Books
+      %td
+    - @order.books.each do |book|
+      %tr
+        %td
+          Author:
+          = book.author.full_name
+          %br
+          Title:
+          = book.title
+          %br 
+          Price:
+          = book.price
+          %br
+          Quantity:
+          = @order.quantity_in_order(book)
+

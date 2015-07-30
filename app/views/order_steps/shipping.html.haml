@@ -1,5 +1,6 @@
 = render layout: "form" do |f|
-  %h5.center-align Shipping Address
+  %h5.center-align
+    Fill in Shipping Address
   = f.fields_for(:shipping_address, :include_id => false) do |ff|
     .field
       = ff.label      :user_address
