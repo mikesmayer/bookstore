@@ -1,1 +1,2 @@
-[![Code Climate](https://codeclimate.com/github/ArtZlab/bookstore/badges/gpa.svg)](https://codeclimate.com/github/ArtZlab/bookstore)
+{<img src="https://codeclimate.com/github/ArtZlab/bookstore/badges/gpa.svg" />}[https://codeclimate.com/github/ArtZlab/bookstore]
+{<img src="https://codeclimate.com/github/ArtZlab/bookstore/badges/coverage.svg" />}[https://codeclimate.com/github/ArtZlab/bookstore/coverage]
