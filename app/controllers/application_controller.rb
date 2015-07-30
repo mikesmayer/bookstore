@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
         redirect_to new_user_session_path
       elsif exception.subject.kind_of? Order
         redirect_to new_user_session_path
+      elsif (exception.subject.kind_of? Book) && (exception.action == :add_to_wish_list)
+        redirect_to new_user_session_path
       else
         render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
       end

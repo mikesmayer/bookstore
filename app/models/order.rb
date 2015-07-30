@@ -8,12 +8,9 @@ class Order < ActiveRecord::Base
   has_many   :order_books
   has_many   :books, through: :order_books
 
-  accepts_nested_attributes_for :shipping_address, :billing_address, :credit_card#, reject_if: :creation_in_progress? 
+  accepts_nested_attributes_for :shipping_address, :billing_address, :credit_card
   validates_associated :shipping_address, :billing_address, :credit_card
   validates :shipping_address, :billing_address, :credit_card, presence: true,  if: :last_step?
-  
-
-  
 
   aasm column: :status do
       state :initializing, :initial => true
@@ -22,7 +19,7 @@ class Order < ActiveRecord::Base
       state :shipping
       state :done
 
-      event :add_book do
+      event :add_books do
         transitions :from => :initializing, :to => :creating
       end
 
@@ -44,13 +41,13 @@ class Order < ActiveRecord::Base
     if self.initializing?
       self.order_books << OrderBook.create(book_order_params)
       self.total_price = self.order_books.inject(0){|t_p, b| t_p + b.quantity*b.price}
-      self.add_book!
-    # elsif self.confirmation? && self.valid?
-    #   self.completed_date = DateTime.now
-    #   self.add_order_info
-     end
-
+      self.add_books
+    elsif last_step? && self.creating?
+       self.completed_date = DateTime.now
+       self.add_order_info
+    end
   end
+
 
   def book_order_params
     book_order_params_collection = []
@@ -94,37 +91,4 @@ class Order < ActiveRecord::Base
   def not_accepted?
     @order_accepted == "0"
   end
-
-
-
-#Creating order by steps
-#   def current_step
-#     @current_step || steps.first
-#   end
-
-#   def steps
-#     %w[shipping billing paying confirmation]
-#   end
-
-#   def next_step
-#     self.current_step = steps[steps.index(current_step) + 1]
-#   end
-
-#   def previous_step
-#     self.current_step = steps[steps.index(current_step) - 1]
-#   end
-  
-
-#   def first_step?
-#     current_step == steps.first
-#   end
-
-#   def last_step?
-#     current_step == steps.last
-#   end
-
-#   def creation_in_progress?
-#     return true unless current_step == "confirmation"
-#     return false if current_step == "confirmation"
-#   end
  end

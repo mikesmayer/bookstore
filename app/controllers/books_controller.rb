@@ -74,7 +74,7 @@ class BooksController < ApplicationController
         format.js
       else
         format.html 
-        format.js
+        #format.js
       end
     end
   end

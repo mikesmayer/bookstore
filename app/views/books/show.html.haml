@@ -9,9 +9,13 @@
         %ul
           - unless can? :manage, Book
             %li
-              = link_to "Wish", add_to_wish_list_book_path(@book),   method: :post, remote: true
-              %br
-              = link_to "Delete from wish", delete_from_wish_list_book_path(@book), method: :delete, remote:true
+              -if can? :add_to_wish_list, Book
+                = link_to "Wish", add_to_wish_list_book_path(@book),   method: :post, remote: true
+                %br
+                = link_to "Delete from wish", delete_from_wish_list_book_path(@book), method: :delete, remote:true
+              -else
+                = link_to "Wish", add_to_wish_list_book_path(@book),   method: :post
+
               %br
               = link_to "Add to cart", add_to_cart_path(@book), method: :post, remote: true
           %li
