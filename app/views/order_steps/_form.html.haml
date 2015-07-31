@@ -3,7 +3,11 @@
     %h5.center-align
       = link_to "< Previous Step", previous_wizard_path unless step == :shipping
       = step.capitalize
-      = link_to "Next Step >", next_wizard_path unless step == :confirmation
+      = wizard_steps
+      = current_step?(step)
+      = past_step?(step)
+      = next_step?(step)
+      = link_to "Next Step >", next_wizard_path unless wizard_steps.last == step
   .row
     .col.l4.m4.s12.order-info-form
       = form_for @order, url: wizard_path do |f|

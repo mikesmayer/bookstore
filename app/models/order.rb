@@ -1,6 +1,6 @@
 class Order < ActiveRecord::Base
   include AASM
-  attr_accessor :current_step, :ordered_books, :order_accepted, :order_steps
+  attr_accessor :current_step, :ordered_books, :order_accepted, :available_steps, :order_steps
   belongs_to :user
   belongs_to :credit_card
   belongs_to :billing_address,  class_name: "Address", foreign_key: "billing_address_id"
@@ -95,4 +95,18 @@ class Order < ActiveRecord::Base
   def quantity_in_order(book)
     self.order_books.find_by(book_id: book.id).quantity
   end
+
+  def order_steps
+    {shipping: true, 
+     billing:  self.shipping_address.nil? ? false : self.shipping_address.valid?,
+     paying:   self.billing_address.nil?  ? false : self.billing_address.valid?,
+     confirmation: self.credit_card.nil?  ? false : self.credit_card.valid?}
+  end
+
+  def available_steps
+    steps = [ ]
+    order_steps.each{|step, passed| steps << step if passed == true}
+    steps
+  end
+
  end

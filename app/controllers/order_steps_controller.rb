@@ -1,11 +1,10 @@
 class OrderStepsController < ApplicationController
   include Wicked::Wizard
   include ResourceBuilder
-   before_action :set_steps
-   before_action :setup_wizard
-   before_action :set_order
+  load_and_authorize_resource :order
 
- # steps :shipping, :billing, :paying, :confirmation
+  before_action :set_steps
+  before_action :setup_wizard
 
   def show
     build_order
@@ -17,17 +16,15 @@ class OrderStepsController < ApplicationController
       redirect_to :back
     else
       @order.update_attributes(order_step_params)
-      #@order = Order.all.last#Order.new(order_step_params)
-      #build_order
-      render text: "#{wizard_steps}"
-      #render_wizard @order
+      set_steps
+      setup_wizard
+      render_wizard @order
     end
   end
 
   private
 
   def order_step_params
-    
     params.fetch(:order, {order_accepted: "0"}).permit(:order_accepted, 
     shipping_address_attributes: [:user_address, :zipcode, :city, :phone, country_attributes: [:name]],
     billing_address_attributes:  [:user_address, :zipcode, :city, :phone, country_attributes: [:name]],
@@ -36,14 +33,5 @@ class OrderStepsController < ApplicationController
 
   def set_steps
     self.steps = @order.available_steps
-  end
-
-  def set_order
-    @order = Order.find(params[:order_id])
-
-    if step  == steps.last
-      @order.current_step = "confirmation"
-      @order.order_accepted = order_step_params[:order_accepted]
-    end
   end
 end
