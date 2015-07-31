@@ -1,13 +1,15 @@
 class OrderStepsController < ApplicationController
   include Wicked::Wizard
   include ResourceBuilder
-  before_action :set_order
+   before_action :set_steps
+   before_action :setup_wizard
+   before_action :set_order
 
-  steps :shipping, :billing, :paying, :confirmation
+ # steps :shipping, :billing, :paying, :confirmation
 
   def show
     build_order
-    render_wizard
+    render_wizard 
   end
 
   def update
@@ -15,7 +17,10 @@ class OrderStepsController < ApplicationController
       redirect_to :back
     else
       @order.update_attributes(order_step_params)
-      render_wizard @order
+      #@order = Order.all.last#Order.new(order_step_params)
+      #build_order
+      render text: "#{wizard_steps}"
+      #render_wizard @order
     end
   end
 
@@ -27,6 +32,10 @@ class OrderStepsController < ApplicationController
     shipping_address_attributes: [:user_address, :zipcode, :city, :phone, country_attributes: [:name]],
     billing_address_attributes:  [:user_address, :zipcode, :city, :phone, country_attributes: [:name]],
     credit_card_attributes:      [:number, :cvv, :expiration_year, :expiration_month, :first_name, :last_name])
+  end
+
+  def set_steps
+    self.steps = @order.available_steps
   end
 
   def set_order

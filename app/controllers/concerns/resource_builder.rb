@@ -11,6 +11,7 @@ module ResourceBuilder
     @order.billing_address.country  || @order.billing_address.build_country
   end
 
+
   def build_profile
     @profile = current_user.profile
     @profile.shipping_address         || @profile.build_shipping_address

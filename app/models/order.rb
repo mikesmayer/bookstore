@@ -1,6 +1,6 @@
 class Order < ActiveRecord::Base
   include AASM
-  attr_accessor :current_step, :ordered_books, :order_accepted
+  attr_accessor :current_step, :ordered_books, :order_accepted, :order_steps
   belongs_to :user
   belongs_to :credit_card
   belongs_to :billing_address,  class_name: "Address", foreign_key: "billing_address_id"

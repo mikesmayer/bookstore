@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   resource  :profile
   resources :orders
-  resources :order_steps
+  #resources :order_steps
 
   resources :orders do
     resources :order_steps, controller: 'order_steps'
