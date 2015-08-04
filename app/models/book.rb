@@ -49,7 +49,7 @@ class Book < ActiveRecord::Base
 
 def book_in_stock(quantity)
   if self.quantity < quantity
-    self.errors.add(:book_quantity_error, "#{self.quantity} books #{self.title} are available")
+    errors.add(:book_quantity_error, "Only #{self.quantity} books '#{self.title}' are available")
     return false
   else
     return true

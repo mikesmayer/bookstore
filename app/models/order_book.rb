@@ -11,34 +11,40 @@ class OrderBook < ActiveRecord::Base
     end
   end
 
+  def order_create?
+    self.order.status == "done"
+  end
+
   def book_quantity
-    unless self.book.book_in_stock(change_book_quantity)
-      errors.add(:book_quantity_error, "#{self.book.errors.messages.first}") 
+    unless self.book.book_in_stock(self.quantity)
+      self.errors[:base] << self.book.errors.messages[:book_quantity_error].first
     end
   end
 
-  before_save do
-    build_operation
-    self.book.update_book(@operation, change_book_quantity)
-  end
+  # after_destroy do
+  #   self.book.update_book(:increase, self.quantity )
+  # end
 
-  after_destroy do
-    self.book.update_book(:increase, self.quantity )
-  end
+  # before_save do
+  #   if self.order.confirmation?
+  #     build_operation
+  #     self.book.update_book(@operation, change_book_quantity)
+  #   end
+  # end
 
-  def build_operation
-    if increase_book_quantity?
-      @operation = :reduce
-    else
-      @operation = :increase
-    end
-  end
+  # def build_operation
+  #   if increase_book_quantity?
+  #     @operation = :reduce
+  #   else
+  #     @operation = :increase
+  #   end
+  # end
 
-  def change_book_quantity
-    if self.new_record?
-      self.quantity
-    else
-      (self.quantity - OrderBook.find(self.id).quantity).abs
-    end
-  end
+  # def change_book_quantity
+  #   if self.new_record?
+  #     self.quantity
+  #   else
+  #     (self.quantity - OrderBook.find(self.id).quantity).abs
+  #   end
+  # end
 end

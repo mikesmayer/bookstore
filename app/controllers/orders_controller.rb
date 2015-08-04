@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
         format.html { redirect_to :back, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
-        format.html { redirect_to :back }
+        format.html { render :cart }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
