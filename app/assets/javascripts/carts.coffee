@@ -1,3 +1,10 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+$ ->
+  $('.order-quantity').on 'change', ->
+    price    = $(this).closest('tr').find('.book-price:first').text()
+    quantity = $(this).val()
+    price    = parseFloat(price)
+    quantity = parseInt(quantity)
+    total_price = parseFloat(price) * quantity
+    $(this).closest('tr').find('.total-price:first').text(total_price)
+
+    # alert total_price

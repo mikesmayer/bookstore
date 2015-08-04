@@ -13,20 +13,34 @@
     .page-wrap
       %nav
         .nav-wrapper
-          .brand-logo BookStore
+          = link_to "BookStore", root_path, class: "brand-logo"
           %ul.right
+            - if can_build_cart?
+              %li
+                = link_to cart_path(build_cart), class: "nav-cart" do
+                  %i.small.material-icons shopping_cart
             - if current_user
               %li 
+                = link_to "Orders", orders_path
+              %li
                 = current_user_profile
               %li
                 = link_to 'Sign out', destroy_user_session_path, 
                                       method: :delete
-                                      
-
             - else
-              = link_to 'Sign In', new_user_session_path
+              %li
+                = link_to 'Sign In', new_user_session_path
+      -# = session[:previous_url].inspect
+      -# = @cart.inspect
+      -# = session["session_id"]
+      -# = session["temp_order"].inspect
+      -# = temp_order
+      -# = session["session_id"]
+      -# = session["order"].inspect
+      -# = session["cart"]["order_id"].inspect
+      -# = @order.id
       -# - if flash[:notice].present?
-      -#   #notice= flash[:notice]
+      #notice= flash[:notice]
       -# - if flash[:error].present?
       -#   #notice= flash[:error]
       -# %p

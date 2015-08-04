@@ -1,8 +1,15 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_action :add_cart
-  helper_method :current_cart
+  after_action :stored_location
+  # helper_method :current_cart
   
+  def stored_location
+    session[:previous_url] = request.fullpath unless request.fullpath =~ /\/login/
+  end
+
+  def after_sign_in_path_for(resource)
+    session[:previous_url] || request.referer || root_path
+  end
 
   rescue_from CanCan::AccessDenied do |exception|
     if exception.action == :index
@@ -25,20 +32,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def check_permissions
-    user = current_user || User.new
-    unless user.role? "admin"
-      render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
-    end
-  end
+  private
 
-  def current_cart
-    @cart ||= Cart.new(session)
-  end
-
-  def add_cart
-    if session["cart"].nil?
-      session["cart"] = {"books" => []}
-    end
+   def current_ability
+    @current_ability ||= Ability.new(current_user, session)
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150730135841) do
+ActiveRecord::Schema.define(version: 20150731174219) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "user_address"
@@ -104,9 +104,12 @@ ActiveRecord::Schema.define(version: 20150730135841) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.integer  "user_id"
+    t.string   "session_id"
   end
 
+  add_index "orders", ["billing_address_id"], name: "index_orders_on_billing_address_id"
   add_index "orders", ["credit_card_id"], name: "index_orders_on_credit_card_id"
+  add_index "orders", ["shipping_address_id"], name: "index_orders_on_shipping_address_id"
 
   create_table "profiles", force: :cascade do |t|
     t.string   "email"

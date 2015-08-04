@@ -1,0 +1,13 @@
+- if @book.errors.any?
+  = @book.errors[:book_quantity_error].first
+  = @order.errors[:book_quantity_error]
+- if @order.order_books.first.errors.any?
+  %h5 hdg
+%ul
+  %li 
+    Books in cart:
+    =cart_books_quantity
+  %li
+    Total price: 
+    =cart_total_price  
+    

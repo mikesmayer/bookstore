@@ -1,25 +1,13 @@
 class Devise::CustomSessionsController  < Devise::SessionsController
-  before_filter :before_destroy, :only => :destroy
-  after_filter  :after_destroy, :only => :destroy
-  # after_filter :after_destroy, :only => :destroy
+  before_action :temp_order, only: :create
+  after_action  :find_session_order, only: :create
 
-  # # def before_login
-  # # end
-
-  # def after_login
-  #   @cart = Cart.new
-    
-  #   # @cart.add_book(Book.first)
-  #   # @cart.add_book(Book.first)
-  #   session[:cart] = @cart#put_in_session(@cart)
-  # end
-
-  def before_destroy
-    @cart = session[:cart]
+  def temp_order
+    @temp_order = session["temp_order"]
   end
 
-   def after_destroy
-     session[:cart] = @cart
-   end
-
+  def find_session_order
+    order = Order.find_by(session_id: @temp_order)  
+    order.update(user_id: current_user.id, session_id: session["session_id"]) if order
+  end
 end

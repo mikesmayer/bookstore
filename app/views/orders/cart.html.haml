@@ -1,0 +1,52 @@
+%h5.center-align Ordered books
+= form_for @order do |f|
+  %table
+    %thead
+      %tr
+        %th
+        %th BOOK
+        %th PRICE
+        %th QTY
+        %th TOTAL
+    %tbody
+      - @order.order_books.each do |position|
+        %tr.underscore
+          %td 
+            = image_tag position.book.cover_url(:thumb).to_s
+          %td
+            %ul
+              %li.book-info
+                Author:
+                = position.book.author.full_name
+              %li.book-info
+                Title:
+                = position.book.title
+              %br
+              %li
+                = position.book.description
+          %td.book-price
+            = position.book.price
+          %td 
+            = f.fields_for      :order_books, position do |ff|
+              = ff.text_field   :quantity, class: "order-quantity"
+              = ff.hidden_field :book_id
+          %td
+            .total-price
+              = position.price*position.quantity
+          %td
+            .delete-book-position
+              = link_to  delete_from_cart_book_path(position.book), method: :delete do
+                %span.small.material-icons close
+          %td.errors
+            = position.errors[:book_quantity_error]
+             
+                  
+  .left-side-cart-form.left-align
+    =f.button "Empty Cart", value: "empty_cart", class: "btn waves-effect waves-light"
+    = link_to "Continue Shopping", root_path, class: "btn waves-effect waves-light"
+  .right-side-cart-form.right-align
+    =f.button "Update",  name: "update", class: "btn waves-effect waves-light"
+.right-align.cart-order-panel
+  %h5 
+    SUBTOTAL:
+    = @order.total_price

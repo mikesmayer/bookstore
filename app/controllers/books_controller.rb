@@ -1,13 +1,15 @@
 class BooksController < ApplicationController
-  include FilterrificStuff  
-  load_and_authorize_resource
+  include FilterrificStuff
+  before_action :add_temp_order, only: :add_to_cart
+  load_and_authorize_resource 
 
-  def index  
+  def index 
+    #session["temp_order"] = nil 
     filterrific_books
     if @filterrific.nil?
       @books = Book.all
     else
-      @books = Book.filterrific_find(@filterrific).paginate(:page => params[:page])
+      @books = Book.filterrific_find(@filterrific).paginate(:page => params[:page]).accessible_by(current_ability)
     end
   end
 
@@ -17,7 +19,6 @@ class BooksController < ApplicationController
 
   def new
     @book = Book.new
-
     respond_to do |format|
       format.html
       format.js
@@ -26,6 +27,8 @@ class BooksController < ApplicationController
 
   def edit
   end
+
+
 
   def create
     @book = Book.new(book_params)
@@ -90,11 +93,35 @@ class BooksController < ApplicationController
     end
   end
 
+  def add_to_cart
+    @order = Order.as_cart(session['temp_order'])
+    # render text: "#{@order.add_book(@book, 1)}"
+    respond_to do |format|
+      if @order.add_book(@book, 1)
+        format.js
+      else 
+        flash[:notice] = @book.errors
+        format.js
+      end
+    end
+  end
+
+  def delete_from_cart
+    @order = Order.as_cart(session['temp_order'])
+    @order.delete_book(@book)
+    redirect_to :back
+  end
+
   private
 
-    def set_book
-      @book = Book.find(params[:id])
+  def add_temp_order 
+    if current_user && session["temp_order"].nil?
+      Order.create(user_id: current_user.id, session_id: session["session_id"])
+    elsif session["temp_order"].nil?
+      Order.create(session_id: session["session_id"])
     end
+    session["temp_order"] = session["session_id"] unless session["temp_order"]
+  end
 
     def book_params
      params.require(:book).permit(:id,:title, :description, :price, :quantity, 

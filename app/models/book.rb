@@ -47,8 +47,22 @@ class Book < ActiveRecord::Base
     where(:category_id => [*category_ids])
   }
 
-  def self.to_hash(id)
-    book = Book.find(id)
-    {id: book.id, title: book.title, price: book.price, quantity: 1}
+def book_in_stock(quantity)
+  if self.quantity < quantity
+    self.errors.add(:book_quantity_error, "#{self.quantity} books #{self.title} are available")
+    return false
+  else
+    return true
   end
+end
+
+def update_book(operation, by_quantity)
+  if operation == :reduce 
+    new_quantity = self.quantity - by_quantity
+  elsif operation == :increase 
+    new_quantity = self.quantity + by_quantity
+  end
+  self.update(quantity: new_quantity)
+end
+
 end
