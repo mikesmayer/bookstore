@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require jquery.turbolinks
 //= require materialize-sprockets
 //= require filterrific/filterrific-jquery
 //= require_tree .
@@ -26,6 +27,7 @@
 // });
 
 $(document).ready(function() {
+
     $('select').material_select();
     $('#search-panel').pushpin({ top: 150 });
     $('.cart').pushpin({ top: 150});

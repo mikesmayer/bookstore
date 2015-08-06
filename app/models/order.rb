@@ -7,8 +7,10 @@ class Order < ActiveRecord::Base
   belongs_to :shipping_address, class_name: "Address", foreign_key: "shipping_address_id"
   has_many   :order_books, dependent: :destroy
   has_many   :books, through: :order_books
+  has_one    :coupon
 
   accepts_nested_attributes_for :shipping_address, :billing_address, :credit_card, :order_books
+  #accepts_nested_attributes_for :coupon, reject_if: :all_blank
   validates_associated :shipping_address, :billing_address, :credit_card
   validates :shipping_address, :billing_address, :credit_card, presence: true,  if: :last_step?
 
@@ -52,10 +54,28 @@ class Order < ActiveRecord::Base
 
   before_save do
     total_price
+    set_coupon
   end
 
   def total_price
-    self.total_price = self.order_books.inject(0){|t_p, b| t_p + b.quantity*b.price}
+    #raise "#{books_price - books_price*sale }"
+    if self.coupon.nil?
+      self.total_price = books_price
+    else 
+      self.total_price = books_price.to_f - books_price.to_f*self.coupon.sale.to_f
+    end
+  end
+
+  def books_price
+    self.order_books.inject(0){|t_p, b| t_p + b.quantity*b.price}
+  end
+
+  def sale
+    if self.coupon.nil?
+      0.0
+    else
+      self.coupon.sale
+    end
   end
 
   def add_book(book, quantity)
@@ -83,9 +103,36 @@ class Order < ActiveRecord::Base
     Order.create(session_id: session["session_id"])
   end
 
+  def coupon_attributes=(attributes)
+    @coupon_number = attributes[:number]
+  end
+
+  def set_coupon
+    if was_setted_before? && empty_now?
+      reset_coupon
+    elsif coupon = find_coupon
+      coupon.update(used: true, order_id: self.id)
+    end
+  end
+
+  def was_setted_before?
+    true if Coupon.find_by(order_id: self.id)
+  end
+
+  def empty_now?
+    @coupon_number.length < 1 unless @coupon_number.nil?
+  end
+
+  def reset_coupon
+    Coupon.find_by(order_id: self.id).update({used: false, order_id: nil})
+  end
+
+  def find_coupon
+    Coupon.find_by(number: @coupon_number) 
+  end
 
   def order_steps
-    {shipping:     true, 
+    {address:      true, 
      billing:      self.shipping_address.nil? ? false : self.shipping_address.valid?,
      paying:       self.billing_address.nil?  ? false : self.billing_address.valid?,
      confirmation: self.credit_card.nil?      ? false : self.credit_card.valid?}

@@ -16,4 +16,13 @@ module CartsHelper
   # def find_book(id)
   #   Book.find(id)
   # end
+
+  def errors_builder(errors, errors_for = {})
+    order_book_id = errors_for[:order_book]
+    if errors != nil
+      return errors["order_books.#{order_book_id}"].first unless errors["order_books.#{order_book_id}"].nil?
+      return errors["order_books.#{order_book_id}"].first unless errors["order_books.#{order_book_id}"].nil?  
+    end
+  end
+
 end

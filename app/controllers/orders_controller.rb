@@ -28,11 +28,12 @@ class OrdersController < ApplicationController
         @order.order_books.destroy_all
         format.html {redirect_to root_path}
       elsif @order.update(order_params)
-        format.html { redirect_to :back, notice: 'Order was successfully updated.' }
-        format.json { render :show, status: :ok, location: @order }
+        format.html { redirect_to :back}
       else
-        format.html { render :cart }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
+        format.html do 
+          flash[:errors] = @order.errors.messages
+          redirect_to :back
+        end
       end
     end
   end

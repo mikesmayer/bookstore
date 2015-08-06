@@ -15,9 +15,7 @@
             %tr
               %td{colspan: "5"}
                 .errors.center
-                  - if position.errors.any?
-                    - position.errors.messages[:base].each do |msg|
-                      = msg
+                  = errors_builder(flash[:errors],{order_book: position.id})
             %tr.underscore
               %td 
                 = image_tag position.book.cover_url(:thumb).to_s
@@ -50,6 +48,13 @@
                   = link_to  delete_from_cart_book_path(position.book), method: :delete do
                     %span.small.material-icons close
       .right-align.cart-order-panel
+        %h6
+          Books Price:  $
+          = @order.books_price
+        %h6
+          Sale:  -$
+          = @order.sale*@order.books_price
+          
         %h5 
           SUBTOTAL:
           $
@@ -64,4 +69,7 @@
             = link_to "Checkout", order_order_steps_path(@order), class: "btn waves-effect waves-light"
           %li.right
             = f.button "Update",  name: "update",                 class: "btn waves-effect waves-light"
+          .right.coupon-input
+            = f.fields_for :coupon, @order.coupon || @order.build_coupon, include_id: false do |cf|
+              = cf.text_field :number, placeholder: "Coupon Number"
 

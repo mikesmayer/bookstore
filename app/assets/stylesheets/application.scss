@@ -5,6 +5,8 @@
 @import "reviews";
 @import "orders";
 @import "carts";
+@import "pages";
+@import "order_steps";
 
 
 html {
@@ -43,7 +45,20 @@ nav {
 
 .header-link {
   color: red;
-  
+}
+
+.nav-cart {
+  display: inline-block;
+}
+
+input[data-error="wrong"] {
+  border-color: red;
+}
+
+.error_messages {
+  color: #D63301;
+  background-color: #FFCCBA;
+  background-image: url('validation.png');
 }
 
  

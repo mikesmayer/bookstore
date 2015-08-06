@@ -1,28 +1,22 @@
 .container
   .row
-    %h5.center-align
-      = link_to "< Previous Step", previous_wizard_path unless step == :shipping
-      = step.capitalize
-      = wizard_steps
-      = current_step?(step)
-      = past_step?(step)
-      = next_step?(step)
-      = link_to "Next Step >", next_wizard_path unless wizard_steps.last == step
+    .class
+      %h5.order-book-link-panel
+        Checkout
+      %h5.order-book-link-panel.center
+        -# = link_to "< Previous Step", previous_wizard_path unless step == :address
+        = step.capitalize
+        -# = wizard_steps
+        -# = current_step?(step)
+        -# = past_step?(step)
+        -# = next_step?(step)
+        -# = link_to "Next Step >", next_wizard_path unless wizard_steps.last == step
   .row
-    .col.l4.m4.s12.order-info-form
-      = form_for @order, url: wizard_path do |f|
-        - if @order.errors.any?
-          .error_messages
-            %h2
-              = pluralize(@order.errors.count, "error")
-              prohibited this user from being saved:
-            %ul
-              - @order.errors.full_messages.each do |msg|
-                %li= msg
-        = yield f
-        .actions
-          = f.button "Accept", class: "waves-effect waves-light btn" 
-    .col.l8.m8.s12
-      -# %h5.center-align.underscore
-      .card.check
-        = render "#{step}_preview"
+    = form_for @order, url: wizard_path do |f|
+      -# - if @order.errors.any?
+      -#   .error_messages.center-align
+      -#     %ul
+      -#       - @order.errors.full_messages[0...-1].each do |msg|
+      -#         %li= msg
+      = yield f
+      = f.button "Save and Continue", class: "waves-effect waves-light btn" 

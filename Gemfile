@@ -25,6 +25,7 @@ gem 'rspec-rails'
 gem 'spring'
 gem 'wicked'
 gem 'aasm'
+gem 'jquery-turbolinks'
 
 group :development, :test do
   gem 'sqlite3'

@@ -1,0 +1,55 @@
+= render layout: "form" do |f|
+  .col.l4.m4.s12
+    %h5.center-align
+      Shipping Address
+    = f.fields_for(:shipping_address, :include_id => false) do |ff|
+      .field
+        = ff.label      :user_address
+        = ff.text_field :user_address
+      .field
+        = ff.label      :zipcode
+        = ff.text_field :zipcode
+      .field
+        = ff.label      :city
+        = ff.text_field :city
+      .field
+        = ff.label      :phone 
+        = ff.text_field :phone
+      .field
+        = ff.select     :country_id, 
+           options_from_collection_for_select(Country.all, :id, :name, @order.shipping_address.country.id),
+           {},
+           {class: 'input-field'}
+  .col.l4.m4.s12
+    %h5.center-align
+      Billing Address
+    = f.fields_for :billing_address, :include_id => false do |ff|
+      .field
+        = ff.label      :user_address
+        = ff.text_field :user_address
+      .field
+        = ff.label      :zipcode
+        = ff.text_field :zipcode
+      .field
+        = ff.label      :city
+        = ff.text_field :city
+      .field
+        = ff.label      :phone 
+        = ff.text_field :phone
+      .field
+        = ff.select     :country_id, 
+           options_from_collection_for_select(Country.all, :id, :name, @order.billing_address.country.id),
+           {},
+           {class: 'input-field'}
+
+  .col.l4.m4.s12.right-align
+    %h5.right-align
+      Order Summary
+    %h6.right
+      ITEM TOTAL: $
+      = @order.books_price
+    %h6.right
+      ORDER TOTAL PRICE: $
+      = @order.total_price
+  .row
+

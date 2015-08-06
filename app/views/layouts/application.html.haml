@@ -17,8 +17,12 @@
           %ul.right
             - if can_build_cart?
               %li
-                = link_to cart_path(build_cart), class: "nav-cart" do
-                  %i.small.material-icons shopping_cart
+                = link_to cart_path(build_cart), class: "valign-wrapper" do
+                  .nav-cart
+                    = content_tag(:i, "shopping_cart", class: "material-icons nav-cart")
+                  .nav-cart
+                    = cart_main_panel
+                    
             - if current_user
               %li 
                 = link_to "Orders", orders_path
@@ -30,6 +34,8 @@
             - else
               %li
                 = link_to 'Sign In', new_user_session_path
+      = flash[:errors].inspect
+      -# = @order.coupon.number.inspect unless @order.coupon.number.nil?
       -# = session[:previous_url].inspect
       -# = @cart.inspect
       -# = session["session_id"]

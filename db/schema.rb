@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150731174219) do
+ActiveRecord::Schema.define(version: 20150805154341) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "user_address"
@@ -67,6 +67,17 @@ ActiveRecord::Schema.define(version: 20150731174219) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "coupons", force: :cascade do |t|
+    t.string   "number"
+    t.boolean  "used",       default: false
+    t.integer  "order_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.float    "sale"
+  end
+
+  add_index "coupons", ["order_id"], name: "index_coupons_on_order_id"
 
   create_table "credit_cards", force: :cascade do |t|
     t.string   "number"
