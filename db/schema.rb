@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150805154341) do
+ActiveRecord::Schema.define(version: 20150806120151) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "user_address"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20150805154341) do
     t.integer  "country_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "addresses", ["country_id"], name: "index_addresses_on_country_id"
@@ -93,6 +95,21 @@ ActiveRecord::Schema.define(version: 20150805154341) do
 
   add_index "credit_cards", ["profile_id"], name: "index_credit_cards_on_profile_id"
 
+  create_table "deliveries", force: :cascade do |t|
+    t.string   "name"
+    t.float    "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "deliveries_orders", id: false, force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "delivery_id"
+  end
+
+  add_index "deliveries_orders", ["delivery_id"], name: "index_deliveries_orders_on_delivery_id"
+  add_index "deliveries_orders", ["order_id"], name: "index_deliveries_orders_on_order_id"
+
   create_table "order_books", force: :cascade do |t|
     t.decimal  "price"
     t.integer  "quantity"
@@ -116,6 +133,7 @@ ActiveRecord::Schema.define(version: 20150805154341) do
     t.datetime "updated_at",          null: false
     t.integer  "user_id"
     t.string   "session_id"
+    t.integer  "delivery_id"
   end
 
   add_index "orders", ["billing_address_id"], name: "index_orders_on_billing_address_id"

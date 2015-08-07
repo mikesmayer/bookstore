@@ -26,6 +26,7 @@ gem 'spring'
 gem 'wicked'
 gem 'aasm'
 gem 'jquery-turbolinks'
+gem 'simple_form'
 
 group :development, :test do
   gem 'sqlite3'

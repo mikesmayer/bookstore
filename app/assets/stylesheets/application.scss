@@ -55,6 +55,11 @@ input[data-error="wrong"] {
   border-color: red;
 }
 
+::-webkit-input-placeholder {color:red; font-style: oblique;}
+::-moz-placeholder          {color:red; font-style: oblique;}/* Firefox 19+ */
+:-moz-placeholder           {color:red; font-style: oblique;}/* Firefox 18- */
+:-ms-input-placeholder      {color:red; font-style: oblique;}
+
 .error_messages {
   color: #D63301;
   background-color: #FFCCBA;

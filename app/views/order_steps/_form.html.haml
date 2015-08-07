@@ -5,18 +5,17 @@
         Checkout
       %h5.order-book-link-panel.center
         -# = link_to "< Previous Step", previous_wizard_path unless step == :address
-        = step.capitalize
-        -# = wizard_steps
+        -# = step.capitalize
+        - @order.order_steps.each do |k, v|
+          - if wizard_steps.include?(k.to_sym)
+            =link_to "#{k.to_s.capitalize}", "#{k}"
+          - else
+            = k.capitalize
         -# = current_step?(step)
         -# = past_step?(step)
         -# = next_step?(step)
         -# = link_to "Next Step >", next_wizard_path unless wizard_steps.last == step
   .row
     = form_for @order, url: wizard_path do |f|
-      -# - if @order.errors.any?
-      -#   .error_messages.center-align
-      -#     %ul
-      -#       - @order.errors.full_messages[0...-1].each do |msg|
-      -#         %li= msg
       = yield f
       = f.button "Save and Continue", class: "waves-effect waves-light btn" 

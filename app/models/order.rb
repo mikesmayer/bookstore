@@ -1,6 +1,6 @@
 class Order < ActiveRecord::Base
   include AASM
-  attr_accessor :current_step, :ordered_books, :order_accepted, :available_steps, :order_steps
+  attr_accessor :current_step,  :order_accepted, :billing_equal_shipping
   belongs_to :user
   belongs_to :credit_card
   belongs_to :billing_address,  class_name: "Address", foreign_key: "billing_address_id"
@@ -8,10 +8,11 @@ class Order < ActiveRecord::Base
   has_many   :order_books, dependent: :destroy
   has_many   :books, through: :order_books
   has_one    :coupon
+  belongs_to :delivery
 
-  accepts_nested_attributes_for :shipping_address, :billing_address, :credit_card, :order_books
-  #accepts_nested_attributes_for :coupon, reject_if: :all_blank
-  validates_associated :shipping_address, :billing_address, :credit_card
+  accepts_nested_attributes_for :shipping_address, :credit_card, :order_books
+  accepts_nested_attributes_for :billing_address, reject_if: :equal_shipping_address?
+  #validates_associated :shipping_address, :billing_address, :credit_card
   validates :shipping_address, :billing_address, :credit_card, presence: true,  if: :last_step?
 
   scope :as_cart, ->(session_id) { where('session_id = ?', session_id).last }
@@ -55,6 +56,9 @@ class Order < ActiveRecord::Base
   before_save do
     total_price
     set_coupon
+    self.billing_address = self.shipping_address if equal_shipping_address?
+    set_delivery
+    # raise "#{self.delivery.inspect}"
   end
 
   def total_price
@@ -75,6 +79,14 @@ class Order < ActiveRecord::Base
       0.0
     else
       self.coupon.sale
+    end
+  end
+
+  def sale_price
+    if self.coupon.nil?
+      0.0
+    else
+      self.coupon.sale * self.books_price
     end
   end
 
@@ -107,6 +119,10 @@ class Order < ActiveRecord::Base
     @coupon_number = attributes[:number]
   end
 
+  def delivery_attributes=(attributes)
+    @delivery_id = attributes[:delivery_id]
+  end
+
   def set_coupon
     if was_setted_before? && empty_now?
       reset_coupon
@@ -131,11 +147,20 @@ class Order < ActiveRecord::Base
     Coupon.find_by(number: @coupon_number) 
   end
 
+  def equal_shipping_address?
+    @billing_equal_shipping == "1"
+  end
+
+  def set_delivery
+    self.delivery_id = @delivery_id unless @delivery_id.nil?
+  end
+
   def order_steps
-    {address:      true, 
-     billing:      self.shipping_address.nil? ? false : self.shipping_address.valid?,
-     paying:       self.billing_address.nil?  ? false : self.billing_address.valid?,
-     confirmation: self.credit_card.nil?      ? false : self.credit_card.valid?}
+    {address:       true, 
+     delivery:      self.shipping_address.nil? ? false : self.shipping_address.valid? &&
+                    self.billing_address.nil?  ? false : self.billing_address.valid?,
+     payment:       self.delivery_id.nil?      ? false : true,
+     confirm:       self.credit_card.nil?      ? false : self.credit_card.valid?}
   end
 
   def available_steps

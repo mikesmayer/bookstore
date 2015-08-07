@@ -25,10 +25,11 @@ class OrderStepsController < ApplicationController
   private
 
   def order_step_params
-    params.fetch(:order, {order_accepted: "0"}).permit(:order_accepted, 
-    shipping_address_attributes: [:user_address, :zipcode, :city, :phone, :country_id],
-    billing_address_attributes:  [:user_address, :zipcode, :city, :phone, :country_id],
-    credit_card_attributes:      [:number, :cvv, :expiration_year, :expiration_month, :first_name, :last_name])
+    params.fetch(:order, {order_accepted: "0"}).permit(:order_accepted, :billing_equal_shipping,
+    shipping_address_attributes: [:first_name, :last_name, :user_address, :zipcode, :city, :phone, :country_id],
+    billing_address_attributes:  [:first_name, :last_name, :user_address, :zipcode, :city, :phone, :country_id],
+    credit_card_attributes:      [:number, :cvv, :expiration_year, :expiration_month, :first_name, :last_name],
+    delivery_attributes: [:delivery_id])
   end
 
   def set_steps

@@ -1,0 +1,62 @@
+= render layout: "form" do |f|
+  .col.l6.m6.s12
+    %h6
+      CREDIT CARD
+    = f.fields_for :credit_card, :include_id => false do |ff|
+      %ul
+        %li
+          .field
+            = ff.label      :number
+            = ff.text_field :number, placeholder: errors(@order, "credit_card", "number"), 
+                            type: "password"
+        %li
+          %ul.date-errors
+            - @order.errors["credit_card.expiration_month".to_sym].each do |e|
+              %li 
+                Expiration month
+                = e
+            - @order.errors["credit_card.expiration_year".to_sym].each do |e|
+              %li 
+                Expiration year
+                = e
+        %li.valign-wrapper
+          .field
+            = ff.select     :expiration_month,
+                            options_for_select(month_collection), 
+                            {:include_blank => 'Expiration Month'}, 
+                            {class: "browser-default select-month-field"}
+          .field
+            = ff.select     :expiration_year,
+                            options_for_select(year_collection), 
+                            {:include_blank => 'Expiration Year'}, 
+                            {class: "browser-default select-year-field"}
+        %li
+          .field
+            = ff.label      :cvv
+            = ff.text_field :cvv, placeholder: errors(@order, "credit_card", "number"),
+                                  type: "password"
+  .col.l6.m6.s12
+    %ul
+      %li
+        %h5.right-align
+          ORDER SUMMARY
+      %li
+        %h6.right-align#item_price
+          ITEM TOTAL: $
+          = @order.books_price
+      %li
+        %h6.right-align
+          SALE: $
+          - if @order.coupon.nil?
+            = "0.00"
+          - else
+            = @order.sale_price
+      %li
+        %h6.right-align
+          SHIPPING: $
+          = @order.delivery.price
+      %li
+        %h6.right-align
+          ORDER TOTAL: $
+          = @order.total_price
+  .row

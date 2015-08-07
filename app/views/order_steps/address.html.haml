@@ -4,52 +4,81 @@
       Shipping Address
     = f.fields_for(:shipping_address, :include_id => false) do |ff|
       .field
-        = ff.label      :user_address
-        = ff.text_field :user_address
+        = ff.label      :first_name
+        = ff.text_field :first_name,  placeholder: errors(@order, "shipping_address", "first_name")
       .field
-        = ff.label      :zipcode
-        = ff.text_field :zipcode
+        = ff.label      :last_name
+        = ff.text_field :last_name,   placeholder: errors(@order, "shipping_address", "last_name")
+      .field
+        = ff.label      :user_address
+        = ff.text_field :user_address, placeholder: errors(@order, "shipping_address", "user_address")
       .field
         = ff.label      :city
-        = ff.text_field :city
-      .field
-        = ff.label      :phone 
-        = ff.text_field :phone
+        = ff.text_field :city,         placeholder: errors(@order, "shipping_address", "city")
       .field
         = ff.select     :country_id, 
            options_from_collection_for_select(Country.all, :id, :name, @order.shipping_address.country.id),
            {},
            {class: 'input-field'}
+      .field
+        = ff.label      :zipcode
+        = ff.text_field :zipcode,      placeholder: errors(@order, "shipping_address", "zipcode")
+      .field
+        = ff.label      :phone 
+        = ff.text_field :phone,        placeholder: errors(@order, "shipping_address", "phone")
+
   .col.l4.m4.s12
     %h5.center-align
       Billing Address
-    = f.fields_for :billing_address, :include_id => false do |ff|
-      .field
-        = ff.label      :user_address
-        = ff.text_field :user_address
-      .field
-        = ff.label      :zipcode
-        = ff.text_field :zipcode
-      .field
-        = ff.label      :city
-        = ff.text_field :city
-      .field
-        = ff.label      :phone 
-        = ff.text_field :phone
-      .field
-        = ff.select     :country_id, 
-           options_from_collection_for_select(Country.all, :id, :name, @order.billing_address.country.id),
-           {},
-           {class: 'input-field'}
+    #billing_address_form
+      = f.fields_for :billing_address, :include_id => false do |ff|
+        .field
+          = ff.label      :first_name
+          = ff.text_field :first_name,  placeholder: errors(@order, "billing_address", "first_name")
+        .field
+          = ff.label      :last_name
+          = ff.text_field :last_name,   placeholder: errors(@order, "billing_address", "last_name")
+        .field
+          = ff.label      :user_address
+          = ff.text_field :user_address, placeholder: errors(@order, "billing_address", "user_address")
+        .field
+          = ff.label      :city
+          = ff.text_field :city,         placeholder: errors(@order, "billing_address", "city")
+        .field
+          = ff.select     :country_id, 
+             options_from_collection_for_select(Country.all, :id, :name, @order.billing_address.country.id),
+             {},
+             {class: 'input-field'}
+        .field
+          = ff.label      :zipcode
+          = ff.text_field :zipcode,      placeholder: errors(@order, "billing_address", "zipcode")
+        .field
+          = ff.label      :phone 
+          = ff.text_field :phone,        placeholder: errors(@order, "billing_address", "phone")
+
+    .address-checkbox.center-align
+      = f.check_box :billing_equal_shipping, id:  "use_shipping_address"
+      = f.label     "Use Shipping Address",  for: "use_shipping_address"
 
   .col.l4.m4.s12.right-align
-    %h5.right-align
-      Order Summary
-    %h6.right
-      ITEM TOTAL: $
-      = @order.books_price
-    %h6.right
-      ORDER TOTAL PRICE: $
-      = @order.total_price
+    %ul
+      %li
+        %h5.right-align
+          ORDER SUMMARY
+      %li
+        %h6.right-align
+          ITEM TOTAL: $
+          = @order.books_price
+      %li
+        %h6.right-align
+          SALE: $
+          - if @order.coupon.nil?
+            = "0.00"
+          - else
+            = @order.sale_price
+      %li
+        %h6.right-align
+          ORDER TOTAL: $
+          = @order.total_price
   .row
 

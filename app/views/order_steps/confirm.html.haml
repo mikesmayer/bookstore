@@ -1,0 +1,130 @@
+= render layout: "form" do |f|
+  %h6 CONFIRM
+  .col.l3.m3.s12
+    %h6.confirm-title
+      Shipping Address
+      = link_to "(edit)", "address"
+    %ul
+      %li
+        = "#{@order.shipping_address.first_name} #{@order.shipping_address.last_name}"
+      %li
+        = @order.shipping_address.user_address
+      %li
+        = @order.shipping_address.city
+      %li
+        = @order.shipping_address.country.name
+      %li
+        = @order.shipping_address.zipcode
+      %li
+        = @order.shipping_address.phone
+  .col.l3.m3.s12
+    %h6.confirm-title
+      Billing Address
+      = link_to "(edit)", "address"
+    %ul
+      %li
+        = "#{@order.billing_address.first_name} #{@order.billing_address.last_name}"
+      %li
+        = @order.billing_address.user_address
+      %li
+        = @order.billing_address.city
+      %li
+        = @order.billing_address.country.name
+      %li
+        = @order.billing_address.zipcode
+      %li
+        = @order.billing_address.phone
+  .col.l3.m3.s12
+    %h6.confirm-title
+      Shipments
+      = link_to "(edit)", "delivery"
+    %ul
+      %li
+        = @order.delivery.name
+      %li
+        $
+        = @order.delivery.price
+  .col.l3.m3.s12
+    %h6.confirm-title
+      Payment Information
+      = link_to "(edit)", "payment"
+    %ul
+      %li
+        = "** ** ** #{@order.credit_card.number[-4..-1]} "
+      %li
+        = "#{@order.credit_card.expiration_month}/#{@order.credit_card.expiration_year}"
+  .row
+    %table
+      %thead
+        %tr
+          %th
+          %th BOOK
+          %th PRICE
+          %th QTY
+          %th TOTAL
+      %tbody
+        - @order.order_books.each do |position|
+          %tr
+            %td{colspan: "5"}
+              .errors.center
+                = errors_builder(flash[:errors],{order_book: position.id})
+          %tr.underscore
+            %td 
+              = image_tag position.book.cover_url(:thumb).to_s
+            %td.book-info-cell
+              %ul
+                %li.book-info
+                  Author:
+                  = position.book.author.full_name
+                %li.book-info
+                  Title:
+                  = position.book.title
+                %br
+                %li
+                  = position.book.description
+            %td
+              %span
+                $
+                %span.book-price
+                  = position.book.price
+            %td
+              = position.quantity 
+            %td
+              .total-price
+                $
+                = position.price*position.quantity
+    .right-align.cart-order-panel
+      %h6
+        Books Price:  $
+        = @order.books_price
+      %h6
+        Sale:  -$
+        = @order.sale*@order.books_price
+        
+      %h5 
+        SUBTOTAL:
+        $
+        = @order.total_price
+    
+
+  -# .col.l4.m4.s12.right-align
+  -#   %ul
+  -#     %li
+  -#       %h5.right-align
+  -#         ORDER SUMMARY
+  -#     %li
+  -#       %h6.right-align
+  -#         ITEM TOTAL: $
+  -#         = @order.books_price
+  -#     %li
+  -#       %h6.right-align
+  -#         SALE: $
+  -#         - if @order.coupon.nil?
+  -#           = "0.00"
+  -#         - else
+  -#           = @order.sale_price
+  -#     %li
+  -#       %h6.right-align
+  -#         ORDER TOTAL: $
+  -#         = @order.total_price
+  .row
