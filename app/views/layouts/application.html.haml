@@ -15,14 +15,9 @@
         .nav-wrapper
           = link_to "BookStore", root_path, class: "brand-logo"
           %ul.right
-            - if can_build_cart?
-              %li
-                = link_to cart_path(build_cart), class: "valign-wrapper" do
-                  .nav-cart
-                    = content_tag(:i, "shopping_cart", class: "material-icons nav-cart")
-                  .nav-cart
-                    = cart_main_panel
-                    
+            %li
+              #main_panel_cart
+                = render "layouts/main_panel_cart"
             - if current_user
               %li 
                 = link_to "Orders", orders_path
@@ -34,7 +29,7 @@
             - else
               %li
                 = link_to 'Sign In', new_user_session_path
-      = flash[:errors].inspect
+      -# = flash[:errors].inspect
       -# = @order.coupon.number.inspect unless @order.coupon.number.nil?
       -# = session[:previous_url].inspect
       -# = @cart.inspect
@@ -42,11 +37,11 @@
       -# = session["temp_order"].inspect
       -# = temp_order
       -# = session["session_id"]
-      -# = session["order"].inspect
+      -# = session["order_id"].inspect
       -# = session["cart"]["order_id"].inspect
-      -# = @order.id
+      -# = @order.inspect
       -# - if flash[:notice].present?
-      #notice= flash[:notice]
+      -# #notice= flash[:notice]
       -# - if flash[:error].present?
       -#   #notice= flash[:error]
       -# %p

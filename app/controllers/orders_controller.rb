@@ -14,6 +14,7 @@ class OrdersController < ApplicationController
   end
 
   def edit
+   
   end
 
   def create
@@ -21,6 +22,7 @@ class OrdersController < ApplicationController
 
   def cart
   end
+
 
   def update
     respond_to do |format|

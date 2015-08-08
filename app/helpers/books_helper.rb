@@ -8,7 +8,6 @@ module BooksHelper
   end
 
   def cart_total_price
-    @order = Order.as_cart(session['temp_order'])
     if @order.class != Order
       price = 0.0
     else
@@ -17,7 +16,6 @@ module BooksHelper
   end
 
   def cart_books_quantity
-    @order = Order.as_cart(session['temp_order'])
     if @order.class != Order
       quantity = 0.0
     else

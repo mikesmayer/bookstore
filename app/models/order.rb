@@ -15,30 +15,39 @@ class Order < ActiveRecord::Base
   #validates_associated :shipping_address, :billing_address, :credit_card
   validates :shipping_address, :billing_address, :credit_card, presence: true,  if: :last_step?
 
-  scope :as_cart, ->(session_id) { where('session_id = ?', session_id).last }
+  #scope :as_cart, ->(session_id) { where('session_id = ? AND status = ?', session_id, "initializing" ).take}
+  # scope :as_cart, ->(order_id) { where('id = ? AND status = ?', order_id, "initializing" ).take}
+  # scope :as_carts, -> { where('status = ?', "initializing" )}
 
   aasm column: :status do
-      state :initializing, :initial => true
-      state :creating
-      state :processing
+      state :in_progress, :initial => true
+      state :in_process
       state :shipping
       state :done
+      state :canceled
+      state :rejected
+      state :done
 
-      event :add_books do
-        transitions :from => :initializing, :to => :creating
+      event :set_in_process do
+        transitions :from => :in_progress, :to => :in_process
       end
 
-      event :add_order_info do
-        transitions :from => :creating, :to => :processing
+      event :set_in_shipping do
+        transitions :from => :in_process, :to => :shipping
       end
 
-      event :send_order do
-        transitions :from => :processing, :to => :shipping
-      end
-
-      event :get_order do
+      event :set_in_done do
         transitions :from => :shipping, :to => :done
       end
+
+      event :cancel do
+        transitions :from => :in_process, :to => :canceled
+      end
+
+      event :reject do
+        transitions :from => :in_process, :to => :reject
+      end
+
     end
 
   def last_step?

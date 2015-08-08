@@ -12,14 +12,10 @@ class OrderStepsController < ApplicationController
   end
 
   def update
-    if @order.last_step? && @order.not_accepted?
-      redirect_to :back
-    else
-      @order.update_attributes(order_step_params)
-      set_steps
-      setup_wizard
-      render_wizard @order
-    end
+    @order.update_attributes(order_step_params)
+    set_steps
+    setup_wizard
+    render_wizard @order
   end
 
   private
@@ -34,5 +30,10 @@ class OrderStepsController < ApplicationController
 
   def set_steps
     self.steps = @order.available_steps
+  end
+
+  def finish_wizard_path
+    @order.set_in_process!
+    orders_path
   end
 end

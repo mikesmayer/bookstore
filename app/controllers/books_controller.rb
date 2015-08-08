@@ -1,10 +1,10 @@
 class BooksController < ApplicationController
   include FilterrificStuff
   before_action :add_temp_order, only: :add_to_cart
-  load_and_authorize_resource 
+  before_action :set_order
+  load_and_authorize_resource :book
 
   def index 
-    #session["temp_order"] = nil 
     filterrific_books
     if @filterrific.nil?
       @books = Book.all
@@ -27,8 +27,6 @@ class BooksController < ApplicationController
 
   def edit
   end
-
-
 
   def create
     @book = Book.new(book_params)
@@ -94,8 +92,6 @@ class BooksController < ApplicationController
   end
 
   def add_to_cart
-    @order = Order.as_cart(session['temp_order'])
-    # render text: "#{@order.add_book(@book, 1)}"
     respond_to do |format|
       if @order.add_book(@book, 1)
         format.js
@@ -107,7 +103,6 @@ class BooksController < ApplicationController
   end
 
   def delete_from_cart
-    @order = Order.as_cart(session['temp_order'])
     @order.delete_book(@book)
     redirect_to :back
   end
@@ -115,18 +110,25 @@ class BooksController < ApplicationController
   private
 
   def add_temp_order 
-    if current_user && session["temp_order"].nil?
-      Order.create(user_id: current_user.id, session_id: session["session_id"])
-    elsif session["temp_order"].nil?
-      Order.create(session_id: session["session_id"])
+    if current_user && Order.find_by(user_id: current_user, status: "in_progress").nil?
+      Order.create(user_id: current_user.id)
+    elsif session["order_id"].nil?
+      session["order_id"] = Order.create.id
     end
-    session["temp_order"] = session["session_id"] unless session["temp_order"]
   end
 
-    def book_params
-     params.require(:book).permit(:id,:title, :description, :price, :quantity, 
-                                  :filterrific, :author_id, :category_id, :cover, :remote_cover_url)
+  def set_order
+    if current_user
+      @order = Order.where(user_id: current_user.id, status: "in_progress").last
+    else
+      @order = Order.find_by(id: session["order_id"])
     end
+  end
+
+  def book_params
+   params.require(:book).permit(:id,:title, :description, :price, :quantity, 
+                                :filterrific, :author_id, :category_id, :cover, :remote_cover_url)
+  end
 end
 
 

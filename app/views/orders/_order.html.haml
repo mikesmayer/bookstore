@@ -1,0 +1,5 @@
+%tr
+  %td= order.status
+  %td= link_to 'Show', order
+  %td= link_to 'Edit', edit_order_path(order)
+  %td= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' }

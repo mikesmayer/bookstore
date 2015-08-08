@@ -8,15 +8,14 @@ Rails.application.routes.draw do
   resource  :profile
   resources :orders 
   get "cart/:id"                    => "orders#cart",            as: "cart"
-  #resources :order_steps
 
   resources :orders do
     resources :order_steps, controller: 'order_steps'
 
-    # member do
-    #   post       'add_to_cart/:id'       => "orders#add_to_cart"
-    #   delete     'delete_from_cart/'  => "orders#delete_from_cart"
-    # end
+    member do
+      post       'add_to_cart'       => "orders#add_to_cart"
+      delete     'delete_from_cart'  => "orders#delete_from_cart"
+    end
   end
 
   resources :reviews do
