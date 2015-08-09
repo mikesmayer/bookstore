@@ -45,8 +45,8 @@
                   = position.price*position.quantity
               %td
                 .delete-book-position
-                  = link_to  delete_from_cart_book_path(position.book), method: :delete do
-                    %span.small.material-icons close
+                  = link_to  delete_from_cart_book_order_path(@order, book_id: position.book_id), method: :delete do
+                    %span.small.material-icons close 
       .right-align.cart-order-panel
         %h6
           Books Price:  $

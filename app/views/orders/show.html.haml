@@ -1,4 +1,66 @@
-%p#notice= notice
--# = link_to 'Edit', edit_order_path(@order)
-|
-= link_to 'Back', orders_path
+.container
+  .row
+    .col.l12.m12.s12
+      = link_to '<< Back to orders', orders_path
+      %h5.underscore-solid.valign-wrapper
+        Order
+        = "R#{@order.id}"
+      %h6.left-align
+        Status:
+        = "#{@order.status}"
+  .row
+    %table
+      %thead
+        %tr
+          %th
+          %th BOOK
+          %th PRICE
+          %th QTY
+          %th TOTAL
+      %tbody
+        - @order.order_books.each do |position|
+          %tr
+            %td{colspan: "5"}
+              .errors.center
+                = errors_builder(flash[:errors],{order_book: position.id})
+          %tr.underscore
+            %td 
+              = image_tag position.book.cover_url(:thumb).to_s
+            %td.book-info-cell
+              %ul
+                %li.book-info
+                  Author:
+                  = position.book.author.full_name
+                %li.book-info
+                  Title:
+                  = position.book.title
+                %br
+                %li
+                  = position.book.description
+            %td
+              %span
+                $
+                %span.book-price
+                  = position.book.price
+            %td
+              = position.quantity 
+            %td
+              .total-price
+                $
+                = position.price*position.quantity
+    .right-align.cart-order-panel
+      %h6
+        BOOKS PRICE:  $
+        = @order.books_price
+      %h6
+        SALE:  -$
+        = @order.sale*@order.books_price
+      %h6
+        SHIPPING:
+        = @order.delivery.price
+        
+      %h5 
+        SUBTOTAL:
+        $
+        = @order.total_price
+

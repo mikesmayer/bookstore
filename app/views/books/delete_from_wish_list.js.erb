@@ -1,0 +1,10 @@
+<% js_wishlist = escape_javascript(
+  users_list @book
+) %>
+<% js_wish_list_link = escape_javascript(
+  render 'wish_list_link'
+) %>
+
+
+$("#wishlist").html("<%= js_wishlist %>");
+$("#link_wish_list").html("<%= js_wish_list_link %>");

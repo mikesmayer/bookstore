@@ -34,6 +34,7 @@ class OrderStepsController < ApplicationController
 
   def finish_wizard_path
     @order.set_in_process!
+    Order.create(user_id: current_user.id)
     orders_path
   end
 end

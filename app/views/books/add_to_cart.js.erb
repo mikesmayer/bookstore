@@ -1,9 +1,0 @@
-<% js_right_side_cart = escape_javascript(
-  render partial: "cart_preview"
-) %>
-<% js_main_panel_cart = escape_javascript(
-  render partial: "layouts/main_panel_cart"
-) %>
-
-$("#cart_preview").html("<%= js_right_side_cart %>");
-$("#main_panel_cart").html("<%= js_main_panel_cart %>");

@@ -1,0 +1,8 @@
+- unless can? :manage, Book
+  -if can? :add_to_wish_list, Book
+    - if @book.in_wishlist?(current_user)
+      = link_to "Delete from wish", delete_from_wish_list_book_path(@book), method: :delete, remote:  true 
+    - else
+      = link_to "Wish", add_to_wish_list_book_path(@book),   method: :post, remote: true
+  -else
+    = link_to "Wish", add_to_wish_list_book_path(@book),   method: :post

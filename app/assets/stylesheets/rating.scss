@@ -70,3 +70,18 @@
   opacity : 1;
 }
 
+.rating-star{
+  font-size       : 130%;
+  display         : block;
+  width           : 5em;
+  height          : 1.5em;
+  background-size : contain;
+  opacity         : 0.3;
+  transition      : opacity 0.2s linear;
+  margin-right   : 10px;
+}
+
+.review-date, .review-user {
+  margin-left: 10%;
+}
+

@@ -2,86 +2,53 @@
 .container
   .row
     .col.l4.m4.s12
+      .book-info
+        = @book.author.full_name
+      .book-info
+        = @book.title
       .book-cover
         = image_tag @book.cover_url.to_s
+      .add-button
     .col.l6.m6.s12
-      .book-info
-        %ul
-          - unless can? :manage, Book
-            %li
-              -if can? :add_to_wish_list, Book
-                = link_to "Wish", add_to_wish_list_book_path(@book),   method: :post, remote: true
-                %br
-                = link_to "Delete from wish", delete_from_wish_list_book_path(@book), method: :delete, remote:true
-              -else
-                = link_to "Wish", add_to_wish_list_book_path(@book),   method: :post
-
-              %br
-              = link_to "Add to cart", add_to_cart_book_path(@book), method: :post, remote: true
-          %li
-            Category:
-            = @book.category.category_name
-          %li
-            Author:
-            = @book.author.full_name
-          %li
-            Title:
-            = @book.title
-          %li
-            Description:
-            = @book.description
-          %li
-            Price:
-            = @book.price
+      %table
+        %tbody
+          %tr
+            %td
+              #link_wish_list
+                = render "wish_list_link"
+          %tr
+            %td
+              $
+              = @book.price
+            %td.right-align
+              = link_to "Add to cart", add_to_cart_book_order_path(@order, book_id: @book.id), class: "waves-eff waves-light btn", method: :post, remote: true
+          %tr
+            %td{colspan: "2"}
+              = @book.description
     .col.s1.m2.l2
-      = render "layouts/right_side_panel"
-      
+      %h5 
+        Wishlist
+      %h5
+        #wishlist
+          =users_list @book
   .row
-    %h5 Wishes this book
-    =users_list @book
-  .row
-    %h5 Reviews
+    %h5.underscore-solid
+      Reviews
     - book_reviews(@book).each do |review|
       %ul
+        .valign-wrapper
+          %li.rating-star
+            = render_stars(review.rating)
+          %li.review-user
+            by
+            = review.user.email.split('@').first
+          %li.review-date
+            = "#{review.created_at.strftime('%B %-d, %Y')}"
         %li
-          User
-          = review.user.email
-        %li
-          Rating
-          = review.rating
-        %li
-          Text
           = review.text
   .row
-    = render 'reviews/form', locals: {book_id: @book.id}
-
--# %table
--#   %thead
--#     %tr
--#       %th Title
--#       %th Description
--#       %th Price
--#       %th Quantity
--#       %th Full Name
--#       %th Category
--#   %tbody
--#     %tr
--#       %td
--#         = @book.title
--#       %td
--#         = @book.description
--#       %td
--#         = @book.price
--#       %td
--#         = @book.quantity
--#       %td
--#         = @book.author.full_name
--#       %td
--#         = @book.category.category_name
--#       %td= link_to "Wish", add_to_wish_list_book_path(@book),   method: :post, remote: true
--#       %td= link_to "Delete from wish", delete_from_wish_list_book_path(@book), method: :delete, remote:true
--#       %td= link_to 'New Review', new_review_path({book_id: @book.id})
-        
+    .wishlist.align-right
+      = render 'reviews/form', locals: {book_id: @book.id}
 - if can? :manage, :book
   = link_to 'Edit', edit_book_path(@book)
   |

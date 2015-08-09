@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
-  before_action :add_temp_order, only: :add_to_cart
   load_and_authorize_resource :order
+  load_and_authorize_resource :book, only: [:add_to_cart, :delete_from_cart]
+  before_action :set_order, only: :index
   
   def index
     @orders = Order.accessible_by(current_ability).all
@@ -8,21 +9,6 @@ class OrdersController < ApplicationController
 
   def show
   end
-
-  def new
-    @order = current_user.orders.new
-  end
-
-  def edit
-   
-  end
-
-  def create
-  end
-
-  def cart
-  end
-
 
   def update
     respond_to do |format|
@@ -41,15 +27,38 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-    @order = Order.find(params[:id])
     @order.destroy
+    redirect_to orders_url, notice: 'Order was successfully destroyed.'
+  end
+
+  def cart
+  end
+
+  def add_to_cart
     respond_to do |format|
-      format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
-      format.json { head :no_content }
+      if @order.add_book(@book, 1)
+        format.js
+      else 
+        flash[:notice] = @book.errors
+        format.js
+      end
     end
   end
 
+  def delete_from_cart
+    @order.delete_book(@book)
+    redirect_to :back
+  end
+
   private
+  
+  def set_order
+    if current_user
+      @order = Order.where(user_id: current_user.id, status: "in_progress").last
+    else
+      @order = Order.find_by(id: session["order_id"])
+    end
+  end
 
   def order_params
    params.fetch(:order, {}).permit!#(:user_id, :credit_card_id, :billing_address_id, :shipping_address_id)

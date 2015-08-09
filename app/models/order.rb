@@ -29,6 +29,9 @@ class Order < ActiveRecord::Base
       state :done
 
       event :set_in_process do
+        before do
+          self.completed_date = DateTime.now
+        end
         transitions :from => :in_progress, :to => :in_process
       end
 
@@ -67,15 +70,13 @@ class Order < ActiveRecord::Base
     set_coupon
     self.billing_address = self.shipping_address if equal_shipping_address?
     set_delivery
-    # raise "#{self.delivery.inspect}"
   end
 
   def total_price
-    #raise "#{books_price - books_price*sale }"
     if self.coupon.nil?
-      self.total_price = books_price
+      self.total_price = books_price.to_f + delivery_price.to_f
     else 
-      self.total_price = books_price.to_f - books_price.to_f*self.coupon.sale.to_f
+      self.total_price = books_price.to_f - books_price.to_f*self.coupon.sale.to_f + delivery_price.to_f
     end
   end
 
@@ -88,6 +89,14 @@ class Order < ActiveRecord::Base
       0.0
     else
       self.coupon.sale
+    end
+  end
+
+  def delivery_price
+    if self.delivery.nil?
+      0.0
+    else
+      self.delivery.price
     end
   end
 

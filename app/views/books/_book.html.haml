@@ -8,38 +8,40 @@
     %td= book.category.category_name
     %td= link_to "Wish", add_to_wish_list_book_path(book),   method: :post, remote: true
     -# %td= link_to "Delete from wish", delete_from_wish_list_book_path(book_id: book.id), method: :delete, remote: true
-    %td= link_to "Add to cart", add_to_cart_book_path(book), method: :post, remote: true
+    %td= link_to "Add to cart", add_to_cart_book_order_path(@order, book_id: book.id), method: :post, remote: true
     %td= link_to 'Show', book
     - if can? :manage, :book
       %td= link_to 'Edit', edit_book_path(book)
       %td= link_to 'Destroy', book, method: :delete,  data: { confirm: 'Are you sure?' }
 - else
-  .card
+  .card.hoverable
     .card-image.waves-effect.waves-block.waves-light.activator
       = image_tag book.cover_url.to_s, class: "activator"
-    .card-content
-      %p.center-align
-        = link_to "Add to cart", add_to_cart_book_path(book), class: "waves-effect waves-light btn ", method: :post, remote: true
+    .card-content.valign-wrapper
+      %h6.card-book-price.align-left
+        $
+        = book.price
+      .card-book-button.align-right
+      = link_to "Add to cart", add_to_cart_book_order_path(@order, book_id: book.id), class: "waves-eff waves-light btn btn-small ", method: :post, remote: true
     .card-reveal
       %span.card-title.grey-text.text-darken-4
         %i.material-icons.right  close
       %ul.align-center
-        %li.align-center
-          Author
-          %br
+        %li.book-info
           = book.author.full_name
-        %li
-          Title
+        %li.book-info
           = book.title
-        %li 
-          Price:
+        %li.truncate
+          = book.description
+        %li
+          $
           = book.price
         %li
           = link_to 'Full Info', book
           %br
           = link_to "Wish", add_to_wish_list_book_path(book),   method: :post, remote: true
       %p.center-align
-        = link_to "Add to cart", add_to_cart_book_path(book), 
+        = link_to "Add to cart", add_to_cart_book_order_path(@order, book_id: book.id), 
                                  class: "waves-effect waves-light btn ", 
                                  method: :post, remote: true
 

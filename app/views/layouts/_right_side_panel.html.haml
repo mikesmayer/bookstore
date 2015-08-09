@@ -4,7 +4,7 @@
   .cart
     %h5.center
     - if can_build_cart?
-      = link_to cart_path(@order), class: "btn-large waves-effect waves-light", id: "cart-button" do
+      = link_to cart_order_path(@order), class: "btn-large waves-effect waves-light", id: "cart-button" do
         %i.large.material-icons shopping_cart
     #cart_preview
       = render "orders/cart_preview"

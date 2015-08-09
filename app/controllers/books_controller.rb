@@ -1,10 +1,12 @@
 class BooksController < ApplicationController
   include FilterrificStuff
-  before_action :add_temp_order, only: :add_to_cart
-  before_action :set_order
+  before_action :add_temp_order, :set_order
   load_and_authorize_resource :book
 
-  def index 
+  def index
+    #session["order_id"] = nil
+    #render text: "#{@order.inspect}"
+    #render text: "#{session['order_id'].inspect}"
     filterrific_books
     if @filterrific.nil?
       @books = Book.all
@@ -91,25 +93,9 @@ class BooksController < ApplicationController
     end
   end
 
-  def add_to_cart
-    respond_to do |format|
-      if @order.add_book(@book, 1)
-        format.js
-      else 
-        flash[:notice] = @book.errors
-        format.js
-      end
-    end
-  end
-
-  def delete_from_cart
-    @order.delete_book(@book)
-    redirect_to :back
-  end
-
   private
 
-  def add_temp_order 
+  def add_temp_order
     if current_user && Order.find_by(user_id: current_user, status: "in_progress").nil?
       Order.create(user_id: current_user.id)
     elsif session["order_id"].nil?

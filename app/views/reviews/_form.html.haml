@@ -16,9 +16,9 @@
     %label{:for => "rating3"} 
     %input#rating2{:name => "review[rating]", :type => "radio", :value => "2"}/
     %label{:for => "rating2"} 
-    %input#rating1{:name => "rating", :type => "radio", :value => "1"}/
+    %input#rating1{:name => "review[rating]", :type => "radio", :value => "1"}/
     %label{:for => "rating1"} 
-  = f.label :text
+  = f.label :text, class: "hide"
   = f.text_area :text
   = f.hidden_field :book_id, :value => @review.book_id
   .actions

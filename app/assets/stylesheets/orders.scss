@@ -8,7 +8,14 @@
 
 .underscore {
   border-bottom: 1px dashed #656666;
+}
 
+.underscore-solid {
+  border-bottom: 1px solid #656666;
+}
+
+.order-status {
+  font-weight: bold;
 }
 
 .ordered-books-table {
@@ -25,6 +32,11 @@
   width: 80%;
   height: 100%;
   padding: 20px;
+}
+
+.orders-table-status-header{
+  font-weight: bold;
+  font-size:   12px;
 }
 
 .delivery-select {

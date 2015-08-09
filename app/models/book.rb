@@ -3,6 +3,8 @@ class Book < ActiveRecord::Base
   belongs_to :author
   belongs_to :category
   has_many   :reviews
+  has_many   :order_books, dependent: :destroy
+  has_many   :orders, through: :order_books
   validates  :title, :description, :quantity, :price, 
              :category_id, :author_id, presence: true
   validates  :price, numericality: {greater_than: 0}
@@ -54,6 +56,10 @@ def book_in_stock(quantity)
   else
     return true
   end
+end
+
+def in_wishlist?(current_user)
+  current_user.books.include?(self)
 end
 
 def update_book(operation, by_quantity)
