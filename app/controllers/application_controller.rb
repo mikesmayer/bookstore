@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   after_action :stored_location
-  # helper_method :current_cart
   
   def stored_location
     session[:previous_url] = request.fullpath unless request.fullpath =~ /\/login/

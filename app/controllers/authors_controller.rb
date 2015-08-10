@@ -17,46 +17,30 @@ class AuthorsController < ApplicationController
 
   def create
     @author = Author.new(author_params)
-
-    respond_to do |format|
-      if @author.save
-        format.html { redirect_to @author, notice: 'Author was successfully created.' }
-        format.json { render :show, status: :created, location: @author }
-      else
-        format.html { render :new }
-        format.json { render json: @author.errors, status: :unprocessable_entity }
-      end
+    if @author.save
+      redirect_to @author, notice: 'Author was successfully created.'
+    else
+      render :new
     end
   end
 
   def update
-    respond_to do |format|
-      if @author.update(author_params)
-        format.html { redirect_to @author, notice: 'Author was successfully updated.' }
-        format.json { render :show, status: :ok, location: @author }
-      else
-        flash.now[:error] = 'Could not save author.'
-        format.html { render :edit }
-        format.json { render json: @author.errors, status: :unprocessable_entity }
-      end
+    if @author.update(author_params)
+      redirect_to @author, notice: 'Author was successfully updated.'
+    else
+      flash.now[:error] = 'Could not save author.'
+      render :edit 
     end
   end
 
   def destroy
     @author.destroy
-    respond_to do |format|
-      format.html { redirect_to authors_url, notice: 'Author was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to authors_url, notice: 'Author was successfully destroyed.'
   end
 
   private
-    def set_author
-      @author = Author.find(params[:id])
-    end
 
-    def author_params
-      params.require(:author).permit(:first_name, :last_name, :biography, :filterrific)
-    end
-
+  def author_params
+    params.require(:author).permit(:first_name, :last_name, :biography, :filterrific)
+  end
 end

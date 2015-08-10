@@ -7,16 +7,8 @@ class User < ActiveRecord::Base
   has_many :review
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
-
   after_create :create_user_profile, :set_role
-
   attr_accessor :session
-
-  # after_initialize :set_session_id
-
-  # def set_session_id
-  #   self.session_id = session["session_id"]
-  # end
 
   def set_role
     Role.create(name: "customer") if Role.find_by(name: "customer").nil?
