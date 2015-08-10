@@ -66,4 +66,20 @@ input[data-error="wrong"] {
   background-image: url('validation.png');
 }
 
+@media only screen and (min-width : 601px) and (max-width : 1260px) {
+#toast-container {
+min-width: 100%;
+bottom: 0%;
+top: 50%;
+right: 0%;
+left: 0%;} }
+
+@media only screen and (min-width : 1261px) {
+#toast-container {
+min-width: 100%;
+bottom: 0%;
+top: 90%;
+right: 0%;
+left: 0%; } }
+
  

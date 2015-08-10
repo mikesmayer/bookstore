@@ -1,6 +1,6 @@
 class Order < ActiveRecord::Base
   include AASM
-  attr_accessor :current_step,  :order_accepted, :billing_equal_shipping
+  attr_accessor :current_step,  :order_accepted, :billing_equal_shipping, :flash_notice
   belongs_to :user
   belongs_to :credit_card
   belongs_to :billing_address,  class_name: "Address", foreign_key: "billing_address_id"
@@ -144,8 +144,10 @@ class Order < ActiveRecord::Base
   def set_coupon
     if was_setted_before? && empty_now?
       reset_coupon
+      @flash_notice = "Coupon was disactivated"
     elsif coupon = find_coupon
       coupon.update(used: true, order_id: self.id)
+      @flash_notice = "Coupon was activated"
     end
   end
 

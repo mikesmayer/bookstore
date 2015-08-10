@@ -1,3 +1,3 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+$ ->
+  notice = $('#notice').text()
+  toast = Materialize.toast("#{notice}", 4000) unless notice.length < 20

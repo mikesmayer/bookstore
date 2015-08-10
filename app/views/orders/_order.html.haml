@@ -7,3 +7,6 @@
     = order.total_price
   %td
     = link_to 'View', order
+  - if can? :manage, :all
+    %td
+      = order.aasm.states(:permitted => true).map(&:name)

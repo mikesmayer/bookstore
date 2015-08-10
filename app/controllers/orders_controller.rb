@@ -16,6 +16,7 @@ class OrdersController < ApplicationController
         @order.order_books.destroy_all
         format.html {redirect_to root_path}
       elsif @order.update(order_params)
+        flash[:notice] = @order.flash_notice
         format.html { redirect_to :back}
       else
         format.html do 

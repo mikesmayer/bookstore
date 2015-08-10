@@ -1,0 +1,47 @@
+.container
+  .row
+    .col.l10.m10.s12
+      %h5 Orders
+      %h6.order-status.underscore-solid 
+        IN PROCESS
+      %table
+        %theader
+          %tr.orders-table-status-header
+            %th
+              NUMBER
+            %th
+              COMPLETED DATE
+            %th
+              TOTAL
+        %tbody
+          = render partial: 'order', collection: @orders.where(status: 'in_process')
+      %h6.order-status.underscore-solid 
+        IN DELIVERY
+      - unless @orders.where(status: 'in_delivery').empty?
+        %table
+          %theader
+            %tr.orders-table-status-header
+              %th.orders-table-status-header
+                NUMBER
+              %th.orders-table-status-header
+                COMPLETED DATE
+              %th.orders-table-status-header
+                TOTAL
+          %tbody
+            = render partial: 'order', collection: @orders.where(status: 'in_delivery')
+      %h6.order-status.underscore-solid 
+        DONE
+      - unless @orders.where(status: 'done').empty?
+        %table
+          %theader
+            %tr
+              %th.orders-table-status-header
+                NUMBER
+              %th.orders-table-status-header
+                COMPLETED DATE
+              %th.orders-table-status-header
+                TOTAL
+          %tbody
+            = render partial: 'order', collection: @orders.where(status: 'done')
+    .col.l2.m2.s12
+      = render "layouts/right_side_panel"

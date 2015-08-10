@@ -19,7 +19,7 @@ class Ability
       cannot :index, Category
       can :manage, Profile, user_id: user.id
       can :manage, Order,   user_id: user.id
-      can [:cart], Order#, status: "in_progress"
+      can [:cart], Order, status: "in_progress", user_id: user.id
       can :add_to_cart, Order, user_id: user.id
       can :manage, Review,  user_id: user.id
       cannot :index, Review
