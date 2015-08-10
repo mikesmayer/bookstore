@@ -5,7 +5,5 @@ class CreditCard < ActiveRecord::Base
   validates :number, :cvv, :expiration_month, :expiration_year, presence: true
   validates_numericality_of :expiration_year, 
                             greater_than_or_equal_to: Time.now.year
-  validates_numericality_of :expiration_month, 
-                            greater_than_or_equal_to: Time.now.month
-
+  validates_numericality_of :expiration_month
 end

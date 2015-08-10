@@ -49,26 +49,25 @@ class Book < ActiveRecord::Base
     where(:category_id => [*category_ids])
   }
 
-def book_in_stock(quantity)
-  if self.quantity < quantity
-    errors.add(:book_quantity_error, "Only #{self.quantity} books '#{self.title}' are available")
-    return false
-  else
-    return true
+  def book_in_stock(quantity)
+    if self.quantity < quantity
+      errors.add(:book_quantity_error, "Only #{self.quantity} books '#{self.title}' are available")
+      return false
+    else
+      return true
+    end
   end
-end
 
-def in_wishlist?(current_user)
-  current_user.books.include?(self)
-end
-
-def update_book(operation, by_quantity)
-  if operation == :reduce 
-    new_quantity = self.quantity - by_quantity
-  elsif operation == :increase 
-    new_quantity = self.quantity + by_quantity
+  def in_wishlist?(current_user)
+    current_user.books.include?(self)
   end
-  self.update(quantity: new_quantity)
-end
 
+  def update_book(operation, by_quantity)
+    if operation == :reduce 
+      new_quantity = self.quantity - by_quantity
+    elsif operation == :increase 
+      new_quantity = self.quantity + by_quantity
+    end
+    self.update(quantity: new_quantity)
+  end
 end
