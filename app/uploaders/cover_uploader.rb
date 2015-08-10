@@ -3,7 +3,7 @@
 class CoverUploader < CarrierWave::Uploader::Base
 
   
-
+  #asdkfjdkssdajkfjkgdjak
   # Include RMagick or MiniMagick support:
   include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
