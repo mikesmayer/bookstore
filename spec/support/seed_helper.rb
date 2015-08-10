@@ -1,6 +1,7 @@
 
 
 def seed_data
+  FactoryGirl.create_list( :country, 5)
   FactoryGirl.create :user, :as_admin, email: "admin@example.com", password: "12345678"
   FactoryGirl.create :user, :as_customer, email: "customer@example.com", password: "12345678"
   categories_name = ["novel","drama", "humor", "kids", "fantasy"]

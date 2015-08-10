@@ -4,9 +4,6 @@ class BooksController < ApplicationController
   load_and_authorize_resource :book
 
   def index
-    #session["order_id"] = nil
-    #render text: "#{@order.inspect}"
-    #render text: "#{session['order_id'].inspect}"
     filterrific_books
     if @filterrific.nil?
       @books = Book.all
