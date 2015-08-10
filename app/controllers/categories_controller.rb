@@ -17,45 +17,30 @@ class CategoriesController < ApplicationController
 
   def create
     @category = Category.new(category_params)
-
-    respond_to do |format|
-      if @category.save
-        format.html { redirect_to @category, notice: 'Category was successfully created.' }
-        format.json { render :show, status: :created, location: @category }
-      else
-        format.html { render :new }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
-      end
+    if @category.save
+      redirect_to @category, notice: 'Category was successfully created.'
+    else
+      render :new
     end
   end
 
   def update
-    respond_to do |format|
-      if @category.update(category_params)
-        format.html { redirect_to @category, notice: 'Category was successfully updated.' }
-        format.json { render :show, status: :ok, location: @category }
-      else
-        flash.now[:error] = 'Could not save category.'
-        format.html { render :edit }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
-      end
+    if @category.update(category_params)
+      redirect_to @category, notice: 'Category was successfully updated.'
+    else
+      flash.now[:error] = 'Could not save category.'
+      render :edit 
     end
   end
 
   def destroy
     @category.destroy
-    respond_to do |format|
-      format.html { redirect_to categories_url, notice: 'Category was successfully destroyed.' }
-      format.json { head :no_content }
+      redirect_to categories_url, notice: 'Category was successfully destroyed.'
     end
   end
 
   private
-    def set_category
-      @category = Category.find(params[:id])
-    end
-
-    def category_params
-      params.require(:category).permit(:category_name)
-    end
+  def category_params
+    params.require(:category).permit(:category_name)
+  end
 end
