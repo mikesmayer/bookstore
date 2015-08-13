@@ -16,9 +16,10 @@ Rails.application.routes.draw do
     member do
       post       'add_to_cart'       => "orders#add_to_cart",       as: "add_to_cart_book"
       delete     'delete_from_cart'  => "orders#delete_from_cart",  as: "delete_from_cart_book"
-      get        'cart/:id'          => "orders#cart",              as: "cart"
     end
   end
+
+get        'cart/:id'          => "orders#cart",              as: "cart"
 
   resources   :reviews do
     member do

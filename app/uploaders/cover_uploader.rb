@@ -11,7 +11,7 @@ class CoverUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   storage :file
   # storage :fog
-  include Cloudinary::CarrierWave
+  #include Cloudinary::CarrierWave
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
@@ -38,8 +38,8 @@ class CoverUploader < CarrierWave::Uploader::Base
     process :resize_to_limit => [150, 150]
   end
 
-  version :book_page do
-    process :resize_to_limit => [150, 150]
+  version :card_image do
+    process :resize_to_limit => [150, 220]
   end
 
   # Add a white list of extensions which are allowed to be uploaded.

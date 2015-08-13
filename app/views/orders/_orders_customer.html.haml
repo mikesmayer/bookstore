@@ -1,12 +1,13 @@
 .container
   .row
     .col.l12.m12.s12
-    %h5 ORDERS
+      %h5 ORDERS
   .row
     .col.l12.m12.s12
     %h6.order-status.underscore-solid
       IN PROGRESS
-    - if @order.order_books.empty?
+
+    - if cart_order.order_books.empty?
       %h5.center-align 
         Your cart is empty
     - else
@@ -19,7 +20,7 @@
             %th QTY
             %th TOTAL
         %tbody
-          - @order.order_books.each do |position|
+          - cart_order.order_books.each do |position|
             %tr
               %td{colspan: "5"}
                 .errors.center
@@ -51,7 +52,7 @@
                   = position.price*position.quantity
       .right-align.cart-order-panel
         .left
-          = link_to "Go To Cart", cart_order_path(@order),             class: "btn waves-effect waves-light"
+          = link_to "Go To Cart", cart_path(@order),             class: "btn waves-effect waves-light"
         %h6
           Books Price:  $
           = @order.books_price

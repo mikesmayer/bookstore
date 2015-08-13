@@ -1,6 +1,6 @@
 - if cannot? :manage, Book
   - if can_build_cart?
-    = link_to cart_order_path(@order), class: "valign-wrapper" do
+    = link_to cart_path(cart_order), class: "valign-wrapper" do
       .nav-cart
         = content_tag(:i, "shopping_cart", class: "material-icons nav-cart")
       .nav-cart

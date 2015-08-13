@@ -2,9 +2,8 @@
   = render "users/admin_panel"
 - else
   .cart
-    %h5.center
-    - if can_build_cart?
-      = link_to cart_order_path(@order), class: "btn-large waves-effect waves-light", id: "cart-button" do
-        %i.large.material-icons shopping_cart
-    #cart_preview
-      = render "orders/cart_preview"
+    = link_to cart_path(cart_order), class: "btn waves-effect waves-light", id: "cart-button" do
+      .img-cart
+        = content_tag(:i, "shopping_cart", class: "material-icons nav-cart")
+      .cart-info#cart_info
+        = cart_main_panel

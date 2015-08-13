@@ -8,18 +8,18 @@ module BooksHelper
   end
 
   def cart_total_price
-    if @order.class != Order
+    if cart_order.class != Order
       price = 0.0
     else
-      price = @order.order_books.inject(0){|price, o_b| price + o_b.price*o_b.quantity}
+      price = cart_order.order_books.inject(0){|price, o_b| price + o_b.price*o_b.quantity}
     end
   end
 
   def cart_books_quantity
-    if @order.class != Order
+    if cart_order.class != Order
       quantity = 0.0
     else
-      quantity = @order.order_books.inject(0){|quantity, o_b| quantity + o_b.quantity}
+      quantity = cart_order.order_books.inject(0){|quantity, o_b| quantity + o_b.quantity}
     end
   end
 end

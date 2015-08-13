@@ -1,12 +1,6 @@
-%h1 New Book
 .container
   .row
     .col.l6
+      %h5.center-align New Book
       = render 'form'
-    -# .col.l6
-    -#   .search-author-field
-    -#     = form_for_filterrific @filterrific, url: url_for(controller: 'books', action: 'new') do |f|
-    -#       = f.text_field :search_query, :class => 'filterrific-periodically-observed chardin_box form-control', :autocomplete => 'off' 
-    -#     #filterrific_results
-
 = link_to 'Back', books_path

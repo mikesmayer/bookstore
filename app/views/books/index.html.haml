@@ -15,8 +15,7 @@
                      @filterrific.select_options[:with_category_id],
                      { :include_blank => '- Any -' },
                      { :class => 'form-control' }
--if can? :manage, :book
-  %p#notice= notice
+-if can? :manage, :all
   .row
     .col.l10
       %h5.center Listing Books
@@ -30,24 +29,19 @@
               %th Quantity
           %tbody
             = render @books
-            = will_paginate @books
+        = will_paginate @books
       %br/
-      - if can? :manage, :book
-        = link_to 'New Book', new_book_path
+      = link_to 'New Book', new_book_path
     .col.l2
       = render "layouts/right_side_panel"
 - else
   .row
-    .col.s11.m9.l10
+    .col.s8.m9.l10
       %h4.center Today in Store
       #filterrific_results
         = render @books
         = will_paginate @books
-    .col.s1.m3.l2
+    .col.s4.m3.l2#right_side_panel
       = render "layouts/right_side_panel"
 
-
-
-  
-      
 

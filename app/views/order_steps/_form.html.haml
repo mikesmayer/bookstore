@@ -4,17 +4,11 @@
       %h5.order-book-link-panel
         Checkout
       %h5.order-book-link-panel.center
-        -# = link_to "< Previous Step", previous_wizard_path unless step == :address
-        -# = step.capitalize
         - @order.order_steps.each do |k, v|
           - if wizard_steps.include?(k.to_sym)
             =link_to "#{k.to_s.capitalize}", "#{k}"
           - else
             = "#{k.capitalize}"
-        -# = current_step?(step)
-        -# = past_step?(step)
-        -# = next_step?(step)
-        -# = link_to "Next Step >", next_wizard_path unless wizard_steps.last == step
   .row
     = form_for @order, url: wizard_path do |f|
       = yield f

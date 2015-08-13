@@ -4,6 +4,8 @@ class BooksController < ApplicationController
   load_and_authorize_resource :book
 
   def index
+    # session["order_id"] = nil
+    # render text: session["order_id"]
     filterrific_books
     if @filterrific.nil?
       @books = Book.all
@@ -18,10 +20,6 @@ class BooksController < ApplicationController
 
   def new
     @book = Book.new
-    respond_to do |format|
-      format.html
-      format.js
-    end
   end
 
   def edit
@@ -29,38 +27,24 @@ class BooksController < ApplicationController
 
   def create
     @book = Book.new(book_params)
-
-    respond_to do |format|
-      if @book.save
-        format.html { redirect_to @book, status: 302, notice: 'Book was successfully created.' }
-        format.json { render :show, status: :created, location: @book }
-      else
-        format.html { render :new }
-        format.json { render json: @book.errors, status: :unprocessable_entity }
-      end
+    if @book.save
+      redirect_to @book, status: 302, notice: 'Book was successfully created.'
+    else
+      render :new
     end
   end
 
   def update
-    respond_to do |format|
-      if @book.update(book_params)
-        format.html { redirect_to @book, notice: 'Book was successfully updated.' }
-        format.json { render :show, status: :ok, location: @book }
-      else
-        flash.now[:error] = 'Could not save book.'
-        format.html { render :edit }
-        format.json { render json: @book.errors, status: :unprocessable_entity }
-      end
+    if @book.update(book_params)
+      redirect_to @book, notice: 'Book was successfully updated.'
+    else
+      render :edit
     end
   end
 
   def destroy
     @book.destroy
-
-    respond_to do |format|
-      format.html { redirect_to books_url, notice: 'Book was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to books_url, notice: 'Book was successfully destroyed.'
   end
 
   def add_to_wish_list
@@ -73,8 +57,7 @@ class BooksController < ApplicationController
         format.html
         format.js
       else
-        format.html 
-        #format.js
+        format.html
       end
     end
   end
@@ -83,9 +66,7 @@ class BooksController < ApplicationController
     if current_user
       current_user.books.destroy(@book) if current_user.books.include?(@book)
     end
-
     respond_to do |format|
-      format.html { }
       format.js
     end
   end

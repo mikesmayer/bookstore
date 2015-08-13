@@ -16,17 +16,10 @@ html {
 body {
   @extend .grey.lighten-4;
   height: 100%;
- 
 }
 
 nav {
-  // box-shadow: 10 10 10px;
-  // height: 3rem;
   background-color: #656666 ;
-  // .logo{
-  //   font-size: 18pt;
-  //   padding-left: 15px;
-  // }
 }
 .page-wrap {
   min-height: 100%;
@@ -66,20 +59,25 @@ input[data-error="wrong"] {
   background-image: url('validation.png');
 }
 
-@media only screen and (min-width : 601px) and (max-width : 1260px) {
 #toast-container {
-min-width: 100%;
-bottom: 0%;
-top: 50%;
-right: 0%;
-left: 0%;} }
-
-@media only screen and (min-width : 1261px) {
-#toast-container {
-min-width: 100%;
-bottom: 0%;
-top: 90%;
-right: 0%;
-left: 0%; } }
+  display: block;
+  position: fixed;
+  z-index: 1001; }
+  @media only screen and (max-width : 600px) {
+    #toast-container {
+      min-width: 100%;
+      bottom: 0%; } }
+  @media only screen and (min-width : 601px) and (max-width : 992px) {
+    #toast-container {
+      min-width: 30%;
+      right: 0%;
+      top:   90%;
+      left: inherit;
+      bottom: inherit; } }
+  @media only screen and (min-width : 993px) {
+    #toast-container {
+      min-width: 8%;
+      top: 90%;
+      right: 0%; } }
 
  

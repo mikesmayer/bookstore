@@ -1,16 +1,10 @@
 = form_for @book, html: {multipart: true} do |f|
   - if @book.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(@book.errors.count, "error")
-        prohibited this book from being saved:
-      %ul
-        - @book.errors.full_messages.each do |message|
-          %li= message
+    %ul.date-errors
+      - @book.errors.full_messages.each do |message|
+        %li= message
   .field
     = f.file_field :cover
-    -# = f.label :remote_cover_url
-    -# = f.text_field :remote_cover_url
   .field
     = f.label       :title
     = f.text_field  :title
@@ -29,16 +23,13 @@
              options_from_collection_for_select(Author.all, :id, :full_name),
              {},
              {class: 'input-field'}
-
   = f.label      :category_id
   = f.select     :category_id, 
              options_from_collection_for_select(Category.all, :id, :category_name),
              {},
              {class: 'input-field'}
-
   = f.submit 'Save'
 
-      
 
 
 

@@ -1,15 +1,23 @@
 module OrdersHelper
 
   def can_build_cart?
-     @order.is_a? Order
+    @order.is_a? Order
+  end
+
+  def cart_order
+    if current_user
+      Order.where(user_id: current_user.id, status: "in_progress").last
+    else
+      Order.where(id: session["order_id"]).last
+    end
   end
 
 
   def cart_main_panel
-    if @order.nil? || @order.books.first.nil?
-      "(EMPTY)"
+    if cart_order.total_price != 0
+      "(#{cart_books_quantity}/$#{cart_order.total_price.round(2)})"
     else
-      "(#{cart_books_quantity}/$#{@order.total_price.round(2)})"
+      "(EMPTY)"
     end
   end
 end

@@ -21,3 +21,25 @@ input.order-quantity {
 .price-check {
   width: 100px;
 }
+
+.cart-info {
+  height: 40px;
+}
+
+#cart-button {
+  height: 140px;
+  line-height: 60px;
+  i{
+    padding-top: 30px;
+    font-size: 80px;
+    height:    80px;
+  }
+  .img-cart {
+    height: 90px;
+  }
+}
+
+.cart {
+   margin-top: 100px;
+   z-index: 100; 
+}
