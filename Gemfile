@@ -27,6 +27,7 @@ gem 'wicked'
 gem 'aasm'
 gem 'jquery-turbolinks'
 gem 'simple_form'
+gem 'omniauth-facebook'
 
 group :development, :test do
   gem 'sqlite3'

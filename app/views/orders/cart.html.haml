@@ -46,7 +46,7 @@
               %td
                 .delete-book-position
                   = link_to  delete_from_cart_book_order_path(@order, book_id: position.book_id), method: :delete do
-                    %span.small.material-icons close 
+                    %span.small.material-icons close
       .right-align.cart-order-panel
         %h6
           Books Price:  $
@@ -59,6 +59,11 @@
           SUBTOTAL:
           $
           = @order.total_price
+        .valign-wrapper
+          Coupon Number :
+          .left.coupon-input
+            = f.fields_for :coupon, @order.coupon || @order.build_coupon, include_id: false do |cf|
+              = cf.text_field :number
       .row
         %ul.cart-button-panel
           %li.left
@@ -69,9 +74,9 @@
             = link_to "Checkout", order_order_steps_path(@order), class: "btn waves-effect waves-light"
           %li.right
             = f.button "Update",  name: "update",                 class: "btn waves-effect waves-light"
-          %li.right.valign-wrapper
-            Coupon Number :
-            .right.coupon-input
-              = f.fields_for :coupon, @order.coupon || @order.build_coupon, include_id: false do |cf|
-                = cf.text_field :number
+          -# %li.right.valign-wrapper
+          -#   Coupon Number :
+          -#   .right.coupon-input
+          -#     = f.fields_for :coupon, @order.coupon || @order.build_coupon, include_id: false do |cf|
+          -#       = cf.text_field :number
 

@@ -1,7 +1,10 @@
 .container.login-container
   .row.center-align
     .col.l4.m6.s12.offset-l4.offset-m3.login-form
-      %h4 Log in
+      .facebook-login.valign-wrapper
+        %img(src="http://res.cloudinary.com/dojeutmz9/image/upload/v1439581789/facebooklogo_nwcoqv.png"   id="facebook-logo")
+        = link_to "Sign in ", user_omniauth_authorize_path(:facebook), class: "waves-eff waves-light btn", id: "facebook-button"
+      %h4 or
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
         - flash.each do |name, msg|
           = content_tag :div, msg, id: "flash_#{name}" 

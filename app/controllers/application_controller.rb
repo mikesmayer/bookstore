@@ -3,8 +3,12 @@ class ApplicationController < ActionController::Base
   after_action :stored_location
   
   def stored_location
-    session[:previous_url] = request.fullpath unless request.fullpath =~ /\/login/
+    session[:previous_url] = request.fullpath unless request.fullpath.match(/\/(login|auth|register|add_to_cart)/)
   end
+
+  # def path_in_blacklist?
+  #   %w(login auth register).each{|p| return true if request.fullpath.match(/"#{p}"/)}
+  # end
 
   def after_sign_in_path_for(resource)
     session[:previous_url] || request.referer || root_path

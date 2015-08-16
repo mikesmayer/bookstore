@@ -1,14 +1,19 @@
 .container
   .row
-    .class
+    .valign-wrapper
       %h5.order-book-link-panel
         Checkout
-      %h5.order-book-link-panel.center
+      -# %h5.order-book-link-panel.center
+      %ol.track-progress.class.center(data-steps="4")
         - @order.order_steps.each do |k, v|
           - if wizard_steps.include?(k.to_sym)
-            =link_to "#{k.to_s.capitalize}", "#{k}"
+            %li.done
+              %span
+                =link_to "#{k.to_s.capitalize}", "#{k}"
           - else
-            = "#{k.capitalize}"
+            %li
+              %span
+                = "#{k.capitalize}"
   .row
     = form_for @order, url: wizard_path do |f|
       = yield f

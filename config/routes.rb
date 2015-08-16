@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   devise_for  :users, :path => '', 
               :path_names => {:sign_in => 'login', :sign_up => 'register'}, 
               :controllers => {:sessions => "devise/custom_sessions", 
-              :registrations => "devise/custom_registrations" }
+                               :registrations => "devise/custom_registrations",
+                               :omniauth_callbacks => "devise/custom_omniauth_callbacks" }
 
   resource    :profile
   resources   :orders 
