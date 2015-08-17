@@ -18,9 +18,8 @@ class Ability
       can :read, Category
       cannot :index, Category
       can :manage, Profile, user_id: user.id
-      #can :manage, Order,   user_id: user.id, status: "in_progress"
       can :manage, Order, status: "in_progress", user_id: user.id
-      can [:index, :show], Order, status: "in_process", user_id: user.id
+      can [:index, :show, :cancel], Order, status: ["in_process", "canceled"], user_id: user.id
       can :add_to_cart, Order, user_id: user.id
       can :manage, Review,  user_id: user.id
       cannot :index, Review

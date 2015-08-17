@@ -8,6 +8,7 @@ feature 'User has one profile with contact info' do
   let(:credit_card){FactoryGirl.create :credit_card}
 
   before do
+    visit root_path
     visit new_user_session_path
     within '#new_user' do
     fill_in 'Email',     with: profile.user.email

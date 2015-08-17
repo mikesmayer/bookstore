@@ -5,6 +5,7 @@ class OrdersController < ApplicationController
   
   def index
     @orders = Order.accessible_by(current_ability).all
+    #render text: "#{@orders.inspect}"
   end
 
   def show
@@ -48,6 +49,11 @@ class OrdersController < ApplicationController
 
   def delete_from_cart
     @order.delete_book(@book)
+    redirect_to :back
+  end
+
+  def cancel
+    @order.cancel!
     redirect_to :back
   end
 

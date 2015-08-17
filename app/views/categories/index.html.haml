@@ -1,11 +1,14 @@
-%p#notice= notice
-%h1 Listing Categories
-%table
-  %thead
-    %tr
-      %th{:colspan => "3"}
-  %tbody
-    = render @categories
-%br/
-- if can? :manage, :category
-  = link_to 'New Category', new_category_path
+.row.valign-wrapper
+  %h5
+    Categories
+  = link_to '(Add Category)', new_category_path
+.row
+  .col.l10.m10.s12
+    %table
+      %thead
+        %tr
+          %th Category Name
+      %tbody
+        = render @categories
+  .col.l2.m2.s12
+    = render "layouts/right_side_panel"

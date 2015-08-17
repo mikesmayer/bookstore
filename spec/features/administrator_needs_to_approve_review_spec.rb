@@ -5,11 +5,13 @@ feature 'Approving review by administrator' do
   let(:user_admin){FactoryGirl.create :user, :as_admin}
   
   scenario "User can't see not approved review" do
+    visit root_path
     visit book_path(review.book)
     expect(page).not_to have_content("#{review.text}")
   end
 
   scenario 'User can see approved review', js: true do
+    visit root_path
     visit new_user_session_path
     within '#new_user' do
       fill_in 'Email',     with: user_admin.email

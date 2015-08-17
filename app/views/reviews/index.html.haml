@@ -1,25 +1,35 @@
 %p#notice= notice
-%h1 Listing Reviews
-%table
-  %thead
-    %tr
-      %th{:colspan => "3"}
-  %tbody
-    - @reviews.each do |review|
-      %tr
-        %td 
-          = review.rating
-        %td 
-          = review.text
-        %td= link_to 'Show', review
-        %td= link_to 'Edit', edit_review_path(review)
-        %td= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure?' }
-        - if can? :manage, :all
-          %td.review-form
-            = form_for review, url: url_for(controller: 'reviews', action: 'update_status', id: review.id), :method => :put, remote: true do |f|
-              = f.check_box :approved, id:  "review_approved_#{review.id}"
-              = f.label     " ",       for: "review_approved_#{review.id}", id: "label_review_approved_#{review.id}"
+%h5 Reviews
+.row
+  .col.l10.m10.s12
+    %table
+      %thead
+        %tr
+          %th
+            Rating
+          %th
+            Text
+          %th{:colspan => "3"}
+          %th
+            Approve
+      %tbody
+        - @reviews.each do |review|
+          %tr
+            %td 
+              = review.rating
+            %td 
+              = review.text
+            %td= link_to 'Show', review
+            %td= link_to 'Edit', edit_review_path(review)
+            %td= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure?' }
+            - if can? :manage, :all
+              %td.review-form
+                = form_for review, url: url_for(controller: 'reviews', action: 'update_status', id: review.id), :method => :put, remote: true do |f|
+                  = f.check_box :approved, id:  "review_approved_#{review.id}"
+                  = f.label     " ",       for: "review_approved_#{review.id}", id: "label_review_approved_#{review.id}"
 
-              = f.button "Update", class: "waves-effect waves-light btn" 
-%br/
-= link_to 'New Review', new_review_path(@book)
+                  = f.button "Update", class: "waves-effect waves-light btn"
+  .col.l2.m2.s12
+    = render "layouts/right_side_panel"
+-# %br/
+-# = link_to 'New Review', new_review_path(@book)

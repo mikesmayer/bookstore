@@ -16,9 +16,12 @@
                      { :include_blank => '- Any -' },
                      { :class => 'form-control' }
 -if can? :manage, :all
+  .row.valign-wrapper
+    %h5
+      Books
+    = link_to '(Add Book)', new_book_path
   .row
     .col.l10
-      %h5.center Listing Books
       #filterrific_results
         %table
           %thead
@@ -30,8 +33,6 @@
           %tbody
             = render @books
         = will_paginate @books
-      %br/
-      = link_to 'New Book', new_book_path
     .col.l2
       = render "layouts/right_side_panel"
 - else

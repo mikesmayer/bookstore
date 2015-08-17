@@ -21,7 +21,7 @@ class Order < ActiveRecord::Base
       state :shipping
       state :done
       state :canceled
-      state :rejected
+      # state :rejected
       state :done
 
       event :set_in_process do
@@ -41,10 +41,6 @@ class Order < ActiveRecord::Base
 
       event :cancel do
         transitions :from => :in_process, :to => :canceled
-      end
-
-      event :reject do
-        transitions :from => :in_process, :to => :reject
       end
     end
 

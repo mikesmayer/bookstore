@@ -7,6 +7,19 @@
     = order.total_price
   %td
     = link_to 'View', order
-  - if can? :manage, :all
+  -# %td
+  -#   - if order.in_process?
+  -#     = link_to 'Cancel', cancel_order_path(order),
+  -#                         class: "waves-eff waves-light btn",
+  -#                         method: :post
+  - if order.in_process? && can?(:manage, :all)
     %td
-      = order.aasm.states(:permitted => true).map(&:name)
+      =form_for order, method: :put do |f|
+        .valign-wrapper
+          = f.select :status, order.aasm.states(:permitted => true).map(&:name),
+                              { :include_blank => "#{order.status}" }
+          = f.button "Update", class: "waves-eff waves-light btn"
+  - else
+    %td
+      = order.status
+      -# = order.aasm.states(:permitted => true).map(&:name)

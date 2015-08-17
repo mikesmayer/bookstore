@@ -20,6 +20,7 @@
       .add-to-cart-btn
         = link_to  add_to_cart_book_order_path(@order, book_id: book.id),
                          class: "waves-eff waves-light btn-floating card-button right",
+                         id: "add_to_cart_book_#{book.id}",
                          method: :post, remote: true do
           %i.material-icons shopping_cart
     .card-reveal.card-info

@@ -6,12 +6,13 @@ FactoryGirl.define do
     shipping_address  {FactoryGirl.create :address}
     credit_card       {FactoryGirl.create :credit_card}
     user
-    status "creating"
+    # status ""
 
-    after(:build) do |order| 
-      book = FactoryGirl.create :book
-      order.ordered_books = [{"id" => book.id, "quantity" => rand(1..book.quantity)}]
-    end
+   after(:build) do |order| 
+     book = FactoryGirl.create :book
+     # order.add_book(book,10)
+     # p order.books
+   end
 
   end
 end

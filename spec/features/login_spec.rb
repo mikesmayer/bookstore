@@ -4,6 +4,7 @@ feature "Administrator successfully signs in" do
   let(:user_admin){FactoryGirl.create(:user,:as_admin)}
 
   before do
+    visit root_path
     visit new_user_session_path
   end
 

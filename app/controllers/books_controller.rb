@@ -4,7 +4,7 @@ class BooksController < ApplicationController
   load_and_authorize_resource :book
 
   def index
-    #reset_session
+    # reset_session
     filterrific_books
     if @filterrific.nil?
       @books = Book.all

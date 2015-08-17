@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     member do
       post       'add_to_cart'       => "orders#add_to_cart",       as: "add_to_cart_book"
       delete     'delete_from_cart'  => "orders#delete_from_cart",  as: "delete_from_cart_book"
+      post       'cancel'            => "orders#cancel",            as: "cancel"
     end
   end
 

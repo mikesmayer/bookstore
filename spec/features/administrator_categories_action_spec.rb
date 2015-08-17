@@ -6,6 +6,7 @@ feature 'Administrator categories CRUD actions' do
   let(:user_admin){FactoryGirl.create(:user,:as_admin)}
 
   before do
+    visit root_path
     visit new_user_session_path
     within '#new_user' do
       fill_in 'Email',     with: user_admin.email

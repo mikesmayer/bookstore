@@ -6,6 +6,7 @@ feature 'Reviewing books by user' do
   let!(:book){FactoryGirl.create :book}
 
   before do
+    visit root_path
     visit new_user_session_path
     within '#new_user' do
       fill_in 'Email',     with: user.email

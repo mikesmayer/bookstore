@@ -1,7 +1,7 @@
 require 'features/features_spec_helper'
 
 feature "User can put book in cart and create new order"  do
-  let(:book){FactoryGirl.create(:book)}
+  let!(:book){FactoryGirl.create(:book)}
   let(:user){FactoryGirl.create(:user, :as_customer)}
 
   context "Loginned user" do
@@ -16,27 +16,23 @@ feature "User can put book in cart and create new order"  do
     end
 
     scenario 'Loginned user successfully adds book to cart and creates new order', js: true do
-      book
       visit root_path
-      click_link ('Add to cart')
+      find("#add_to_cart_book_#{book.id}").click
       find('#cart-button').click
-      click_link ('Create Order')
-      expect(page).to have_content "New Order"
-      expect(page).to have_content "#{book.title}"
-      expect(page).to have_content "#{book.price}"
-      expect(page).to have_content "#{book.author.full_name}"
+      click_link ('Checkout')
+      expect(page).to have_content "Shipping Address"
+      expect(page).to have_content "Billing Address"
     end
   end
 
- context "Not loginned user" do
-   scenario 'Not loginned  user redirected to login_path', js: true do
-     book
-     visit root_path
-     click_link ('Add to cart')
-     find('#cart-button').click
-     click_link ('Create Order')
-     expect(page).to have_content "Log in"
-   end
- end
+  context "Not loginned user" do
+    scenario 'Not loginned  user redirected to login_path', js: true do
+      visit root_path
+      find("#add_to_cart_book_#{book.id}").click
+      find('#cart-button').click
+      click_link ('Checkout')
+      expect(page).to have_content "SIGN IN"
+    end
+  end
   
 end

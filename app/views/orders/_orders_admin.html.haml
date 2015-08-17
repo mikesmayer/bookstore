@@ -3,6 +3,19 @@
     .col.l10.m10.s12
       %h5 Orders
       %h6.order-status.underscore-solid 
+        IN PROGRESS
+      %table
+        %theader
+          %tr.orders-table-status-header
+            %th
+              NUMBER
+            %th
+              COMPLETED DATE
+            %th
+              TOTAL
+        %tbody
+          = render partial: 'order', collection: @orders.where(status: 'in_progress')
+      %h6.order-status.underscore-solid 
         IN PROCESS
       %table
         %theader
@@ -17,7 +30,7 @@
           = render partial: 'order', collection: @orders.where(status: 'in_process')
       %h6.order-status.underscore-solid 
         IN DELIVERY
-      - unless @orders.where(status: 'in_delivery').empty?
+      - unless @orders.where(status: 'shipping').empty?
         %table
           %theader
             %tr.orders-table-status-header
@@ -28,7 +41,7 @@
               %th.orders-table-status-header
                 TOTAL
           %tbody
-            = render partial: 'order', collection: @orders.where(status: 'in_delivery')
+            = render partial: 'order', collection: @orders.where(status: 'shipping')
       %h6.order-status.underscore-solid 
         DONE
       - unless @orders.where(status: 'done').empty?

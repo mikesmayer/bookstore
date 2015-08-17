@@ -64,23 +64,24 @@
           $
           = @order.total_price
   .row
-    %h6.order-status.underscore-solid 
-      IN PROCESS
-    %table
-      %theader
-        %tr
-          %th.orders-table-status-header
-            NUMBER
-          %th.orders-table-status-header
-            COMPLETED DATE
-          %th.orders-table-status-header
-            TOTAL
-      %tbody
-        = render partial: 'order', collection: @orders.where(status: 'in_process')
+    - unless @orders.where(status: 'in_process').empty?
+      %h6.order-status.underscore-solid 
+        IN PROCESS
+      %table
+        %theader
+          %tr
+            %th.orders-table-status-header
+              NUMBER
+            %th.orders-table-status-header
+              COMPLETED DATE
+            %th.orders-table-status-header
+              TOTAL
+        %tbody
+          = render partial: 'order', collection: @orders.where(status: 'in_process')
   .row
-    %h6.order-status.underscore-solid 
-      IN DELIVERY
     - unless @orders.where(status: 'in_delivery').empty?
+      %h6.order-status.underscore-solid 
+        IN DELIVERY
       %table
         %theader
           %tr
@@ -93,9 +94,9 @@
         %tbody
           = render partial: 'order', collection: @orders.where(status: 'in_delivery')
   .row
-    %h6.order-status.underscore-solid 
-      DONE
     - unless @orders.where(status: 'done').empty?
+      %h6.order-status.underscore-solid 
+        DONE
       %table
         %theader
           %tr
@@ -107,4 +108,19 @@
               TOTAL
         %tbody
           = render partial: 'order', collection: @orders.where(status: 'done')
+  .row
+    - unless @orders.where(status: 'canceled').empty?
+      %h6.order-status.underscore-solid 
+        CANCELED
+      %table
+        %theader
+          %tr
+            %th.orders-table-status-header
+              NUMBER
+            %th.orders-table-status-header
+              COMPLETED DATE
+            %th.orders-table-status-header
+              TOTAL
+        %tbody
+          = render partial: 'order', collection: @orders.where(status: 'canceled')
 
