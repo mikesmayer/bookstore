@@ -1,12 +1,11 @@
 = form_for(@review) do |f|
-  - if @review.errors.any?
+  - unless flash[:errors].nil?
     #error_explanation
-      %h2
-        = pluralize(@review.errors.count, "error")
-        prohibited this review from being saved:
       %ul
-        - @review.errors.full_messages.each do |message|
-          %li= message
+        - flash[:errors].each do |k , v|
+          %li.review-errors
+            = "#{k.capitalize} #{v.first}"
+
   .rating
     %input#rating5{:name => "review[rating]", :type => "radio", :value => "5"}/
     %label{:for => "rating5"} 

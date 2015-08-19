@@ -7,8 +7,8 @@
         %li
           .field
             = ff.label      :number
-            = ff.text_field :number, placeholder: errors(@order, "credit_card", "number"), 
-                            type: "password"
+            = ff.text_field :number, placeholder: errors(@order, "credit_card", "number")
+                            
         %li
           %ul.date-errors
             - @order.errors["credit_card.expiration_month".to_sym].each do |e|
@@ -33,8 +33,8 @@
         %li
           .field
             = ff.label      :cvv
-            = ff.text_field :cvv, placeholder: errors(@order, "credit_card", "number"),
-                                  type: "password"
+            = ff.text_field :cvv, placeholder: errors(@order, "credit_card", "number")
+                                  
   .col.l6.m6.s12
     %ul
       %li

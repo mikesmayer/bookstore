@@ -53,9 +53,9 @@ class Order < ActiveRecord::Base
 
   def total_price
     if self.coupon.nil?
-      self.total_price = books_price.to_f + delivery_price.to_f
+      self.total_price = (books_price.to_f + delivery_price.to_f).round(2)
     else 
-      self.total_price = books_price.to_f - books_price.to_f*self.coupon.sale.to_f + delivery_price.to_f
+      self.total_price = (books_price.to_f - books_price.to_f*self.coupon.sale.to_f + delivery_price.to_f).round(2)
     end
   end
 
@@ -74,6 +74,7 @@ class Order < ActiveRecord::Base
   end
 
   def order_steps
+    self.billing_address = self.shipping_address if equal_shipping_address?
     {address:       true, 
      delivery:      self.shipping_address.nil? ? false : self.shipping_address.valid? &&
                     self.billing_address.nil?  ? false : self.billing_address.valid?,

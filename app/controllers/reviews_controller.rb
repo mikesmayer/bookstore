@@ -8,26 +8,16 @@ class ReviewsController < ApplicationController
   def show
   end
 
-  def new
-    @review = Review.new(book_id: params[:book_id])
-  end
-
   def edit
   end
 
   def create
-
-    @review = current_user.review.new(review_params) 
-
-    respond_to do |format|
-
-      if @review.save
-        format.html { redirect_to book_path(Book.find(@review.book_id)), notice: 'Review was successfully created.' }
-        format.json { render :show, status: :created, location: @review }
-      else
-        format.html { render :new }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
-      end
+    @review = current_user.review.new(review_params)
+    if @review.save
+      redirect_to book_path(Book.find(@review.book_id)), notice: 'Review was successfully created.'
+    else
+      flash[:errors] = @review.errors
+      redirect_to :back
     end
   end
 
@@ -53,16 +43,10 @@ class ReviewsController < ApplicationController
   end
 
   def update_status
-    respond_to do |format|
-      if @review.update(review_params)
-        format.html { redirect_to @review, notice: 'Review was successfully updated.' }
-        format.json { render :show, status: :ok, location: @review }
-        format.js
-      else
-        format.html { render :edit }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
-        format.js
-      end
+    if @review.update(review_params)
+      redirect_to :back, notice: 'Review was successfully updated.'
+    else
+      redirect_to :back
     end
   end
 

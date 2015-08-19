@@ -7,11 +7,11 @@
     = order.total_price
   %td
     = link_to 'View', order
-  -# %td
-  -#   - if order.in_process?
-  -#     = link_to 'Cancel', cancel_order_path(order),
-  -#                         class: "waves-eff waves-light btn",
-  -#                         method: :post
+  %td
+    - if order.in_process?
+      = link_to 'Cancel', cancel_order_path(order),
+                          class: "waves-eff waves-light btn",
+                          method: :post
   - if order.in_process? && can?(:manage, :all)
     %td
       =form_for order, method: :put do |f|

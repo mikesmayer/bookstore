@@ -1,79 +1,84 @@
 %h5.center-align Ordered books
 .container
-  .row
-    = form_for @order do |f|
-      %table
-        %thead
-          %tr
-            %th
-            %th BOOK
-            %th PRICE
-            %th QTY
-            %th TOTAL
-        %tbody
-          - @order.order_books.each do |position|
+  - if @order.order_books.empty?
+    .row.center
+      %h5
+        Your cart is empty
+  - else
+    .row
+      = form_for @order do |f|
+        %table
+          %thead
             %tr
-              %td{colspan: "5"}
-                .errors.center
-                  = errors_builder(flash[:errors],{order_book: position.id})
-            %tr.underscore
-              %td 
-                = image_tag position.book.cover_url(:thumb).to_s
-              %td.book-info-cell
-                %ul
-                  %li.book-info
-                    Author:
-                    = position.book.author.full_name
-                  %li.book-info
-                    Title:
-                    = position.book.title
-                  %br
-                  %li
-                    = position.book.description
-              %td
-                %span
-                  $
-                  %span.book-price
-                    = position.book.price
-              %td 
-                = f.fields_for      :order_books, position do |ff|
-                  = ff.text_field   :quantity, class: "order-quantity"
-                  = ff.hidden_field :book_id
-              %td
-                .total-price
-                  $
-                  = position.price*position.quantity
-              %td
-                .delete-book-position
-                  = link_to  delete_from_cart_book_order_path(@order, book_id: position.book_id), method: :delete do
-                    %span.small.material-icons close
-      .right-align.cart-order-panel
-        .hide#sale
-          = @order.sale
-        %h6#books_price
-          Books Price:  $
-          = @order.books_price
-        %h6#books_sale
-          Sale:  -$
-          = @order.sale*@order.books_price
-          
-        %h5#subtotal_price 
-          SUBTOTAL:
-          $
-          = @order.total_price
-        .valign-wrapper
-          Coupon Number :
-          .left.coupon-input
-            = f.fields_for :coupon, @order.coupon || @order.build_coupon, include_id: false do |cf|
-              = cf.text_field :number
-      .row
-        %ul.cart-button-panel
-          %li.left
-            = f.button "Empty Cart", value: "empty_cart",         class: "btn waves-effect waves-light"
-          %li.left
-            = link_to "Continue Shopping", root_path,             class: "btn waves-effect waves-light"
-          %li.right
-            = link_to "Checkout", order_order_steps_path(@order), class: "btn waves-effect waves-light"
-          %li.right
-            = f.button "Update",  name: "update",                 class: "btn waves-effect waves-light"
+              %th
+              %th BOOK
+              %th PRICE
+              %th QTY
+              %th TOTAL
+          %tbody
+            - @order.order_books.each do |position|
+              %tr
+                %td{colspan: "5"}
+                  .errors.center
+                    = errors_builder(flash[:errors],{order_book: position.id})
+              %tr.underscore
+                %td 
+                  = image_tag position.book.cover_url(:thumb).to_s
+                %td.book-info-cell
+                  %ul
+                    %li.book-info
+                      Author:
+                      = position.book.author.full_name
+                    %li.book-info
+                      Title:
+                      = position.book.title
+                    %br
+                    %li
+                      = position.book.description
+                %td
+                  %span
+                    $
+                    %span.book-price
+                      = position.book.price
+                %td 
+                  = f.fields_for      :order_books, position do |ff|
+                    = ff.text_field   :quantity, class: "order-quantity"
+                    = ff.hidden_field :book_id
+                %td
+                  .total-price
+                    $
+                    = position.price*position.quantity
+                %td
+                  .delete-book-position
+                    = link_to  delete_from_cart_book_order_path(@order, book_id: position.book_id), method: :delete do
+                      %span.small.material-icons close
+        .right-align.cart-order-panel
+          .hide#sale
+            = @order.sale
+          %h6#books_price
+            Books Price:  $
+            = @order.books_price
+          %h6#books_sale
+            Sale:  -$
+            = @order.sale*@order.books_price
+            
+          %h5#subtotal_price 
+            SUBTOTAL:
+            $
+            = @order.total_price
+          .valign-wrapper
+            Coupon Number :
+            .left.coupon-input
+              = f.fields_for :coupon, @order.coupon || @order.build_coupon, include_id: false do |cf|
+                = cf.text_field :number
+        .row
+          %ul.cart-button-panel
+            %li.left
+              = f.button "Empty Cart", value: "empty_cart",         class: "btn waves-effect waves-light"
+            %li.left
+              = link_to "Continue Shopping", root_path,             class: "btn waves-effect waves-light"
+            %li.right
+              = link_to "Checkout", order_order_steps_path(@order), class: "btn waves-effect waves-light"
+            %li.right
+              = f.button "Update",  name: "update",                 class: "btn waves-effect waves-light"
 

@@ -24,7 +24,7 @@
             %td= link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure?' }
             - if can? :manage, :all
               %td.review-form
-                = form_for review, url: url_for(controller: 'reviews', action: 'update_status', id: review.id), :method => :put, remote: true do |f|
+                = form_for review, url: url_for(controller: 'reviews', action: 'update_status', id: review.id), :method => :put do |f|
                   = f.check_box :approved, id:  "review_approved_#{review.id}"
                   = f.label     " ",       for: "review_approved_#{review.id}", id: "label_review_approved_#{review.id}"
 
