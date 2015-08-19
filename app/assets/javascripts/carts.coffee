@@ -6,5 +6,11 @@ $ ->
     quantity = parseInt(quantity)
     total_price = parseFloat(price) * quantity
     $(this).closest('tr').find('.total-price:first').text("$" + total_price)
+    $('#books_price').text('Books Price:  $' + total_price)
+    sale = $('#sale').text()
+    sale = parseFloat(sale)
+    sale = sale*total_price
+    $('#books_sale').text('Sale:  -$' + sale)
+    $('#subtotal_price').text('SUBTOTAL: $' + "#{total_price - sale}")
 
-    #alert price
+    # alert sale

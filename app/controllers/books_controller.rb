@@ -1,6 +1,5 @@
 class BooksController < ApplicationController
   include FilterrificStuff
-  before_action :add_temp_order, :set_order
   load_and_authorize_resource :book
 
   def index
@@ -71,22 +70,6 @@ class BooksController < ApplicationController
   end
 
   private
-
-  def add_temp_order
-    if current_user && Order.find_by(user_id: current_user, status: "in_progress").nil?
-      Order.create(user_id: current_user.id)
-    elsif session["order_id"].nil?
-      session["order_id"] = Order.create.id
-    end
-  end
-
-  def set_order
-    if current_user
-      @order = Order.where(user_id: current_user.id, status: "in_progress").last
-    else
-      @order = Order.find_by(id: session["order_id"])
-    end
-  end
 
   def book_params
    params.require(:book).permit(:id,:title, :description, :price, :quantity, 

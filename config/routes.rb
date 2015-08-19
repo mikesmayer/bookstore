@@ -1,12 +1,16 @@
 Rails.application.routes.draw do
 
   devise_for  :users, :path => '', 
-              :path_names => {:sign_in => 'login', :sign_up => 'register'}, 
+              :path_names  => {:sign_in => 'login', :sign_up => 'register'}, 
               :controllers => {:sessions => "devise/custom_sessions", 
                                :registrations => "devise/custom_registrations",
                                :omniauth_callbacks => "devise/custom_omniauth_callbacks" }
 
-  resource    :profile
+  resource    :profile do
+    member do
+      get 'wishlist'                => "profiles#wishlist"
+    end
+  end
   resources   :orders 
   resources   :authors
   resources   :categories
@@ -21,7 +25,7 @@ Rails.application.routes.draw do
     end
   end
 
-get        'cart/:id'          => "orders#cart",              as: "cart"
+get        'cart/:id'                => "orders#cart",              as: "cart"
 
   resources   :reviews do
     member do

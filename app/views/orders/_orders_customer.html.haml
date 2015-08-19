@@ -52,17 +52,17 @@
                   = position.price*position.quantity
       .right-align.cart-order-panel
         .left
-          = link_to "Go To Cart", cart_path(@order),             class: "btn waves-effect waves-light"
+          = link_to "Go To Cart", cart_path(@order_as_cart),             class: "btn waves-effect waves-light"
         %h6
           Books Price:  $
-          = @order.books_price
+          = @order_as_cart.books_price
         %h6
           Sale:  -$
-          = @order.sale*@order.books_price
+          = @order_as_cart.sale*@order_as_cart.books_price
         %h5 
           SUBTOTAL:
           $
-          = @order.total_price
+          = @order_as_cart.total_price
   .row
     - unless @orders.where(status: 'in_process').empty?
       %h6.order-status.underscore-solid 

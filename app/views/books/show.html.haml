@@ -1,6 +1,7 @@
 .container
   .row
     .col.l4.m4.s12
+      = link_to '<< Back to Shop', root_path
       .book-info
         = @book.author.full_name
       .book-info
@@ -19,7 +20,7 @@
               $
               = @book.price
             %td.right-align
-              = link_to "Add to cart", add_to_cart_book_order_path(@order, book_id: @book.id), class: "waves-eff waves-light btn", method: :post, remote: true
+              = link_to "Add to cart", add_to_cart_book_order_path(@order_as_cart, book_id: @book.id), class: "waves-eff waves-light btn", method: :post, remote: true
           %tr
             %td{colspan: "2"}
               = @book.description
@@ -49,5 +50,3 @@
       = render 'reviews/form', locals: {book_id: @book.id}
 - if can? :manage, :book
   = link_to 'Edit', edit_book_path(@book)
-  |
-= link_to 'Back', root_path

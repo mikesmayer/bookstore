@@ -1,36 +1,31 @@
 class OrdersController < ApplicationController
   load_and_authorize_resource :order
   load_and_authorize_resource :book, only: [:add_to_cart, :delete_from_cart]
-  before_action :set_order, only: :index
   
   def index
     @orders = Order.accessible_by(current_ability).all
-    #render text: "#{@orders.inspect}"
   end
 
   def show
   end
 
   def update
-    respond_to do |format|
-      if params[:button] == "empty_cart" 
-        @order.order_books.destroy_all
-        format.html {redirect_to root_path}
-      elsif @order.update(order_params)
-        flash[:notice] = @order.flash_notice
-        format.html { redirect_to :back}
-      else
-        format.html do 
-          flash[:errors] = @order.errors.messages
-          redirect_to :back
-        end
-      end
+    if params[:button] == "empty_cart" 
+      @order.order_books.destroy_all
+      redirect_to root_path
+    elsif @order.update(order_params)
+      flash[:notice] = @order.flash_notice
+      redirect_to :back
+    else
+      flash[:errors] = @order.errors.messages
+      redirect_to :back
     end
   end
 
   def destroy
     @order.destroy
-    redirect_to orders_url, notice: 'Order was successfully destroyed.'
+    flash[:notice] = 'Order was successfully destroyed.'
+    redirect_to orders_url
   end
 
   def cart
@@ -58,14 +53,6 @@ class OrdersController < ApplicationController
   end
 
   private
-  
-  def set_order
-    if current_user
-      @order = Order.where(user_id: current_user.id, status: "in_progress").last
-    else
-      @order = Order.find_by(id: session["order_id"])
-    end
-  end
 
   def order_params
    params.fetch(:order, {}).permit!#(:user_id, :credit_card_id, :billing_address_id, :shipping_address_id)

@@ -1,6 +1,12 @@
 %h5 Billing Address
 = f.fields_for :billing_address, @profile.billing_address do |ff|
   .field
+    = ff.label      :first_name
+    = ff.text_field :first_name
+  .field
+    = ff. label     :last_name
+    = ff.text_field :last_name
+  .field
     = ff.label      :user_address
     = ff.text_field :user_address
   .field
@@ -12,7 +18,8 @@
   .field
     = ff.label      :phone 
     = ff.text_field :phone
-  = ff.fields_for :country, @profile.billing_address.country do |fff|
-    .field
-      = fff.label      :name, "Country"
-      = fff.text_field :name
+  .field
+    = ff.select  :country_id,
+                  options_from_collection_for_select(Country.all, :id, :name, @profile.billing_address.country.id),
+                  {},
+                  {class: 'input-field'}

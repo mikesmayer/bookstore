@@ -1,16 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_action :add_temp_order
+  before_action :add_temp_order, :set_order
   after_action  :stored_location
 
   
   def stored_location
     session[:previous_url] = request.fullpath unless request.fullpath.match(/\/(login|auth|register|add_to_cart)/)
   end
-
-  # def path_in_blacklist?
-  #   %w(login auth register).each{|p| return true if request.fullpath.match(/"#{p}"/)}
-  # end
 
   def after_sign_in_path_for(resource)
     session[:previous_url] || request.referer || root_path
@@ -47,7 +43,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
-   def current_ability
+  def set_order
+    if current_user
+      @order_as_cart = Order.where(user_id: current_user.id, status: "in_progress").last
+    else
+      @order_as_cart = Order.find_by(id: session["order_id"])
+    end
+  end
+
+  def current_ability
     @current_ability ||= Ability.new(current_user, session)
   end
 end

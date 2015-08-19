@@ -3,6 +3,9 @@ class ProfilesController < ApplicationController
   before_action :build_profile, only: [:show, :edit, :update]
   authorize_resource :profile
 
+  def wishilist
+  end
+
   def show
   end
 
