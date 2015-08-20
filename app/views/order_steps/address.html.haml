@@ -57,7 +57,9 @@
           = ff.text_field :phone,        placeholder: errors(@order, "billing_address", "phone")
 
     .address-checkbox.center-align
-      = f.check_box :billing_equal_shipping, id:  "use_shipping_address"
+      .hide#billing_equal_shipping{val: "#{@order.billing_equal_shipping}"}
+      = f.check_box :billing_equal_shipping, id:  "use_shipping_address",
+                                             value: "#{1 if (@order.shipping_address == @order.billing_address) && @order.billing_address != nil}"
       = f.label     "Use Shipping Address",  for: "use_shipping_address"
 
   .col.l4.m4.s12.right-align

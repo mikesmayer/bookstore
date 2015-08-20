@@ -21,7 +21,6 @@ class Order < ActiveRecord::Base
       state :shipping
       state :done
       state :canceled
-      # state :rejected
       state :done
 
       event :set_in_process do
@@ -49,6 +48,10 @@ class Order < ActiveRecord::Base
     set_coupon
     self.billing_address = self.shipping_address if equal_shipping_address?
     set_delivery
+  end
+
+  after_initialize do
+    @billing_equal_shipping = self.billing_address == self.shipping_address
   end
 
   def total_price
