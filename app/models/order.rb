@@ -72,6 +72,12 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def next_state
+   states = self.aasm.states(:permitted => true).map(&:name)
+   #states.delete("canceled")
+   states.first
+  end
+
   def set_delivery
     self.delivery_id = @delivery_id unless @delivery_id.nil?
   end

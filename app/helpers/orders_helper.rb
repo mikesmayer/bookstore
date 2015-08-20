@@ -12,7 +12,6 @@ module OrdersHelper
     end
   end
 
-
   def cart_main_panel
     if cart_order.total_price != 0
       "(#{cart_books_quantity}/$#{cart_order.total_price.round(2)})"

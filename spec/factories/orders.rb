@@ -6,13 +6,18 @@ FactoryGirl.define do
     shipping_address  {FactoryGirl.create :address}
     credit_card       {FactoryGirl.create :credit_card}
     user
-    # status ""
 
-   after(:build) do |order| 
-     book = FactoryGirl.create :book
-     # order.add_book(book,10)
-     # p order.books
-   end
+    # after(:build) do |order| 
+    #   book = FactoryGirl.create :book
+    #   # order.add_book(book,10)
+    #   # p order.books
+    # end
+  end
 
+  trait :as_in_delivery do
+    after(:create) do |order|
+      order.set_in_process!
+      order.set_in_shipping!
+    end
   end
 end

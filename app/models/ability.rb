@@ -19,7 +19,8 @@ class Ability
       cannot :index, Category
       can :manage, Profile, user_id: user.id
       can :manage, Order, status: "in_progress", user_id: user.id
-      can [:index, :show, :cancel], Order, status: ["in_process", "canceled"], user_id: user.id
+      can [:index, :show, :cancel], Order, status: ["in_process", "canceled", "shipping", "done"], user_id: user.id
+      can :cancel, Order, status: "in_process", user_id: user.id
       can :add_to_cart, Order, user_id: user.id
       can :manage, Review,  user_id: user.id
       cannot :index, Review

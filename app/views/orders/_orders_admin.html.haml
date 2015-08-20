@@ -14,7 +14,7 @@
             %th
               TOTAL
         %tbody
-          = render partial: 'order', collection: @orders.where(status: 'in_progress')
+          = render partial: 'order', collection: @orders.where("status =? and total_price >?", "in_progress", 0)
       %h6.order-status.underscore-solid 
         IN PROCESS
       %table

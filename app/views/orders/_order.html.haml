@@ -12,13 +12,14 @@
       = link_to 'Cancel', cancel_order_path(order),
                           class: "waves-eff waves-light btn",
                           method: :post
-  - if order.in_process? && can?(:manage, :all)
+  - if can?(:manage, :all) && (order.in_process? || order.shipping?)
     %td
       =form_for order, method: :put do |f|
         .valign-wrapper
-          = f.select :status, order.aasm.states(:permitted => true).map(&:name),
-                              { :include_blank => "#{order.status}" }
-          = f.button "Update", class: "waves-eff waves-light btn"
+          = f.text_field :status, class: "hide", value: "#{order.next_state}"
+          -# = f.select :status, order.aasm.states(:permitted => true).map(&:name),
+                              -# { :include_blank => "#{order.status}" }
+          = f.button "set_in #{order.next_state.to_s}", class: "waves-eff waves-light btn"
   - else
     %td
       = order.status
