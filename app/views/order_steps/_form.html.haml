@@ -15,6 +15,6 @@
               %span
                 = "#{k.capitalize}"
   .row
-    = form_for @order, url: wizard_path do |f|
+    = form_for @order_form, url: wizard_path, :html => {:multipart => true}, method: :put do |f|
       = yield f
       = f.button "Save and Continue", class: "waves-effect waves-light btn" 

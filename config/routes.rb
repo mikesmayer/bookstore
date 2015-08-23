@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       get 'wishlist'                => "profiles#wishlist"
     end
   end
+
   resources   :orders 
   resources   :authors
   resources   :categories
@@ -25,7 +26,7 @@ Rails.application.routes.draw do
     end
   end
 
-get        'cart/:id'                => "orders#cart",              as: "cart"
+  get      'cart/:id'                => "orders#cart",              as: "cart"
 
   resources   :reviews do
     member do

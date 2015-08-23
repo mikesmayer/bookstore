@@ -24,6 +24,6 @@ $ ->
     $("#total_price").text("ORDER TOTAL: $ " + "#{totalPrice}")
 
 $ ->
-  $('#billing_address_form').addClass('hide') if $("#billing_equal_shipping").attr('val') == 'true'
+  #$('#billing_address_form').addClass('hide') if $("#billing_equal_shipping").attr('val') == 'true'
   $('#use_shipping_address').on 'change', ->
     $('#billing_address_form').toggleClass( "hide" )

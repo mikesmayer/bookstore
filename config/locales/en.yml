@@ -20,4 +20,27 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  hello: "Hello world %{name}"
+  success:
+    notices:
+      create: "%{resource} was successfully created."
+      update: "%{resource} was successfully updated."
+      destroy: "%{resource} was successfully destroyed."
+      coupon_activate: "Coupon was successfully activated."
+      coupon_deactivate: "Coupon was successfully deactivated."
+  number:
+    currency:
+      format:
+        # delimiter: "."
+        format: "%u%n"
+        precision: 2
+        separator: ","
+        significant: false
+        strip_insignificant_zeros: true
+        unit: $
+    format:
+      delimiter: "."
+      precision: 3
+      separator: ","
+      significant: false
+      strip_insignificant_zeros: true

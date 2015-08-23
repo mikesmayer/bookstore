@@ -2,6 +2,36 @@ module OrderMethods
 
   extend ActiveSupport::Concern
 
+  included do 
+    aasm column: :status do
+      state :in_progress, :initial => true
+      state :in_process
+      state :shipping
+      state :done
+      state :canceled
+      state :done
+
+      event :set_in_process do
+        before do
+          self.completed_date = DateTime.now
+        end
+        transitions :from => :in_progress, :to => :in_process
+      end
+
+      event :set_in_shipping do
+        transitions :from => :in_process, :to => :shipping
+      end
+
+      event :set_in_done do
+        transitions :from => :shipping, :to => :done
+      end
+
+      event :cancel do
+        transitions :from => :in_process, :to => :canceled
+      end
+    end
+  end
+
   def last_step?
     if @current_step == "confirmation"
       true

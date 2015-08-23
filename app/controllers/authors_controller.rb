@@ -9,16 +9,14 @@ class AuthorsController < ApplicationController
   end
 
   def new
-    @author = Author.new
   end
 
   def edit
   end
 
   def create
-    @author = Author.new(author_params)
-    if @author.save
-      redirect_to @author, notice: 'Author was successfully created.'
+    if @author.save(author_params)
+      redirect_to @author, notice: t("success.notices.create", resource: "Author")
     else
       render :new
     end
@@ -26,16 +24,15 @@ class AuthorsController < ApplicationController
 
   def update
     if @author.update(author_params)
-      redirect_to @author, notice: 'Author was successfully updated.'
+      redirect_to @author, notice: t("success.notices.update", resource: "Author")
     else
-      flash.now[:error] = 'Could not save author.'
       render :edit 
     end
   end
 
   def destroy
     @author.destroy
-    redirect_to authors_url, notice: 'Author was successfully destroyed.'
+    redirect_to authors_url, notice: t("success.notices.destroy", resource: "Author")
   end
 
   private

@@ -1,6 +1,8 @@
 class OrderBook < ActiveRecord::Base
   belongs_to :book
   belongs_to :order
+  validates_numericality_of :quantity, 
+                          greater_than_or_equal_to: 1
   validate :book_quantity, if: :increase_book_quantity?
 
   def increase_book_quantity?

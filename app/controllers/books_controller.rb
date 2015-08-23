@@ -3,10 +3,9 @@ class BooksController < ApplicationController
   load_and_authorize_resource :book
 
   def index
-    # reset_session
     filterrific_books
     if @filterrific.nil?
-      @books = Book.all
+      @books = Book.accessible_by(current_ability).all
     else
       @books = Book.filterrific_find(@filterrific).paginate(:page => params[:page]).accessible_by(current_ability)
     end
@@ -17,16 +16,14 @@ class BooksController < ApplicationController
   end
 
   def new
-    @book = Book.new
   end
 
   def edit
   end
 
   def create
-    @book = Book.new(book_params)
-    if @book.save
-      redirect_to @book, status: 302, notice: 'Book was successfully created.'
+    if @book.save(book_params)
+      redirect_to @book, notice: t("success.notices.create", resource: "Book")
     else
       render :new
     end
@@ -34,7 +31,7 @@ class BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      redirect_to @book, notice: 'Book was successfully updated.'
+      redirect_to @book, notice: t("success.notices.update", resource: "Book")
     else
       render :edit
     end
@@ -42,7 +39,7 @@ class BooksController < ApplicationController
 
   def destroy
     @book.destroy
-    redirect_to books_url, notice: 'Book was successfully destroyed.'
+    redirect_to books_url, t("success.notices.destroy", resource: "Book")
   end
 
   def add_to_wish_list

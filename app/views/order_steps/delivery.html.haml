@@ -2,14 +2,14 @@
   .col.l6.m6.s12
     %h5
       Choose Delivery service
-    = f.fields_for :delivery, @order.delivery || @order.build_delivery do |ff|
+    = f.fields_for :delivery, @order_form.delivery do |ff|
       %ul
       - Delivery.all.each do |d|
         %li.delivery-select
           = ff.radio_button :delivery, "#{d.id}", 
                             checked: "#{check_delivery(@order.delivery_id, d.id)}",
                             id: "delivery_#{d.id}",
-                            name:"order[delivery_attributes][delivery_id]"
+                            name:"order_form[delivery][delivery_id]"
           = ff.label :delivery, "#{d.name} - $#{d.price}", for: "delivery_#{d.id}"
   .col.l6.m6.s12
     %ul

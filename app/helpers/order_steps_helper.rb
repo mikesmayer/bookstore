@@ -1,10 +1,8 @@
 module OrderStepsHelper
-  def errors(resource, nested_recource = nil, field)
-    if resource.errors.messages.empty?
-      nil
-    elsif nested_recource.nil?
+  def errors(resource, nested_resource = nil, field)
+    if nested_resource.nil?
     else
-      resource.errors["#{nested_recource}.#{field}".to_sym].first
+      resource.send("#{nested_resource}").errors[field].first
     end
   end
 
@@ -24,8 +22,16 @@ module OrderStepsHelper
 
   def year_collection
     year_collection = []
-    (2015..2020).each{|y| year_collection << [y]}
+    (2014..2020).each{|y| year_collection << [y]}
     year_collection
+  end
+
+  def country_id(address)
+    if address.country
+      address.country.id
+    else
+      Country.first.id
+    end
   end
 
   def date_errors(resource, nested_recource = nil, field)

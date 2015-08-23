@@ -12,9 +12,8 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    @review = current_user.review.new(review_params)
-    if @review.save
-      redirect_to book_path(Book.find(@review.book_id)), notice: 'Review was successfully created.'
+    if @review.save(review_params)
+      redirect_to book_path(Book.find(@review.book_id)), notice: t("success.notices.create", resource: "Review")
     else
       flash[:errors] = @review.errors
       redirect_to :back
@@ -22,29 +21,21 @@ class ReviewsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @review.update(review_params)
-        format.html { redirect_to @review, notice: 'Review was successfully updated.' }
-        format.json { render :show, status: :ok, location: @review }
-        format.js
-      else
-        format.html { render :edit }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
-      end
+    if @review.update(review_params)
+      redirect_to reviews_path, notice: t("success.notices.update", resource: "Review")
+    else
+      render :edit
     end
   end
 
   def destroy
     @review.destroy
-    respond_to do |format|
-      format.html { redirect_to reviews_url, notice: 'Review was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to reviews_url,    notice: t("success.notices.destroy", resource: "Review")
   end
 
   def update_status
     if @review.update(review_params)
-      redirect_to :back, notice: 'Review was successfully updated.'
+      redirect_to :back,        notice: t("success.notices.update", resource: "Review")
     else
       redirect_to :back
     end

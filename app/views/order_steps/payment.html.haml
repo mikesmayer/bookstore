@@ -2,12 +2,12 @@
   .col.l6.m6.s12
     %h6
       CREDIT CARD
-    = f.fields_for :credit_card, :include_id => false do |ff|
+    = f.fields_for :credit_card, @order_form.credit_card, :include_id => false do |ff|
       %ul
         %li
           .field
             = ff.label      :number
-            = ff.text_field :number, placeholder: errors(@order, "credit_card", "number")
+            = ff.text_field :number, placeholder: errors(@order_form, "credit_card", "number")
                             
         %li
           %ul.date-errors
@@ -33,7 +33,7 @@
         %li
           .field
             = ff.label      :cvv
-            = ff.text_field :cvv, placeholder: errors(@order, "credit_card", "number")
+            = ff.text_field :cvv, placeholder: errors(@order_form, "credit_card", "cvv")
                                   
   .col.l6.m6.s12
     %ul

@@ -1,3 +1,8 @@
+-# - @priser = 2.5555555
+-# = number_to_currency(@priser)
+-# -# = number_with_precision(@priser)
+-# -# = t(@priser, number: "format.precision")
+-# = t :hello, name: "boo"
 %h5.center-align Ordered books
 .container
   - if @order.order_books.empty?
@@ -6,7 +11,7 @@
         Your cart is empty
   - else
     .row
-      = form_for @order do |f|
+      = form_for @order, method: :put do |f|
         %table
           %thead
             %tr

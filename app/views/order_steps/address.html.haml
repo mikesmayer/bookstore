@@ -2,64 +2,64 @@
   .col.l4.m4.s12
     %h5.center-align
       Shipping Address
-    = f.fields_for(:shipping_address, :include_id => false) do |ff|
+    -# = errors(@order_form, "shipping_address", :first_name).inspect
+    = f.fields_for(:shipping_address, @order_form.shipping_address, :include_id => false) do |ff|
       .field
         = ff.label      :first_name
-        = ff.text_field :first_name,  placeholder: errors(@order, "shipping_address", "first_name")
+        = ff.text_field :first_name,  placeholder: errors(@order_form, "shipping_address", "first_name")
       .field
         = ff.label      :last_name
-        = ff.text_field :last_name,   placeholder: errors(@order, "shipping_address", "last_name")
+        = ff.text_field :last_name,   placeholder: errors(@order_form, "shipping_address", "last_name")
       .field
         = ff.label      :user_address
-        = ff.text_field :user_address, placeholder: errors(@order, "shipping_address", "user_address")
+        = ff.text_field :user_address, placeholder: errors(@order_form, "shipping_address", "user_address")
       .field
         = ff.label      :city
-        = ff.text_field :city,         placeholder: errors(@order, "shipping_address", "city")
+        = ff.text_field :city,         placeholder: errors(@order_form, "shipping_address", "city")
       .field
         = ff.select     :country_id, 
-           options_from_collection_for_select(Country.all, :id, :name, @order.shipping_address.country.id),
+           options_from_collection_for_select(Country.all, :id, :name, country_id(@order_form.shipping_address)),
            {},
            {class: 'input-field'}
       .field
         = ff.label      :zipcode
-        = ff.text_field :zipcode,      placeholder: errors(@order, "shipping_address", "zipcode")
+        = ff.text_field :zipcode,      placeholder: errors(@order_form, "shipping_address", "zipcode")
       .field
         = ff.label      :phone 
-        = ff.text_field :phone,        placeholder: errors(@order, "shipping_address", "phone")
+        = ff.text_field :phone,        placeholder: errors(@order_form, "shipping_address", "phone")
 
   .col.l4.m4.s12
     %h5.center-align
       Billing Address
     #billing_address_form
-      = f.fields_for :billing_address, :include_id => false do |ff|
+      = f.fields_for :billing_address, @order_form.billing_address, :include_id => false do |ff|
         .field
           = ff.label      :first_name
-          = ff.text_field :first_name,  placeholder: errors(@order, "billing_address", "first_name")
+          = ff.text_field :first_name,  placeholder: errors(@order_form, "billing_address", "first_name")
         .field
           = ff.label      :last_name
-          = ff.text_field :last_name,   placeholder: errors(@order, "billing_address", "last_name")
+          = ff.text_field :last_name,   placeholder: errors(@order_form, "billing_address", "last_name")
         .field
           = ff.label      :user_address
-          = ff.text_field :user_address, placeholder: errors(@order, "billing_address", "user_address")
+          = ff.text_field :user_address, placeholder: errors(@order_form, "billing_address", "user_address")
         .field
           = ff.label      :city
-          = ff.text_field :city,         placeholder: errors(@order, "billing_address", "city")
+          = ff.text_field :city,         placeholder: errors(@order_form, "billing_address", "city")
         .field
           = ff.select     :country_id, 
-             options_from_collection_for_select(Country.all, :id, :name, @order.billing_address.country.id),
+             options_from_collection_for_select(Country.all, :id, :name, country_id(@order_form.billing_address)),
              {},
              {class: 'input-field'}
         .field
           = ff.label      :zipcode
-          = ff.text_field :zipcode,      placeholder: errors(@order, "billing_address", "zipcode")
+          = ff.text_field :zipcode,      placeholder: errors(@order_form, "billing_address", "zipcode")
         .field
           = ff.label      :phone 
-          = ff.text_field :phone,        placeholder: errors(@order, "billing_address", "phone")
+          = ff.text_field :phone,        placeholder: errors(@order_form, "billing_address", "phone")
 
     .address-checkbox.center-align
-      .hide#billing_equal_shipping{val: "#{@order.billing_equal_shipping}"}
-      = f.check_box :billing_equal_shipping, id:  "use_shipping_address",
-                                             value: "#{1 if (@order.shipping_address == @order.billing_address) && @order.billing_address != nil}"
+      .hide#billing_equal_shipping{val: "#{true if @order_form.billing_address.id.nil?}"}
+      = f.check_box :billing_equal_shipping, id:  "use_shipping_address"
       = f.label     "Use Shipping Address",  for: "use_shipping_address"
 
   .col.l4.m4.s12.right-align
@@ -82,5 +82,4 @@
         %h6.right-align
           ORDER TOTAL: $
           = @order.total_price
-  .row
-
+  .row  

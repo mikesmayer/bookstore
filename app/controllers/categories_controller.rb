@@ -9,16 +9,14 @@ class CategoriesController < ApplicationController
   end
 
   def new
-    @category = Category.new
   end
 
   def edit
   end
 
   def create
-    @category = Category.new(category_params)
-    if @category.save
-      redirect_to @category, notice: 'Category was successfully created.'
+    if @category.save(category_params)
+      redirect_to @category, notice: t("success.notices.create", resource: "Category")
     else
       render :new
     end
@@ -26,16 +24,15 @@ class CategoriesController < ApplicationController
 
   def update
     if @category.update(category_params)
-      redirect_to @category, notice: 'Category was successfully updated.'
+      redirect_to @category, notice: t("success.notices.update", resource: "Category")
     else
-      flash.now[:error] = 'Could not save category.'
       render :edit 
     end
   end
 
   def destroy
     @category.destroy
-    redirect_to categories_url, notice: 'Category was successfully destroyed.'
+    redirect_to categories_url, notice: t("success.notices.destroy", resource: "Category")
   end
 
   private

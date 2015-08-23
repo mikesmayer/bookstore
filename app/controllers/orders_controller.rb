@@ -22,12 +22,6 @@ class OrdersController < ApplicationController
     end
   end
 
-  def destroy
-    @order.destroy
-    flash[:notice] = 'Order was successfully destroyed.'
-    redirect_to orders_url
-  end
-
   def cart
   end
 
