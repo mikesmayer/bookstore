@@ -84,47 +84,22 @@
                   = position.book.description
             %td
               %span
-                $
                 %span.book-price
-                  = position.book.price
+                  = number_to_currency position.book.price
             %td
               = position.quantity 
             %td
               .total-price
-                $
-                = position.price*position.quantity
+                = number_to_currency position.price*position.quantity
     .right-align.cart-order-panel
       %h6
-        Books Price:  $
-        = @order.books_price
+        Books Price:
+        = number_to_currency @order.books_price
       %h6
-        Sale:  -$
-        = @order.sale*@order.books_price
+        Sale:  -
+        = number_to_currency @order.sale*@order.books_price
         
       %h5 
         SUBTOTAL:
-        $
-        = @order.total_price
-    
-
-  -# .col.l4.m4.s12.right-align
-  -#   %ul
-  -#     %li
-  -#       %h5.right-align
-  -#         ORDER SUMMARY
-  -#     %li
-  -#       %h6.right-align
-  -#         ITEM TOTAL: $
-  -#         = @order.books_price
-  -#     %li
-  -#       %h6.right-align
-  -#         SALE: $
-  -#         - if @order.coupon.nil?
-  -#           = "0.00"
-  -#         - else
-  -#           = @order.sale_price
-  -#     %li
-  -#       %h6.right-align
-  -#         ORDER TOTAL: $
-  -#         = @order.total_price
+        = number_to_currency @order.total_price
   .row

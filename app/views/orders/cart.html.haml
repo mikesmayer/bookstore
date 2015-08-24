@@ -41,18 +41,15 @@
                     %li
                       = position.book.description
                 %td
-                  %span
-                    $
-                    %span.book-price
-                      = position.book.price
+                  %span.book-price
+                    = number_to_currency(position.book.price)
                 %td 
                   = f.fields_for      :order_books, position do |ff|
                     = ff.text_field   :quantity, class: "order-quantity"
                     = ff.hidden_field :book_id
                 %td
                   .total-price
-                    $
-                    = position.price*position.quantity
+                    = number_to_currency(position.price*position.quantity)
                 %td
                   .delete-book-position
                     = link_to  delete_from_cart_book_order_path(@order, book_id: position.book_id), method: :delete do
@@ -61,16 +58,15 @@
           .hide#sale
             = @order.sale
           %h6#books_price
-            Books Price:  $
-            = @order.books_price
+            Books Price:
+            = number_to_currency @order.books_price
           %h6#books_sale
-            Sale:  -$
-            = @order.sale*@order.books_price
+            Sale:  -
+            = number_to_currency @order.sale*@order.books_price
             
           %h5#subtotal_price 
             SUBTOTAL:
-            $
-            = @order.total_price
+            = number_to_currency @order.total_price
           .valign-wrapper
             Coupon Number :
             .left.coupon-input

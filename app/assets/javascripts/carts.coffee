@@ -1,6 +1,6 @@
 $ ->
   $('.order-quantity').on 'change', ->
-    price    = $(this).closest('tr').find('.book-price:first').text().substr(1);
+    price    = $(this).closest('tr').find('.book-price:first').text().replace(/[$]/, '');
     quantity = $(this).val()
     price    = parseFloat(price)
     quantity = parseInt(quantity)

@@ -69,17 +69,17 @@
           ORDER SUMMARY
       %li
         %h6.right-align
-          ITEM TOTAL: $
-          = @order.books_price
+          ITEM TOTAL:
+          = number_to_currency @order.books_price
       %li
         %h6.right-align
-          SALE: $
+          SALE: 
           - if @order.coupon.nil?
-            = "0.00"
+            = "$0.00"
           - else
-            = @order.sale_price
+            = number_to_currency @order.sale_price
       %li
         %h6.right-align
-          ORDER TOTAL: $
-          = @order.total_price
+          ORDER TOTAL:
+          = number_to_currency @order.total_price
   .row  

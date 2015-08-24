@@ -7,8 +7,8 @@ $ ->
     itemsPrice     = itemsPriceText.split("$").pop()
     itemsPrice     = parseFloat(itemsPrice)
     totalPrice     = itemsPrice + deliveryPrice
-    $("#delivery_price").text("SHIPPING: $ " + "#{deliveryPrice}")
-    $("#total_price").text("ORDER TOTAL: $ " + "#{totalPrice}")
+    $("#delivery_price").text("SHIPPING: $" + "#{deliveryPrice}")
+    $("#total_price").text("ORDER TOTAL: $" + "#{totalPrice}")
 
 $ ->
   $('input[type="radio"]').on 'click', ->
@@ -20,8 +20,8 @@ $ ->
     itemsPrice     = itemsPriceText.split("$").pop()
     itemsPrice     = parseFloat(itemsPrice)
     totalPrice     = itemsPrice + deliveryPrice
-    $("#delivery_price").text("SHIPPING: $ " + "#{deliveryPrice}")
-    $("#total_price").text("ORDER TOTAL: $ " + "#{totalPrice}")
+    $("#delivery_price").text("SHIPPING: $" + "#{deliveryPrice}")
+    $("#total_price").text("ORDER TOTAL: $" + "#{totalPrice}")
 
 $ ->
   #$('#billing_address_form').addClass('hide') if $("#billing_equal_shipping").attr('val') == 'true'
