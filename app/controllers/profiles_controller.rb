@@ -1,7 +1,7 @@
 class ProfilesController < ApplicationController
-  include ResourceBuilder
-  before_action :build_profile, only: [:show, :edit, :update]
+  before_action :build_profile
   authorize_resource :profile
+  before_action :build_profile_form, only: [:edit, :update]
 
   def wishilist
   end
@@ -13,7 +13,7 @@ class ProfilesController < ApplicationController
   end
   
   def update
-    if @profile.update(profile_params) 
+    if @profile_form.submit(profile_params) 
       redirect_to profile_path, notice: t("success.notices.update", resource: "Profile")
     else
       render :edit
@@ -23,6 +23,14 @@ class ProfilesController < ApplicationController
   private
   
   def profile_params
-    params.require(:profile).permit!#(:email, :password)
+    params.require(:profile_form).permit!#(:shipping_addres, :password)
+  end
+
+  def build_profile_form
+    @profile_form = ProfileForm.new(@profile)
+  end
+
+  def build_profile
+    @profile = current_user.profile if current_user
   end
 end

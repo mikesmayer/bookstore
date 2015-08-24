@@ -1,5 +1,5 @@
 %h5 Credit Card
-= f.fields_for :credit_card, @profile.credit_card do |ff|
+= f.fields_for :credit_card, @profile_form.credit_card do |ff|
   .field
     = ff.label      :number
     = ff.text_field :number

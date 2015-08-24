@@ -1,26 +1,26 @@
-= form_for @profile, url: profile_path, method: :put do |f|
-  .container
-    .row
+= form_for @profile_form, url: profile_path, method: :put do |f|
+  .row
+    .col.s12.m12.l12
       - if @profile.errors.any?
-        #error_explanation
-          %h2
+        #error_explanation.date-errors
+          %h6
             = pluralize(@profile.errors.count, "error")
             prohibited this profile from being saved:
           %ul
             - @profile.errors.full_messages.each do |message|
               %li= message
-    .row
-      .col.l6.m6.s12
-        = render "profile_account_edit_form"
-      .col.l6.m6.s12#credit_card
-        = render "profile_credit_card_edit_form", :f => f
-    .row
-      .col.l6.m6.s12#billing_address
-        = render "profile_billing_address_edit_form", :f => f
-      .col.l6.m6.s12#shipping_address
-        = render "profile_shipping_address_edit_form", :f => f
-    .row
-      .col.l12.m12.s12
-        .actions.center-align
-          = f.button "Save", class: "waves-eff waves-light btn"
+  .row
+    .col.l6.m6.s12
+      = render "profile_account_edit_form"
+    .col.l6.m6.s12#credit_card
+      = render "profile_credit_card_edit_form", :f => f
+  .row
+    .col.l6.m6.s12#billing_address
+      = render "profile_billing_address_edit_form", :f => f
+    .col.l6.m6.s12#shipping_address
+      = render "profile_shipping_address_edit_form", :f => f
+  .row
+    .col.l12.m12.s12
+      .actions.center-align
+        = f.button "Save", class: "waves-eff waves-light btn"
 
