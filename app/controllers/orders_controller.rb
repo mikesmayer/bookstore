@@ -10,16 +10,13 @@ class OrdersController < ApplicationController
   end
 
   def update
-    if params[:button] == "empty_cart" 
-      @order.order_books.destroy_all
-      redirect_to root_path
-    elsif @order.update(order_params)
+    @order.order_books.destroy_all if params[:button] == "empty_cart"
+    if @order.update(order_params)
       flash[:notice] = @order.flash_notice
-      redirect_to :back
     else
       flash[:errors] = @order.errors.messages
-      redirect_to :back
     end
+    redirect_to :back
   end
 
   def cart

@@ -1,7 +1,7 @@
 class ProfilesController < ApplicationController
   before_action :build_profile
   authorize_resource :profile
-  before_action :build_profile_form, only: [:edit, :update]
+  before_action :build_profile_form, only: [:edit, :update, :show]
 
   def wishilist
   end

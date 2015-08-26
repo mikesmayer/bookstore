@@ -2,21 +2,8 @@ require 'rails_helper'
 
 RSpec.describe BooksController, type: :controller do
 
-
-  let(:author){FactoryGirl.create :author}
-  let(:visitor){User.new}
-  #let(:user){FactoryGirl.create(:user)}
-  let(:user_admin){FactoryGirl.create(:user,:as_admin)}
   let(:valid_attributes){FactoryGirl.attributes_for(:book, :with_id)}
-  let(:new_valid_attributes){FactoryGirl.attributes_for(:book, :as_string)}
   let(:book){mock_model(Book, valid_attributes)}
-  let(:book_hash){{ "id" => book.id,
-                     "author"=>book.author.full_name,
-                     "title"=> book.title,
-                     "price"=> book.price,
-                     "quantity" => 1
-                     }}
-  
 
   before do
     @ability = Object.new
@@ -25,6 +12,7 @@ RSpec.describe BooksController, type: :controller do
     @ability.can :manage, :all
     allow(Book).to receive(:all).and_return([book])
     allow(Book).to receive_message_chain(:where, :all){[book]}
+    allow(Book).to receive_message_chain(:filterrific_find, :paginate, :accessible_by){[book]}
     allow(Book).to receive(:new).and_return(book)
     allow(Book).to receive(:find).with(valid_attributes[:id].to_s).and_return(book)
   end
@@ -97,6 +85,26 @@ RSpec.describe BooksController, type: :controller do
           delete :destroy, {id: book.id}
         end
         it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
+      end
+    end
+
+    context 'add_to_wish_list' do
+      context 'cancan doesnt allow :add_to_wish_list' do
+        before do
+          @ability.cannot :add_to_wish_list, Book
+          post :add_to_wish_list, {id: book.id}
+        end
+        it{ expect(response).to redirect_to(new_user_session_path)}
+      end
+    end
+
+    context 'delete_from_wish_list' do
+      context 'cancan doesnt allow :delete_from_wish_list' do
+        before do
+          @ability.cannot :delete_from_wish_list, Book
+          delete :delete_from_wish_list, {id: book.id}
+        end
+        it{ expect(response).to redirect_to(new_user_session_path)}
       end
     end
   end
@@ -189,7 +197,7 @@ RSpec.describe BooksController, type: :controller do
       end
 
       it "sends success message" do
-        expect(flash[:notice]).to eq 'Book was successfully created.'
+        expect(flash[:notice]).to eq I18n.t("success.notices.create", resource: "Book")
       end
     end
 
@@ -230,7 +238,7 @@ RSpec.describe BooksController, type: :controller do
       end
 
       it "sends success message" do
-        expect(flash[:notice]).to eq 'Book was successfully updated.'
+        expect(flash[:notice]).to eq I18n.t("success.notices.update", resource: "Book")
       end
     end
 
@@ -256,41 +264,8 @@ RSpec.describe BooksController, type: :controller do
     end
 
     it "sends success message" do
-      expect(flash[:notice]).to eq 'Book was successfully destroyed.'
+      expect(flash[:notice]).to eq I18n.t("success.notices.destroy", resource: "Book")
     end
-  end
-
-  describe "PUT #add_to_cart" do
-    before do
-      controller.add_cart
-      allow(book).to receive(:author).and_return(author)
-      xhr :put, :add_to_cart, {:id => valid_attributes[:id]}
-    end
-
-    it "render template add_to_cart" do 
-      expect(response).to render_template("books/add_to_cart")
-    end
-
-    it "write book to session[:cart][:books]" do
-      expect(session["cart"]["books"]).to eq([book_hash])
-    end
-  end
-
-  describe "DESTROY #delete_from_cart" do
-    before do
-      controller.add_cart
-      allow(book).to receive(:author).and_return(author)
-      session["cart"]["books"] << book_hash
-      xhr :delete, :delete_from_cart, {:id => valid_attributes[:id]}
-    end
-
-    it "renders template delete_from_cart" do
-      expect(response).to render_template("books/delete_from_cart")
-    end
-
-    it "deletes book from session[:cart][:books]" do
-      expect(session["cart"]["books"]).to eq([ ])
-    end  
   end
 
   describe "POST #add_to_wish_list" do
@@ -310,71 +285,20 @@ RSpec.describe BooksController, type: :controller do
   end
 
   describe "DELETE #delete_from_wish_list" do
+    login_user
     before do
-      allow(controller).to receive_message_chain("current_user.books.destroy"){true}
-      allow(controller).to receive_message_chain("current_user.books.include?"){true}
+      allow(subject.current_user).to receive_message_chain("books.destroy"){true}
+      allow(subject.current_user).to receive_message_chain("books.include?"){true}
     end
 
     it "renders template delete_from_wish_list" do
-      xhr :delete, :delete_from_wish_list, {:id => valid_attributes[:id]}
+      xhr :delete, :delete_from_wish_list, {:id => book.id}
       expect(response).to render_template("books/delete_from_wish_list")
     end
 
     it "deletes book from users books" do
-      expect(controller.current_user.books).to receive(:destroy)
-      xhr :delete, :delete_from_wish_list, {:id => valid_attributes[:id]}
-    end
-  end
-   
-
-  describe "#book_in_cart" do
-    context "session['cart']['books'] == []" do
-      it "returns false" do
-        controller.add_cart
-        session["cart"]["books"] = [ ]
-        expect(controller.send(:book_in_cart)).to eql(false)
-      end
-    end
-    
-    context "session['cart']['books'] != [ ]" do
-      before do
-        controller.add_cart
-        session["cart"]["books"] << book
-        controller.params[:id] = book.id
-      end
-
-      it "returns books from session cart" do
-        expect(controller.send(:book_in_cart)).to eql(book)
-      end
-    end
-  end
-
-  describe "#total price" do
-    before do
-      controller.add_cart
-      allow(book).to receive(:author).and_return(author)
-      3.times {session["cart"]["books"] << book_hash}
-    end
-
-    it "returns total price of books in cart" do
-      expect(controller.send(:total_price)).to eq(3*book.price)
-    end
-  end
-
-  describe "#book_to_hash" do 
-    before do
-      controller.add_cart
-      controller.params[:id] = book.id.to_s
-      allow(book).to receive(:author).and_return(author)
-    end
-    
-    it "returns hash with short book_params from session cart" do
-      expect(controller.send("book_to_hash")).to eq({ "id" => book.id,
-                                                    "author"=>book.author.full_name,
-                                                    "title"=> book.title,
-                                                    "price"=> book.price,
-                                                    "quantity" => 1
-                                                  })    
+      expect(subject.current_user.books).to receive(:destroy)
+      xhr :delete, :delete_from_wish_list, {:id => book.id}
     end
   end
 end

@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
     session[:previous_url] || request.referer || root_path
   end
 
+  rescue_from Wicked::Wizard::InvalidStepError do 
+    render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
+  end
+
   rescue_from CanCan::AccessDenied do |exception|
     if exception.action == :index
       subject = exception.subject
@@ -25,7 +29,7 @@ class ApplicationController < ActionController::Base
         redirect_to new_user_session_path
       elsif exception.subject.kind_of? Order
         redirect_to new_user_session_path
-      elsif (exception.subject.kind_of? Book) && (exception.action == :add_to_wish_list)
+      elsif (exception.subject.kind_of? Book) && ((exception.action == :add_to_wish_list) || (exception.action == :delete_from_wish_list))
         redirect_to new_user_session_path
       else
         render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found

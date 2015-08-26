@@ -2,44 +2,6 @@ module OrderMethods
 
   extend ActiveSupport::Concern
 
-  included do 
-    aasm column: :status do
-      state :in_progress, :initial => true
-      state :in_process
-      state :shipping
-      state :done
-      state :canceled
-      state :done
-
-      event :set_in_process do
-        before do
-          self.completed_date = DateTime.now
-        end
-        transitions :from => :in_progress, :to => :in_process
-      end
-
-      event :set_in_shipping do
-        transitions :from => :in_process, :to => :shipping
-      end
-
-      event :set_in_done do
-        transitions :from => :shipping, :to => :done
-      end
-
-      event :cancel do
-        transitions :from => :in_process, :to => :canceled
-      end
-    end
-  end
-
-  def last_step?
-    if @current_step == "confirmation"
-      true
-    else
-      false
-    end
-  end
-
   def books_price
     self.order_books.inject(0){|t_p, b| t_p + b.quantity*b.price}
   end
@@ -68,29 +30,12 @@ module OrderMethods
     end
   end
 
-  def add_book(book, quantity)
-    if order_book = self.order_books.find_by(book_id: book.id)
-      order_book.quantity += quantity
-      order_book.save
-    else
-      OrderBook.create(order_book_params(book, quantity))
-    end
-  end
-
-  def delete_book(book)
-    self.order_books.find_by(book_id: book.id).destroy
-  end
-
   def quantity_in_order(book)
     self.order_books.find_by(book_id: book.id).quantity
   end
 
   def order_book_params(book, quantity)
     {order_id: self.id, book_id: book.id, quantity: 1, price: book.price}
-  end
-
-  def self.temp_order_for_visitor(sesion)
-    Order.create(session_id: session["session_id"])
   end
 
   def coupon_attributes=(attributes)
@@ -116,9 +61,4 @@ module OrderMethods
   def find_coupon
     Coupon.find_by(number: @coupon_number) 
   end
-
-  def equal_shipping_address?
-    @billing_equal_shipping == "1"
-  end
-  
 end

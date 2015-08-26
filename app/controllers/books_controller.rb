@@ -39,7 +39,7 @@ class BooksController < ApplicationController
 
   def destroy
     @book.destroy
-    redirect_to books_url, t("success.notices.destroy", resource: "Book")
+    redirect_to books_path, notice: t("success.notices.destroy", resource: "Book")
   end
 
   def add_to_wish_list

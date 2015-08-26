@@ -1,8 +1,3 @@
--# - @priser = 2.5555555
--# = number_to_currency(@priser)
--# -# = number_with_precision(@priser)
--# -# = t(@priser, number: "format.precision")
--# = t :hello, name: "boo"
 %h5.center-align Ordered books
 .container
   - if @order.order_books.empty?
@@ -52,7 +47,7 @@
                     = number_to_currency(position.price*position.quantity)
                 %td
                   .delete-book-position
-                    = link_to  delete_from_cart_book_order_path(@order, book_id: position.book_id), method: :delete do
+                    = link_to  delete_from_cart_book_order_path(@order, book_id: position.book_id), id: "delete_book_#{position.book_id}", method: :delete do
                       %span.small.material-icons close
         .right-align.cart-order-panel
           .hide#sale

@@ -10,6 +10,5 @@ feature "A user can view detailed information on a book"  do
     expect(page).to have_content "#{book.description}"
     expect(page).to have_content "#{book.price}"
     expect(page).to have_content "#{book.author.full_name}"
-    expect(page).to have_content "#{book.category.category_name}"
   end
 end

@@ -1,20 +1,23 @@
 class OrderStepsController < ApplicationController
   include Wicked::Wizard
-  load_and_authorize_resource :order
+  load_resource :order
   before_action :build_order_form, only: [:show, :update]
   before_action :set_steps
   before_action :setup_wizard
   
 
   def show
+    authorize! :show, @order
     render_wizard 
   end
 
   def update
+    authorize! :update, @order
     @order_form.update(order_step_params)
     set_steps
     setup_wizard
     render_wizard @order_form
+
   end
 
   private
@@ -24,7 +27,7 @@ class OrderStepsController < ApplicationController
     shipping_address: [:first_name, :last_name, :user_address, :zipcode, :city, :phone, :country_id],
     billing_address:  [:first_name, :last_name, :user_address, :zipcode, :city, :phone, :country_id],
     credit_card:      [:number, :cvv, :expiration_year, :expiration_month, :first_name, :last_name],
-    delivery: [:delivery_id])
+    delivery:         [:delivery_id])
   end
 
   def build_order_form

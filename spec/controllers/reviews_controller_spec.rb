@@ -4,6 +4,7 @@ RSpec.describe ReviewsController, type: :controller do
   
   let(:review_attrs){FactoryGirl.attributes_for :review}
   let(:review){mock_model(Review, review_attrs)}
+  let(:book){FactoryGirl.create :book}
   login_user
 
   before do
@@ -14,6 +15,8 @@ RSpec.describe ReviewsController, type: :controller do
     allow(Review).to receive_message_chain(:where,:all){[review]}
     allow(Review).to receive(:new).and_return(review)
     allow(Review).to receive(:find).with(review.id.to_s).and_return(review)
+    allow(Book).to receive(:find).and_return(book)
+    request.env["HTTP_REFERER"] = review_url(review)
   end
 
   describe "cancan negative abilities" do
@@ -126,21 +129,6 @@ RSpec.describe ReviewsController, type: :controller do
     end
   end
 
-  describe "GET #new" do
-    
-    before do
-      get :new, {book_id: 1}
-    end
-
-    it "assigns @review to review" do
-      expect(assigns[:review]).to eq(review)
-    end
-
-    it "render new template" do
-      expect(response).to render_template("new")
-    end
-  end
-
   describe "GET #edit" do
     before do
       get :edit, {id: review.id}
@@ -167,14 +155,14 @@ RSpec.describe ReviewsController, type: :controller do
       end
 
       it "re-renders new template" do
-        expect(response).to render_template('new')
+        expect(response).to redirect_to :back
       end
     end
 
     context "valid params" do
       before do
         allow(review).to receive(:save).and_return(true)
-        post :create, {review: review_attrs}
+        post :create, {review: review_attrs, book_id: book.id}
       end
 
       it "assigns @review to review" do
@@ -182,7 +170,7 @@ RSpec.describe ReviewsController, type: :controller do
       end
 
       it "redirect_to show review" do
-        expect(response).to redirect_to(review_path(review))
+        expect(response).to redirect_to(book_path(book))
       end
 
       it "sends success message" do
@@ -223,7 +211,7 @@ RSpec.describe ReviewsController, type: :controller do
       end
 
       it "redirect_to show review" do
-        expect(response).to redirect_to(review_path(review))
+        expect(response).to redirect_to(reviews_path)
       end
 
       it "sends success message" do
@@ -260,7 +248,7 @@ RSpec.describe ReviewsController, type: :controller do
   describe "PUT #update_status" do
     before do
       allow(review).to receive(:update).and_return(true)
-      xhr :put, :update_status, {id: review.id, review: review_attrs}
+      put :update_status, {id: review.id, review: review_attrs}
     end
 
     it "assigns @review to review" do
@@ -268,12 +256,12 @@ RSpec.describe ReviewsController, type: :controller do
     end
 
     it "render update_status template" do
-      expect(response).to render_template('update_status')
+      expect(response).to redirect_to :back
     end
 
     it "receives update_status for review" do
       expect(review).to receive(:update)
-      xhr :put, :update_status, {id: review.id, review: review_attrs}
+      put :update_status, {id: review.id, review: review_attrs}
     end
   end
 end

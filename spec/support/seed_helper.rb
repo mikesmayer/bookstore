@@ -1,5 +1,3 @@
-
-
 def seed_data
   FactoryGirl.create(:delivery, name: "UPS Ground", price: 5.0)
   FactoryGirl.create(:delivery, name: "UPS Two Days", price: 10.0)

@@ -1,40 +1,44 @@
 require 'rails_helper'
 
 RSpec.describe ProfilesController, type: :controller do
-  
+  login_user
   let(:shipping_address_attr){FactoryGirl.attributes_for :address, :with_country_attrs}
   let(:billing_address_attr) {FactoryGirl.attributes_for :address, :with_country_attrs}
   let(:credit_card_attr){FactoryGirl.attributes_for :credit_card}
   let(:profile_invalid_attrs){{credit_card_attributes: {}}}
-  let(:profile_valid_attrs){{credit_card_attributes: credit_card_attr, 
-                             billing_address_attributes: billing_address_attr, 
-                             shipping_address_attributes: shipping_address_attr}}
-  let(:profile){mock_model(Profile)}
-  login_user
+  let(:profile_valid_attrs){{credit_card: credit_card_attr, 
+                             billing_address: billing_address_attr, 
+                             shipping_address: shipping_address_attr}}
+  let(:profile){mock_model(Profile, profile_valid_attrs)}
+  let(:profile_form){ProfileForm.new(profile)}
+
+  
 
   before do
     @ability = Object.new
     @ability.extend(CanCan::Ability)
     allow(controller).to receive(:current_ability).and_return(@ability)
     @ability.can :manage, :all
+    allow(subject.current_user).to receive(:profile).and_return(profile)
+    allow(ProfileForm).to receive(:new).and_return(profile_form)
   end
 
   describe "cancan negative abilities" do
-    context '#show' do
-      context 'cancan doesnt allow :show' do
+    context '#wishlist' do
+      context 'cancan doesnt allow :wishlist' do
         before do
-          @ability.cannot :show, Profile
-          get :show
+          @ability.cannot :wishlist, Profile
+          get :wishlist
         end
         it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
       end
     end
 
-    context '#edit' do
-      context 'cancan doesnt allow :edit' do
+    context '#show' do
+      context 'cancan doesnt allow :show' do
         before do
-          @ability.cannot :edit, Profile
-          get :edit
+          @ability.cannot :show, Profile
+          get :show
         end
         it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
       end
@@ -58,6 +62,13 @@ RSpec.describe ProfilesController, type: :controller do
         end
         it{ expect(response).to render_template(file: "#{Rails.root}/public/404.html")}
       end
+    end
+  end
+
+  describe "GET #wishlist" do
+    it "renders wishlist template" do
+      get :wishlist
+      expect(response).to render_template("wishlist")
     end
   end
   
@@ -92,13 +103,13 @@ RSpec.describe ProfilesController, type: :controller do
   describe "PUT #upate" do
     context "invalid params" do
       before do
-        allow(profile).to receive(:update).and_return(false)
-        put :update, { profile: profile_invalid_attrs}
+        allow(profile_form).to receive(:submit).and_return(false)
+        put :update, profile_form: profile_valid_attrs
       end
 
-      it "receives update for profile" do
-        expect(subject.current_user.profile).to receive(:update)
-        put :update, profile: profile_invalid_attrs
+      it "calls #submit on @profile_form" do
+        expect(profile_form).to receive(:submit)
+        put :update, {profile_form: profile_valid_attrs}
       end
 
       it "re-renders edit form " do
@@ -108,10 +119,8 @@ RSpec.describe ProfilesController, type: :controller do
 
     context "valid params" do
       before do
-        allow(profile).to receive(:update).and_return(true)
-        put :update, { profile: {credit_card_attributes: credit_card_attr, 
-                             billing_address_attributes: billing_address_attr, 
-                             shipping_address_attributes: shipping_address_attr}}
+        allow(profile_form).to receive(:submit).and_return(true)
+        put :update, { profile_form: profile_valid_attrs }
       end
 
       it "assigns @profile" do
@@ -119,8 +128,8 @@ RSpec.describe ProfilesController, type: :controller do
       end
 
       it "receives update for @profile" do
-        expect(subject.current_user.profile).to receive(:update)
-        put :update, profile: profile_valid_attrs
+        expect(profile_form).to receive(:submit)
+        put :update, profile_form: profile_valid_attrs
       end
 
       it "redirect_to profile_path" do

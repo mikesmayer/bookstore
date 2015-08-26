@@ -4,11 +4,14 @@ feature 'Order creating process', js: true do
 
   let(:user){FactoryGirl.create :user, :as_customer}
   let!(:book){FactoryGirl.create :book}
-  let(:shipping_address){FactoryGirl.create :address}
-  let(:billing_address){FactoryGirl.create :address}
-  let(:credit_card){FactoryGirl.create :credit_card}
+  let!(:shipping_address){FactoryGirl.create :address}
+  let!(:billing_address){FactoryGirl.create :address}
+  let!(:credit_card){FactoryGirl.create :credit_card}
+  let!(:country){FactoryGirl.create :country}
+  let!(:delivery){FactoryGirl.create :delivery}
 
   before do
+
     visit new_user_session_path
     within '#new_user' do
       fill_in 'Email',     with: user.email
@@ -16,68 +19,47 @@ feature 'Order creating process', js: true do
       click_button("Log in")
     end
     visit root_path
-    click_link 'Add to cart'
+    find("#add_to_cart_book_#{book.id}").click
     find('#cart-button').click
-    click_link ('Create Order')
-    click_link ('Add Books')
+    click_link ('Checkout')
 
-    #shipping address step
-    within '.edit_order' do
+    #address step
+    within '#shipping_address_form' do
+      fill_in "First name",   with: shipping_address.first_name
+      fill_in "Last name",    with: shipping_address.last_name
       fill_in "User address", with: shipping_address.user_address
       fill_in "Zipcode",      with: shipping_address.zipcode
       fill_in "City",         with: shipping_address.city
       fill_in "Phone",        with: shipping_address.phone
-      fill_in "Country",      with: shipping_address.country.name
-      click_button "Accept"
     end
 
-    # billing_address_step
-    within '.edit_order' do
+    within '#billing_address_form' do
+      fill_in "First name",   with: billing_address.first_name
+      fill_in "Last name",    with: billing_address.last_name
       fill_in "User address", with: billing_address.user_address
       fill_in "Zipcode",      with: billing_address.zipcode
       fill_in "City",         with: billing_address.city
       fill_in "Phone",        with: billing_address.phone
-      fill_in "Country",      with: billing_address.country.name
-      click_button "Accept"
     end
 
+    click_button "Save and Continue"
+
+    #delivery step
+    click_button "Save and Continue"
+
     # credit_card step
-    within '.edit_order' do
-      fill_in "Number",           with: credit_card.number
-      fill_in "Cvv",              with: credit_card.cvv
-      fill_in "Expiration month", with: credit_card.expiration_month
-      fill_in "Expiration year",  with: credit_card.expiration_year
-      fill_in "First name",       with: credit_card.first_name
-      fill_in "Last name",        with: credit_card.last_name
-      click_button "Accept"
-    end
+    fill_in "Number",           with: credit_card.number
+    fill_in "Cvv",              with: credit_card.cvv
+    select "#{credit_card.expiration_month}", :from => 'order_form_credit_card_expiration_month'
+    select "#{credit_card.expiration_year}",  :from => 'order_form_credit_card_expiration_year'
+    click_button "Save and Continue"
   end
   
   scenario 'User successfully fills out shipping address form'  do
     expect(page).to have_content("Shipping Address")
-    expect(page).to have_content("#{shipping_address.user_address}")
-    expect(page).to have_content("#{shipping_address.zipcode}")
-    expect(page).to have_content("#{shipping_address.phone}")
-    expect(page).to have_content("#{shipping_address.city}")
-    expect(page).to have_content("#{shipping_address.country.name}")
-  end
-
-  scenario 'User successfully fills out billing address form'  do
     expect(page).to have_content("Billing Address")
-    expect(page).to have_content("#{billing_address.user_address}")
-    expect(page).to have_content("#{billing_address.zipcode}")
-    expect(page).to have_content("#{billing_address.phone}")
-    expect(page).to have_content("#{billing_address.city}")
-    expect(page).to have_content("#{billing_address.country.name}")
-  end
-
-  scenario 'User successfully fills out credit_card form' do
-    expect(page).to have_content("Credit Card")
-    expect(page).to have_content("#{credit_card.number}")
-    expect(page).to have_content("#{credit_card.cvv}")
-    expect(page).to have_content("#{credit_card.expiration_month}")
-    expect(page).to have_content("#{credit_card.expiration_year}")
-    expect(page).to have_content("#{credit_card.first_name}")
-    expect(page).to have_content("#{credit_card.last_name}")
+    expect(page).to have_content("Shipments")
+    expect(page).to have_content("Payment Information")
+    expect(page).to have_content("$#{Order.last.total_price}")
   end
 end

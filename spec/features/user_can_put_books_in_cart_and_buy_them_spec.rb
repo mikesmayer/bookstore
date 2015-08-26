@@ -2,11 +2,12 @@ require 'features/features_spec_helper'
 
 feature "User can put book in cart and create new order"  do
   let!(:book){FactoryGirl.create(:book)}
-  let(:user){FactoryGirl.create(:user, :as_customer)}
+  let!(:user){FactoryGirl.create(:user, :as_customer)}
 
   context "Loginned user" do
 
     before do
+      FactoryGirl.create :country
       visit new_user_session_path
       within '#new_user' do
       fill_in 'Email',     with: user.email
@@ -31,7 +32,7 @@ feature "User can put book in cart and create new order"  do
       find("#add_to_cart_book_#{book.id}").click
       find('#cart-button').click
       click_link ('Checkout')
-      expect(page).to have_content "SIGN IN"
+      expect(page).to have_content "LOG IN"
     end
   end
   

@@ -19,6 +19,6 @@ feature "User can add book to wishlist"  do
     click_link ('Wish')
     click_link "Sign out"
     visit book_path(book)
-    expect(page).to have_content "#{user.email}"
+    expect(page).to have_content "#{user.email.split('@').first}"
   end
 end

@@ -1,7 +1,6 @@
 class OrderForm
   include ActiveModel::Model
 
-  #validates :shipping_address, :billing_address, :credit_card, presence: true#,  if: :last_step?
   attr_accessor :billing_equal_shipping, :next_step
   attr_reader :order
   def initialize(order)

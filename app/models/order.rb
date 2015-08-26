@@ -1,7 +1,8 @@
 class Order < ActiveRecord::Base
   include AASM
   include OrderMethods
-  attr_accessor :current_step,  :order_accepted, :billing_equal_shipping, :flash_notice
+  include StateMachineMethods
+  attr_accessor :current_step, :order_accepted, :flash_notice
   belongs_to :user
   belongs_to :credit_card, autosave: true
   belongs_to :billing_address,  class_name: "Address", foreign_key: "billing_address_id", autosave: true
@@ -14,8 +15,6 @@ class Order < ActiveRecord::Base
   before_save do
     total_price
     set_coupon
-    self.billing_address = self.shipping_address if equal_shipping_address?
-    set_delivery
   end
 
   def order_books_attributes=(attributes)
@@ -42,26 +41,16 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def next_state
-   states = self.aasm.states(:permitted => true).map(&:name)
-   states.first
+  def add_book(book, quantity)
+    if order_book = self.order_books.find_by(book_id: book.id)
+      order_book.quantity += quantity
+      order_book.save
+    else
+      OrderBook.create(order_book_params(book, quantity))
+    end
   end
 
-  def set_delivery
-    self.delivery_id = @delivery_id unless @delivery_id.nil?
+  def delete_book(book)
+    self.order_books.find_by(book_id: book.id).destroy
   end
-
-  def order_steps
-    {address:       true, 
-     delivery:      self.shipping_address.nil? ? false : self.shipping_address.valid? &&
-                    self.billing_address.nil?  ? false : self.billing_address.valid?,
-     payment:       self.delivery_id.nil?      ? false : true,
-     confirm:       self.credit_card.nil?      ? false : self.credit_card.valid?}
-  end
-
-  def available_steps
-    steps = [ ]
-    order_steps.each{|step, passed| steps << step if passed == true}
-    steps
-  end
- end
+end

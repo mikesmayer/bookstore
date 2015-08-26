@@ -41,12 +41,12 @@ feature "Administrator books CRUD actions" do
   scenario 'Administrator successfully edits book' do
     visit edit_book_path(existing_book)
     within "#edit_book_#{existing_book.id}" do
-      fill_in 'Quantity', with: 100
+      fill_in 'Price', with: 999
       click_button("Save")
       visit books_path(existing_book)
     end
 
-    expect(page).to have_content "100"
+    expect(page).to have_content "999"
   end
 
   scenario 'Administrator successfully deletes book' do

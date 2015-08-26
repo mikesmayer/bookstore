@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 RSpec.describe CategoriesController, type: :controller do
 
   let(:valid_attributes)    {FactoryGirl.attributes_for :category}
@@ -177,7 +176,7 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       it "sends success message" do
-        expect(flash[:notice]).to eq 'Category was successfully created.'
+        expect(flash[:notice]).to eq I18n.t("success.notices.create", resource: "Category")
       end
     end
 
@@ -218,7 +217,7 @@ RSpec.describe CategoriesController, type: :controller do
       end
 
       it "sends success message" do
-        expect(flash[:notice]).to eq 'Category was successfully updated.'
+        expect(flash[:notice]).to eq I18n.t("success.notices.update", resource: "Category")
       end
     end
 
@@ -244,7 +243,7 @@ RSpec.describe CategoriesController, type: :controller do
     end
 
     it "sends success message" do
-      expect(flash[:notice]).to eq 'Category was successfully destroyed.'
+      expect(flash[:notice]).to eq I18n.t("success.notices.destroy", resource: "Category")
     end
   end
 end

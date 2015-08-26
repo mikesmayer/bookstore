@@ -3,12 +3,12 @@ require 'features/features_spec_helper'
 feature 'User has one profile with contact info' do
   let(:user){FactoryGirl.create :user, :as_customer}
   let(:profile){user.profile}
-  let(:billing_address){FactoryGirl.create :address}
-  let(:shipping_address){FactoryGirl.create :address}
-  let(:credit_card){FactoryGirl.create :credit_card}
+  let!(:billing_address){FactoryGirl.create :address}
+  let!(:shipping_address){FactoryGirl.create :address}
+  let!(:credit_card){FactoryGirl.create :credit_card}
 
   before do
-    visit root_path
+    visit books_path
     visit new_user_session_path
     within '#new_user' do
     fill_in 'Email',     with: profile.user.email
@@ -20,15 +20,16 @@ feature 'User has one profile with contact info' do
   scenario 'After registering user has his own profile ' do
     visit profile_path
     click_link "Edit"
-    
-    
+
     #shipping address
     within "#shipping_address" do
       fill_in 'User address',     with: shipping_address.user_address
       fill_in 'Zipcode',          with: shipping_address.zipcode
       fill_in 'City',             with: shipping_address.city
       fill_in 'Phone',            with: shipping_address.phone
-      fill_in 'Country',          with: shipping_address.country.name
+      fill_in 'First name',       with: shipping_address.first_name
+      fill_in 'Last name',        with: shipping_address.last_name
+      #fill_in 'Country',          with: shipping_address.country.name
     end
 
     #billing address
@@ -37,7 +38,9 @@ feature 'User has one profile with contact info' do
       fill_in 'Zipcode',          with: billing_address.zipcode
       fill_in 'City',             with: billing_address.city
       fill_in 'Phone',            with: billing_address.phone
-      fill_in 'Country',          with: billing_address.country.name
+      fill_in 'First name',       with: billing_address.first_name
+      fill_in 'Last name',        with: billing_address.last_name
+      #fill_in 'Country',          with: billing_address.country.name
     end
 
     #credit card
@@ -50,7 +53,7 @@ feature 'User has one profile with contact info' do
       fill_in "Last name",        with: credit_card.last_name
     end
 
-    click_button("Update Profile")
+    click_button("Save")
   
     expect(page).to have_content(shipping_address.user_address)
     expect(page).to have_content(billing_address.user_address)

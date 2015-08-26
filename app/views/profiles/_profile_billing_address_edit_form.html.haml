@@ -20,6 +20,6 @@
     = ff.text_field :phone
   .field
     = ff.select  :country_id,
-                  options_from_collection_for_select(Country.all, :id, :name, @profile.billing_address.country.id),
+                  options_from_collection_for_select(Country.all, :id, :name, country_id(@profile_form.billing_address)),
                   {},
                   {class: 'input-field'}

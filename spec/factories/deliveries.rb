@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :delivery do
-    name  "name"
-    price "price"
+    name  "Test"
+    price 1
   end
 
 end

@@ -7,68 +7,68 @@
     %h5
       = link_to 'Wishlist', wishlist_profile_path
   .row
-    .col.l6
+    .col.l3.m3.s12
       %h5 Account Info
       %ul 
         %li
           Email:
           = @profile.email
-    .col.l6
-      %h5 Credit Card
-      %ul
-        %li
-          Number:
-          =@profile.credit_card.number
-        %li
-          CVV:
-          =@profile.credit_card.cvv
-        %li
-          Expiration month:
-          = @profile.credit_card.expiration_month
-        %li
-          Expiration year:
-          = @profile.credit_card.expiration_year
-        %li
-          First Name:
-          = @profile.credit_card.first_name
-        %li
-          Last Name:
-          = @profile.credit_card.last_name
-  .row
-    .col.l6
-      %h5 Billing Address
-      %ul
-        %li
-          Address:
-          =@profile.billing_address.user_address
-        %li
-          Zipcode:
-          =@profile.billing_address.zipcode
-        %li
-          City:
-          = @profile.billing_address.city
-        %li
-          Phone:
-          = @profile.billing_address.phone
-        %li
-          Country:
-          = @profile.billing_address.country.name
-    .col.l6
-      %h5 Shipping Address
-      %ul
-        %li
-          Address:
-          =@profile.shipping_address.user_address
-        %li
-          Zipcode:
-          =@profile.shipping_address.zipcode
-        %li
-          City:
-          = @profile.shipping_address.city
-        %li
-          Phone:
-          = @profile.shipping_address.phone
-        %li
-          Country:
-          = @profile.shipping_address.country.name
+    - unless @profile.shipping_address.nil?
+      .col.l3.m3.s12
+        %h5 Credit Card
+        %ul
+          %li
+            Number:
+            =@profile.credit_card.number
+          %li
+            CVV:
+            =@profile.credit_card.cvv
+          %li
+            Expiration month:
+            = @profile.credit_card.expiration_month
+          %li
+            Expiration year:
+            = @profile.credit_card.expiration_year
+          %li
+            First Name:
+            = @profile.credit_card.first_name
+          %li
+            Last Name:
+            = @profile.credit_card.last_name
+      .col.l3.m3.s12
+        %h5 Billing Address
+        %ul
+          %li
+            Address:
+            =@profile.billing_address.user_address
+          %li
+            Zipcode:
+            =@profile.billing_address.zipcode
+          %li
+            City:
+            = @profile.billing_address.city
+          %li
+            Phone:
+            = @profile.billing_address.phone
+          %li
+            Country:
+            = @profile.billing_address.country.name
+      .col.l3.m3.s12
+        %h5 Shipping Address
+        %ul
+          %li
+            Address:
+            =@profile.shipping_address.user_address
+          %li
+            Zipcode:
+            =@profile.shipping_address.zipcode
+          %li
+            City:
+            = @profile.shipping_address.city
+          %li
+            Phone:
+            = @profile.shipping_address.phone
+          %li
+            Country:
+            = @profile.shipping_address.country.name
 

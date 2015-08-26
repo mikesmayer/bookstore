@@ -16,9 +16,9 @@ feature "User successfully deletes book from cart"  do
 
   scenario 'Loginned user successfully add book to cart and create new order', js: true do
     visit root_path
-    click_link ('Add to cart')
+    click_link ("add_to_cart_book_#{book.id}")
     find('#cart-button').click
-    click_link ('Delete')
+    click_link ("delete_book_#{book.id}")
     expect(page).not_to have_content "#{book.title}"
   end
 end
