@@ -13,13 +13,9 @@ class OrderBook < ActiveRecord::Base
     end
   end
 
-  def order_create?
-    self.order.status == "done"
-  end
-
   def book_quantity
     unless self.book.book_in_stock(self.quantity)
-      self.errors.add("#{self.id}".to_sym, self.book.errors.messages[:book_quantity_error].first) #self.book.errors.messages[:book_quantity_error].first
+      self.errors.add("#{self.id}".to_sym, self.book.errors.messages[:book_quantity_error].first)
     end
   end
 

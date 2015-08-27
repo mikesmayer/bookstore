@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe Ability do
   
-    subject {ability}
-    let(:ability){Ability.new(user, session)}
+  subject {ability}
+  let(:ability){Ability.new(user, session)}
 
   describe "abilities for admin" do
     let(:user){FactoryGirl.create :user, :as_admin}

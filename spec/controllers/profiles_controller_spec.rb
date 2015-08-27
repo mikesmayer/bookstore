@@ -5,14 +5,11 @@ RSpec.describe ProfilesController, type: :controller do
   let(:shipping_address_attr){FactoryGirl.attributes_for :address, :with_country_attrs}
   let(:billing_address_attr) {FactoryGirl.attributes_for :address, :with_country_attrs}
   let(:credit_card_attr){FactoryGirl.attributes_for :credit_card}
-  let(:profile_invalid_attrs){{credit_card_attributes: {}}}
   let(:profile_valid_attrs){{credit_card: credit_card_attr, 
                              billing_address: billing_address_attr, 
                              shipping_address: shipping_address_attr}}
   let(:profile){mock_model(Profile, profile_valid_attrs)}
   let(:profile_form){ProfileForm.new(profile)}
-
-  
 
   before do
     @ability = Object.new
