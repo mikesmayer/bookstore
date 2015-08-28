@@ -29,12 +29,14 @@ gem 'jquery-turbolinks'
 gem 'simple_form'
 gem 'omniauth-facebook'
 
+
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-activemodel-mocks'
 end
 
 group :test do
+  gem 'codeclimate-test-reporter'
   gem 'capybara'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
