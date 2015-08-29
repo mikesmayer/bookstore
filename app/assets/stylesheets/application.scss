@@ -83,6 +83,17 @@ input[data-error="wrong"] {
   margin-top: 20px;
 }
 
+@media only screen and (max-width: 992px) {
+    nav .brand-logo {
+    left: 1%;
+    -webkit-transform: translateX(-5%);
+    -moz-transform: translateX(-5%);
+    -ms-transform: translateX(-5%);
+    -o-transform: translateX(-5%);
+    transform: translateX(-5%);
+  }
+}
+
 #facebook-logo{
   width: 36px;
   height: 36px;

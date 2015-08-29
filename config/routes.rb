@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'pages/home'
+
   devise_for  :users, :path => '', 
               :path_names  => {:sign_in => 'login', :sign_up => 'register'}, 
               :controllers => {:sessions => "devise/custom_sessions", 
@@ -40,6 +42,8 @@ Rails.application.routes.draw do
       delete 'delete_from_wish_list' => "books#delete_from_wish_list"
     end
   end
+
+  get "shop"                        => "books#index",             as: "shop"
   
-  root 'books#index'
+  root 'pages#home'
 end

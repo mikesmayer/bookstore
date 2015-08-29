@@ -1,3 +1,65 @@
 .center {
   margin-left: 35%;
 }
+
+.top-book-content {
+  padding-top: 25px;
+  padding-right: 25px;}
+
+// .book-img{
+//   max-width: 350px;
+//   height: ;
+//   background-size: contain;
+// }
+
+ul.slides {
+  border-bottom: 2px #F5F5F5 solid;
+}
+
+.book-form{
+  margin: 20px;
+  div {
+  width: 20%;
+  display: inline-block;
+  margin-bottom: none;
+  }
+}
+
+.home-page-buy-book{
+  width: 300px;
+}
+
+input.home-page-book-quantity{
+  width: 40px;
+}
+
+.slider {
+  position: relative;
+  height: 350px;
+  width: 100%; 
+  background-color: #FFFFFF;
+  .indicators{
+    margin-top: 10px;
+  }}
+  .slider .slides {
+    // background-color: #9e9e9e;
+    background-color: #FFFFFF;
+    margin: 0;
+    height: 350px; }
+    .slider .slides li {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: inherit;
+      overflow: hidden; }
+      .slider .slides li .book-img img {
+        // margin-right: 20px;
+        
+        max-width: 350px;
+        // background-size: 300px 400px;
+        background-repeat: no-repeat;
+        background-position: left;
+        background-size: contain; }

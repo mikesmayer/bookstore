@@ -1,0 +1,30 @@
+%li
+  .row
+    .col.l6.m6.s12
+      .book-img
+        = image_tag top_book.cover_url.to_s
+    .col.l6.m6.s12
+      .top-book-content
+        %h5.book-author
+          = top_book.author.full_name
+        %h5.book-title
+          = top_book.title
+        .book-description
+          = top_book.description
+        .book-form
+          = form_for top_book, url: add_to_cart_book_order_url(@order_as_cart, book_id: top_book.id), method: :post, remote: true do |f|
+            %table
+              %tbody
+                %tr
+                  %td
+                    .book-price.card-book-price.valign-wrapper
+                      %p
+                        = number_to_currency top_book.price
+                  %td
+                    .book-quantity.center-align
+                      = f.number_field :quantity, value: 1, class: "home-page-book-quantity right-align"
+                  %td
+                    .submit-button.right-align
+                      = f.button class: 'waves-eff waves-light btn' do
+                        %i.material-icons shopping_cart
+

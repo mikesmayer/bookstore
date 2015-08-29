@@ -41,7 +41,7 @@ class Order < ActiveRecord::Base
     end
   end
 
-  def add_book(book, quantity)
+  def add_book(book, quantity = 1)
     if order_book = self.order_books.find_by(book_id: book.id)
       order_book.quantity += quantity
       order_book.save

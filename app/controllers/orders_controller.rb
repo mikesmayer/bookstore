@@ -24,7 +24,7 @@ class OrdersController < ApplicationController
 
   def add_to_cart
     respond_to do |format|
-      if @order.add_book(@book, 1)
+      if @order.add_book(@book, book_quantity)
         format.js
       else 
         flash[:notice] = @book.errors
@@ -44,6 +44,10 @@ class OrdersController < ApplicationController
   end
 
   private
+
+  def book_quantity
+   CalculateBookQuantity.call(params[:book])
+  end
 
   def order_params
    params.fetch(:order, {}).permit!#(:user_id, :credit_card_id, :billing_address_id, :shipping_address_id)

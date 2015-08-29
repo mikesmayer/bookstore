@@ -19,6 +19,7 @@ class OrderBook < ActiveRecord::Base
     end
   end
 
+
   # after_destroy do
   #   self.book.update_book(:increase, self.quantity )
   # end

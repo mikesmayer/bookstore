@@ -1,2 +1,11 @@
-- if can? :create, User
-  %h1 Hello Pitty
+.container
+  .row
+  .row
+    .col.l12.m12.s12
+      .slider.card
+        %ul.slides
+          = render partial: "top_book", collection: @top_books
+  .row
+    .col.l12.m12.s12.center-align
+      %h5
+        Welcome to our amazing Bookstore! Choose anything you wish, we'll ship it anywhere!

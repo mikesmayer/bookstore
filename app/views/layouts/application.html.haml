@@ -15,7 +15,16 @@
     .page-wrap
       %nav
         .nav-wrapper
-          = link_to "BookStore", root_path, class: "brand-logo"
+          %ul.left-align
+            %li
+              = link_to "BookStore", root_path, class: "brand-logo"
+          %ul.center
+            %li
+              = link_to "HOME", root_path
+            %li
+              |
+            %li
+              = link_to "SHOP", shop_path
           %ul.right
             %li
               #main_panel_cart
