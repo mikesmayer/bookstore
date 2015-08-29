@@ -1,5 +1,5 @@
 module OrdersHelper
-
+  
   def cart_order
     if current_user
       Order.where(user_id: current_user.id, status: "in_progress").last

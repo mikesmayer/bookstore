@@ -16,8 +16,7 @@ class ApplicationController < ActionController::Base
     render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
   end
 
-  rescue_from StandardError do |exception|
-    raise "#{exception.inspect}"
+  rescue_from CanCan::AccessDenied do |exception|
     if exception.action == :index
       subject = exception.subject
       if (subject == Review) || (subject == Category) || (subject == Book) || (subject==Author)
