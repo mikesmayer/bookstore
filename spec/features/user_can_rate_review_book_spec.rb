@@ -16,7 +16,7 @@ feature 'Reviewing books by user' do
   end
 
   scenario 'User successfully reviews books' do
-    visit root_path
+    visit shop_path
     find(".card").click
     click_link "Full Info"
     within '#new_review' do

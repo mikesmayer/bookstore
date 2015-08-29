@@ -13,11 +13,11 @@ feature "User can put book in cart and create new order"  do
       fill_in 'Email',     with: user.email
       fill_in 'Password',  with: user.password
       click_button("Log in")
+      visit shop_path
       end
     end
 
     scenario 'Loginned user successfully adds book to cart and creates new order', js: true do
-      visit root_path
       find("#add_to_cart_book_#{book.id}").click
       find('#cart-button').click
       click_link ('Checkout')
@@ -28,12 +28,11 @@ feature "User can put book in cart and create new order"  do
 
   context "Not loginned user" do
     scenario 'Not loginned  user redirected to login_path', js: true do
-      visit root_path
+      visit shop_path
       find("#add_to_cart_book_#{book.id}").click
       find('#cart-button').click
       click_link ('Checkout')
       expect(page).to have_content "LOG IN"
     end
   end
-  
 end

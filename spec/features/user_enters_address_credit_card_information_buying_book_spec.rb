@@ -18,7 +18,7 @@ feature 'Order creating process', js: true do
       fill_in 'Password',  with: user.password
       click_button("Log in")
     end
-    visit root_path
+    visit shop_path
     find("#add_to_cart_book_#{book.id}").click
     find('#cart-button').click
     click_link ('Checkout')

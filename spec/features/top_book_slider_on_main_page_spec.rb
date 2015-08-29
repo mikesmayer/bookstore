@@ -1,15 +1,19 @@
 require "features/features_spec_helper"
 
-feature "User can check between home and shop "  do
+feature "User can visit home and shop page"  do
 
   let!(:books_in_stock){FactoryGirl.create_list :book, 10}
-  OrderBook.group(:book_id).count.sort_by{|k, v| v}.last(3).map!(&:first)
   before do
     visit root_path
     click_link("SHOP")
   end
 
-  scenario "User successfully visit store" ,js: true do
-    expect(page).to have_current_path("#{Rails.root}/shop")
+  scenario "User successfully visit shop page" ,js: true do
+    expect(page).to have_css(".card", count: books_in_stock.length)
+  end
+
+  scenario 'User successfully visit home page' do
+    click_link("HOME")
+    expect(page).to have_content("Welcome")
   end
 end

@@ -4,7 +4,6 @@ feature "User successfully deletes book from cart"  do
   let!(:book){FactoryGirl.create(:book)}
   let(:user){FactoryGirl.create(:user, :as_customer)}
 
-
   before do
     visit new_user_session_path
     within '#new_user' do
@@ -15,7 +14,7 @@ feature "User successfully deletes book from cart"  do
   end
 
   scenario 'Loginned user successfully add book to cart and create new order', js: true do
-    visit root_path
+    visit shop_path
     click_link ("add_to_cart_book_#{book.id}")
     find('#cart-button').click
     click_link ("delete_book_#{book.id}")

@@ -1,9 +1,5 @@
 module OrdersHelper
 
-  def can_build_cart?
-    @order.is_a? Order
-  end
-
   def cart_order
     if current_user
       Order.where(user_id: current_user.id, status: "in_progress").last

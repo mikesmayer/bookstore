@@ -13,7 +13,7 @@ feature "User can see history of his order"  do
       fill_in 'Password',  with: user.password
       click_button("Log in")
     end
-    visit root_path
+    visit shop_path
     find("#add_to_cart_book_#{book.id}").click
   end
 
