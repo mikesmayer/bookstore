@@ -3,7 +3,6 @@ class CalculateBookQuantity
 
   def initialize(params)
     @quantity = params[:quantity] unless params.nil?
-    
   end
 
   def call

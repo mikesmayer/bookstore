@@ -40,16 +40,6 @@ RSpec.describe ReviewsController, type: :controller do
       end
     end
 
-    context 'new' do
-      context 'cancan doesnt allow :new' do
-        before do
-          @ability.cannot :new, Review
-          get :new
-        end
-        it{ expect(response).to redirect_to(new_user_session_path)}
-      end
-    end
-
     context 'edit' do
       context 'cancan doesnt allow :edit' do
         before do

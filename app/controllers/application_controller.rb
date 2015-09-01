@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :add_temp_order, :set_order
   after_action  :stored_location
+  rescue_from CanCan::AccessDenied, Wicked::Wizard::InvalidStepError, with: :generate_route
 
   
   def stored_location
@@ -12,28 +13,11 @@ class ApplicationController < ActionController::Base
     session[:previous_url] || request.referer || root_path
   end
 
-  rescue_from Wicked::Wizard::InvalidStepError do 
-    render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
-  end
-
-  rescue_from CanCan::AccessDenied do |exception|
-    if exception.action == :index
-      subject = exception.subject
-      if (subject == Review) || (subject == Category) || (subject == Book) || (subject==Author)
-        render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
-      else
-        redirect_to new_user_session_path
-      end
+  def generate_route(exception)
+    if RouteAccessErrors.call(exception)
+      redirect_to new_user_session_path
     else
-      if (exception.subject.kind_of? Review) && (exception.action != :update_status)
-        redirect_to new_user_session_path
-      elsif exception.subject.kind_of? Order
-        redirect_to new_user_session_path
-      elsif (exception.subject.kind_of? Book) && ((exception.action == :add_to_wish_list) || (exception.action == :delete_from_wish_list))
-        redirect_to new_user_session_path
-      else
-        render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
-      end
+      render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
     end
   end
 
