@@ -17,7 +17,6 @@ class OrderStepsController < ApplicationController
     set_steps
     setup_wizard
     render_wizard @order_form
-
   end
 
   private

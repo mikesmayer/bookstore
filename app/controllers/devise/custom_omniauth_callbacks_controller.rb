@@ -1,15 +1,8 @@
 class Devise::CustomOmniauthCallbacksController < Devise::OmniauthCallbacksController
+  include TempOrder
   before_action :temp_order, only: :facebook
   after_action  :find_session_order, only: :facebook
 
-  def temp_order
-    @temp_order_id = session["order_id"]
-  end
-
-  def find_session_order
-    order = Order.find_by(id: @temp_order_id)
-    order.update(user_id: current_user.id) if order && current_user
-  end
   def facebook
     @user = User.from_omniauth(request.env["omniauth.auth"])
 
@@ -20,5 +13,5 @@ class Devise::CustomOmniauthCallbacksController < Devise::OmniauthCallbacksContr
       session["devise.facebook_data"] = request.env["omniauth.auth"]
       redirect_to new_user_registration_url
     end
-   end
+  end
 end

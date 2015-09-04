@@ -1,8 +1,9 @@
 class RateBooks
   include Service
+  include ActiveModel::Model
 
   def initialize
-    @top_books_ids = OrderBook.group(:book_id).count.sort_by{|k, v| v}.last(3).map!(&:first)
+    @top_books_ids = OrderBook.top_books.map!(&:book_id)
   end
 
   def call
