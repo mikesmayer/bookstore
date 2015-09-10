@@ -4,18 +4,8 @@ class OrderBook < ActiveRecord::Base
   validates_numericality_of :quantity, 
                           greater_than_or_equal_to: 1
   validate :book_quantity, if: :increase_book_quantity?
-  #attr_accessor :top_quantity
 
-
-  #scope :top_books, -> {select( 'book_id', 'count(*) as top_quantity').group(:book_id).order(top_quantity: :desc).first(3)}
-
-  scope :top_books, -> {find_by_sql("
-                                      SELECT book_id, COUNT(*) AS top_quantity
-                                      FROM order_books
-                                      GROUP BY book_id
-                                      ORDER BY top_quantity DESC
-                                      LIMIT 3;  
-                                                ")}
+  scope :top_books, -> {select( 'book_id', 'count(*) as top_quantity').group(:book_id).order('top_quantity DESC').first(3)}
 
   def increase_book_quantity?
     if self.new_record?
